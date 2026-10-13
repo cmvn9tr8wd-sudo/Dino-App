@@ -79,12 +79,20 @@
         </section>
 
         <!-- SECCIÓN: APOYAR -->
-        <section id="seccion-apoyar" class="hidden text-center space-y-4 bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400">
+        <section id="seccion-apoyar" class="hidden text-center space-y-4 bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 max-w-xl mx-auto">
             <h2 class="text-2xl font-bold text-yellow-300">¡Apoya el Canal! 💚</h2>
-            <p class="text-emerald-200 max-w-md mx-auto">Si te encantan los dinosaurios, puedes invitarnos un café.</p>
+            <p class="text-emerald-200 text-sm leading-relaxed">
+                Agradecemos enormemente tus donaciones para seguir mejorando y creando más contenido de dinosaurios. 
+            </p>
+            <div class="bg-emerald-900 p-4 rounded-xl border border-emerald-700 text-left text-xs text-emerald-200 space-y-2">
+                <p class="font-bold text-yellow-300 text-center text-sm">🎁 Beneficio Especial:</p>
+                <p>• Como agradecimiento a tu donativo, crearemos un <strong>contenido especial</strong> mencionando el nombre que tú elijas.</p>
+                <p>• Este video de agradecimiento estará disponible por unos días en un área especial de la app.</p>
+                <p class="italic text-center text-emerald-300 mt-2">* Recuerda que el concepto es un donativo voluntario para apoyar el proyecto y puedes indicarnos el nombre para el agradecimiento al realizarlo.</p>
+            </div>
             <div>
-                <a href="https://paypal.me/TU_USUARIO" target="_blank" class="inline-block bg-yellow-400 text-emerald-950 font-bold px-8 py-3 rounded-full shadow-lg">
-                    ☕ Invítanos un café (PayPal)
+                <a href="https://paypal.me/TU_USUARIO" target="_blank" class="inline-block bg-yellow-400 text-emerald-950 font-bold px-8 py-3 rounded-full shadow-lg hover:bg-yellow-300 transition transform hover:scale-105">
+                    ☕ Hacer un Donativo (PayPal)
                 </a>
             </div>
         </section>
@@ -173,7 +181,7 @@
                 alert("Hubo un error al eliminar el video.");
                 console.error(error);
             } else {
-                cargarVideos(); // Recarga la lista limpia al instante
+                cargarVideos(); 
             }
         }
 
