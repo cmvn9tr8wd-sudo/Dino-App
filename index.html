@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DinoAventura - Juegos y Videos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+        body { font-family: 'Fredoka', sans-serif; }
+    </style>
+</head>
+<body class="bg-emerald-900 text-white min-h-screen flex flex-col justify-between">
+
+    <header class="bg-emerald-800 p-4 shadow-lg text-center">
+        <h1 class="text-3xl font-bold tracking-wide text-yellow-300">🦖 DinoAventura TV 🦕</h1>
+        <p class="text-emerald-200 text-sm">¡Videos, juegos y diversión prehistórica!</p>
+    </header>
+
+    <main class="container mx-auto p-4 flex-grow max-w-4xl">
+        
+        <div class="flex justify-center gap-4 mb-6">
+            <button onclick="cambiarSeccion('videos')" id="btn-videos" class="bg-yellow-400 text-emerald-950 font-bold px-6 py-2 rounded-full shadow-md transition transform hover:scale-105">🎬 Videos</button>
+            <button onclick="cambiarSeccion('juegos')" id="btn-juegos" class="bg-emerald-700 text-white font-bold px-6 py-2 rounded-full shadow-md transition transform hover:scale-105">🎮 Juegos</button>
+            <button onclick="cambiarSeccion('apoyar')" id="btn-apoyar" class="bg-emerald-700 text-white font-bold px-6 py-2 rounded-full shadow-md transition transform hover:scale-105">⭐ Apoyar</button>
+        </div>
+
+        <section id="seccion-videos" class="space-y-4">
+            <h2 class="text-2xl font-bold text-yellow-300 mb-4">Mis Videos de Dinosaurios</h2>
+            <div id="lista-videos" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <p class="text-emerald-300 col-span-2 text-center">Cargando aventuras jurásicas...</p>
+            </div>
+        </section>
+
+        <section id="seccion-juegos" class="hidden space-y-4">
+            <h2 class="text-2xl font-bold text-yellow-300 mb-4">Zona de Juegos</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 text-center shadow-lg">
+                    <span class="text-4xl">🧠</span>
+                    <h3 class="text-xl font-bold mt-2 text-yellow-200">Memorama Dino</h3>
+                    <p class="text-sm text-emerald-200 mt-1">Próximamente: Encuentra las parejas de dinosaurios.</p>
+                </div>
+                <div class="bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 text-center shadow-lg">
+                    <span class="text-4xl">🎨</span>
+                    <h3 class="text-xl font-bold mt-2 text-yellow-200">Colorea tu Divo</h3>
+                    <p class="text-sm text-emerald-200 mt-1">Próximamente: Lienzo interactivo para pintar.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="seccion-apoyar" class="hidden text-center space-y-4 bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400">
+            <h2 class="text-2xl font-bold text-yellow-300">¡Apoya el Canal! 💚</h2>
+            <p class="text-emerald-200 max-w-md mx-auto">Si te encantan los dinosaurios y quieres que sigamos creando más videos y juegos gratis, puedes invitarnos un café.</p>
+            <div>
+                <a href="https://paypal.me/TU_USUARIO" target="_blank" class="inline-block bg-yellow-400 text-emerald-950 font-bold px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition">
+                    ☕ Invítanos un café (PayPal)
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-emerald-950 text-center p-4 text-xs text-emerald-400">
+        © 2026 DinoAventura. Hecho con Supabase y GitHub.
+    </footer>
+
+    <script>
+        // ⚠️ PEGA TUS CREDENCIALES DE SUPABASE AQUÍ ABAJO ⚠️
+        const SUPABASE_URL = 'https://tvwopixlckgjaswegmnt.supabase.co/rest/v1/';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2d29waXhsY2tnamFzd2VnbW50Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NDk1MzUsImV4cCI6MjEwNzQyNTUzNX0.uwDXbE6DrcFZyjYwjv2UOva255MIGkF_cOC5-U3g1CU';
+        
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        function cambiarSeccion(seccion) {
+            document.getElementById('seccion-videos').classList.add('hidden');
+            document.getElementById('seccion-juegos').classList.add('hidden');
+            document.getElementById('seccion-apoyar').classList.add('hidden');
+
+            document.getElementById('btn-videos').className = "bg-emerald-700 text-white font-bold px-6 py-2 rounded-full shadow-md";
+            document.getElementById('btn-juegos').className = "bg-emerald-700 text-white font-bold px-6 py-2 rounded-full shadow-md";
+            document.getElementById('btn-apoyar').className = "bg-emerald-700 text-white font-bold px-6 py-2 rounded-full shadow-md";
+
+            document.getElementById(`seccion-${seccion}`).classList.remove('hidden');
+            document.getElementById(`btn-${seccion}`).className = "bg-yellow-400 text-emerald-950 font-bold px-6 py-2 rounded-full shadow-md transition transform hover:scale-105";
+        }
+
+        async function cargarVideos() {
+            const contenedor = document.getElementById('lista-videos');
+            try {
+                const { data: videos, error } = await supabaseClient
+                    .from('videos')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!videos || videos.length === 0) {
+                    contenedor.innerHTML = `<p class="text-emerald-300 col-span-2 text-center">Pronto subiremos nuevos videos de dinosaurios. ¡Vuelve pronto!</p>`;
+                    return;
+                }
+
+                contenedor.innerHTML = '';
+                videos.forEach(video => {
+                    const tarjeta = document.createElement('div');
+                    tarjeta.className = "bg-emerald-800 rounded-xl overflow-hidden shadow-lg border border-emerald-700 flex flex-col";
+                    tarjeta.innerHTML = `
+                        <div class="relative pb-[56.25%] h-0">
+                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${video.youtube_id}" title="${video.title}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="p-4 flex-grow">
+                            <h3 class="font-bold text-yellow-300 text-lg">${video.title}</h3>
+                            <span class="inline-block bg-emerald-900 text-emerald-200 text-xs px-2 py-1 rounded mt-2">${video.category || 'Dinosaurios'}</span>
+                        </div>
+                    `;
+                    contenedor.appendChild(tarjeta);
+                });
+
+            } catch (err) {
+                console.error('Error cargando videos:', err);
+                contenedor.innerHTML = `<p class="text-yellow-300 col-span-2 text-center">Configura tus llaves de Supabase en el código para ver tus videos.</p>`;
+            }
+        }
+
+        cargarVideos();
+    </script>
+</body>
+</html>
