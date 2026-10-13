@@ -128,7 +128,6 @@
 
                 contenedor.innerHTML = '';
                 videos.forEach(video => {
-                    // Limpiar ID por si se guardó con basura antes
                     let cleanId = video.youtube_id.split('?')[0].split('&')[0];
                     if (cleanId.includes('/')) {
                         const parts = cleanId.split('/');
@@ -136,14 +135,21 @@
                     }
 
                     const tarjeta = document.createElement('div');
-                    tarjeta.className = "bg-emerald-800 rounded-xl overflow-hidden shadow-lg border border-emerald-700 flex flex-col";
+                    tarjeta.className = "bg-emerald-800 rounded-xl overflow-hidden shadow-lg border border-emerald-700 flex flex-col justify-between";
                     tarjeta.innerHTML = `
-                        <div class="relative pb-[56.25%] h-0">
-                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${cleanId}" title="${video.title}" frameborder="0" allowfullscreen></iframe>
+                        <div>
+                            <div class="relative pb-[56.25%] h-0">
+                                <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${cleanId}" title="${video.title}" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-yellow-300 text-lg">${video.title}</h3>
+                                <span class="inline-block bg-emerald-900 text-emerald-200 text-xs px-2 py-1 rounded mt-2">${video.category || 'Dinosaurios'}</span>
+                            </div>
                         </div>
-                        <div class="p-4 flex-grow">
-                            <h3 class="font-bold text-yellow-300 text-lg">${video.title}</h3>
-                            <span class="inline-block bg-emerald-900 text-emerald-200 text-xs px-2 py-1 rounded mt-2">${video.category || 'Dinosaurios'}</span>
+                        <div class="p-4 pt-0">
+                            <button onclick="eliminarVideo(${video.id})" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2 rounded-lg transition shadow">
+                                🗑️ Eliminar este video
+                            </button>
                         </div>
                     `;
                     contenedor.appendChild(tarjeta);
@@ -151,7 +157,23 @@
 
             } catch (err) {
                 console.error('Error cargando videos:', err);
-                contenedor.innerHTML = `<p class="text-yellow-300 col-span-2 text-center">Hubo un error cargando los videos. Revisa la política RLS en Supabase.</p>`;
+                contenedor.innerHTML = `<p class="text-yellow-300 col-span-2 text-center">Hubo un error cargando los videos.</p>`;
+            }
+        }
+
+        async function eliminarVideo(id) {
+            if (!confirm("¿Estás seguro de que quieres eliminar este video?")) return;
+
+            const { error } = await supabaseClient
+                .from('videos')
+                .delete()
+                .eq('id', id);
+
+            if (error) {
+                alert("Hubo un error al eliminar el video.");
+                console.error(error);
+            } else {
+                cargarVideos(); // Recarga la lista limpia al instante
             }
         }
 
@@ -159,7 +181,6 @@
             e.preventDefault();
             let rawYtId = document.getElementById('input-ytid').value.trim();
             
-            // Limpieza automática del ID de YouTube si pegan el enlace completo
             if (rawYtId.includes('youtu.be/')) {
                 rawYtId = rawYtId.split('youtu.be/')[1];
             } else if (rawYtId.includes('watch?v=')) {
@@ -182,14 +203,14 @@
 
             if (error) {
                 console.error(error);
-                estado.innerText = "❌ Error al publicar. Revisa la política de lectura/escritura en Supabase.";
+                estado.innerText = "❌ Error al publicar.";
                 estado.className = "text-center text-sm font-bold mt-2 text-red-400";
             } else {
                 estado.innerText = "¡Video publicado con éxito! 🦖";
                 estado.className = "text-center text-sm font-bold mt-2 text-green-300";
                 document.getElementById('form-video').reset();
                 cargarVideos(); 
-                cambiarSeccion('videos'); // Te lleva directo a ver tu video
+                cambiarSeccion('videos');
             }
         }
 
