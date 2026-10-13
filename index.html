@@ -64,8 +64,8 @@
                     <input type="text" id="input-titulo" required placeholder="Ej. El gran ataque del T-Rex" class="w-full p-2 rounded bg-emerald-900 border border-emerald-600 text-white text-sm">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-yellow-200 mb-1">ID de YouTube (lo que va después de watch?v=):</label>
-                    <input type="text" id="input-ytid" required placeholder="Ej. dQw4w9WgXcQ" class="w-full p-2 rounded bg-emerald-900 border border-emerald-600 text-white text-sm">
+                    <label class="block text-sm font-bold text-yellow-200 mb-1">ID de YouTube (o enlace completo):</label>
+                    <input type="text" id="input-ytid" required placeholder="Ej. i-ybgEs7YQg" class="w-full p-2 rounded bg-emerald-900 border border-emerald-600 text-white text-sm">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-yellow-200 mb-1">Categoría:</label>
@@ -96,7 +96,6 @@
     </footer>
 
     <script>
-        // CREDENCIALES DE SUPABASE CONFIGURADAS
         const SUPABASE_URL = 'https://tvwopixlckgjaswegmnt.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2d29waXhsY2tnamFzd2VnbW50Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NDk1MzUsImV4cCI6MjEwNzQyNTUzNX0.uwDXbE6DrcFZyjYwjv2UOva255MIGkF_cOC5-U3g1CU';
         
@@ -129,11 +128,18 @@
 
                 contenedor.innerHTML = '';
                 videos.forEach(video => {
+                    // Limpiar ID por si se guardó con basura antes
+                    let cleanId = video.youtube_id.split('?')[0].split('&')[0];
+                    if (cleanId.includes('/')) {
+                        const parts = cleanId.split('/');
+                        cleanId = parts[parts.length - 1];
+                    }
+
                     const tarjeta = document.createElement('div');
                     tarjeta.className = "bg-emerald-800 rounded-xl overflow-hidden shadow-lg border border-emerald-700 flex flex-col";
                     tarjeta.innerHTML = `
                         <div class="relative pb-[56.25%] h-0">
-                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${video.youtube_id}" title="${video.title}" frameborder="0" allowfullscreen></iframe>
+                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${cleanId}" title="${video.title}" frameborder="0" allowfullscreen></iframe>
                         </div>
                         <div class="p-4 flex-grow">
                             <h3 class="font-bold text-yellow-300 text-lg">${video.title}</h3>
@@ -145,14 +151,25 @@
 
             } catch (err) {
                 console.error('Error cargando videos:', err);
-                contenedor.innerHTML = `<p class="text-yellow-300 col-span-2 text-center">Hubo un error cargando los videos. Revisa la conexión.</p>`;
+                contenedor.innerHTML = `<p class="text-yellow-300 col-span-2 text-center">Hubo un error cargando los videos. Revisa la política RLS en Supabase.</p>`;
             }
         }
 
         async function subirVideo(e) {
             e.preventDefault();
+            let rawYtId = document.getElementById('input-ytid').value.trim();
+            
+            // Limpieza automática del ID de YouTube si pegan el enlace completo
+            if (rawYtId.includes('youtu.be/')) {
+                rawYtId = rawYtId.split('youtu.be/')[1];
+            } else if (rawYtId.includes('watch?v=')) {
+                rawYtId = rawYtId.split('watch?v=')[1];
+            } else if (rawYtId.includes('/shorts/')) {
+                rawYtId = rawYtId.split('/shorts/')[1];
+            }
+            const ytid = rawYtId.split('?')[0].split('&')[0];
+
             const titulo = document.getElementById('input-titulo').value;
-            const ytid = document.getElementById('input-ytid').value;
             const categoria = document.getElementById('input-cat').value || 'Dinosaurios';
             const estado = document.getElementById('mensaje-estado');
 
@@ -165,13 +182,14 @@
 
             if (error) {
                 console.error(error);
-                estado.innerText = "❌ Error al publicar. Revisa que la tabla 'videos' exista en Supabase.";
+                estado.innerText = "❌ Error al publicar. Revisa la política de lectura/escritura en Supabase.";
                 estado.className = "text-center text-sm font-bold mt-2 text-red-400";
             } else {
                 estado.innerText = "¡Video publicado con éxito! 🦖";
                 estado.className = "text-center text-sm font-bold mt-2 text-green-300";
                 document.getElementById('form-video').reset();
                 cargarVideos(); 
+                cambiarSeccion('videos'); // Te lleva directo a ver tu video
             }
         }
 
