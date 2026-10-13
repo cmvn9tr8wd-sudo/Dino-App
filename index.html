@@ -20,12 +20,15 @@
 
     <main class="container mx-auto p-4 flex-grow max-w-4xl">
         
-        <div class="flex justify-center gap-4 mb-6">
-            <button onclick="cambiarSeccion('videos')" id="btn-videos" class="bg-yellow-400 text-emerald-950 font-bold px-6 py-2 rounded-full shadow-md transition transform hover:scale-105">🎬 Videos</button>
-            <button onclick="cambiarSeccion('juegos')" id="btn-juegos" class="bg-emerald-700 text-white font-bold px-6 py-2 rounded-full shadow-md transition transform hover:scale-105">🎮 Juegos</button>
-            <button onclick="cambiarSeccion('apoyar')" id="btn-apoyar" class="bg-emerald-700 text-white font-bold px-6 py-2 rounded-full shadow-md transition transform hover:scale-105">⭐ Apoyar</button>
+        <!-- Pestañas de navegación -->
+        <div class="flex justify-center gap-2 mb-6 flex-wrap">
+            <button onclick="cambiarSeccion('videos')" id="btn-videos" class="bg-yellow-400 text-emerald-950 font-bold px-5 py-2 rounded-full shadow-md transition">🎬 Videos</button>
+            <button onclick="cambiarSeccion('juegos')" id="btn-juegos" class="bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition">🎮 Juegos</button>
+            <button onclick="cambiarSeccion('subir')" id="btn-subir" class="bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition">➕ Subir Video</button>
+            <button onclick="cambiarSeccion('apoyar')" id="btn-apoyar" class="bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition">⭐ Apoyar</button>
         </div>
 
+        <!-- SECCIÓN: VIDEOS -->
         <section id="seccion-videos" class="space-y-4">
             <h2 class="text-2xl font-bold text-yellow-300 mb-4">Mis Videos de Dinosaurios</h2>
             <div id="lista-videos" class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -33,6 +36,7 @@
             </div>
         </section>
 
+        <!-- SECCIÓN: JUEGOS -->
         <section id="seccion-juegos" class="hidden space-y-4">
             <h2 class="text-2xl font-bold text-yellow-300 mb-4">Zona de Juegos</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -49,11 +53,37 @@
             </div>
         </section>
 
+        <!-- SECCIÓN PROVISIONAL: SUBIR VIDEO DESDE EL CELULAR -->
+        <section id="seccion-subir" class="hidden space-y-4 bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 max-w-lg mx-auto">
+            <h2 class="text-2xl font-bold text-yellow-300 text-center">Panel Provisional de Subida</h2>
+            <p class="text-emerald-200 text-xs text-center">Agrega videos aquí de forma rápida sin entrar a Supabase.</p>
+            
+            <form id="form-video" onsubmit="subirVideo(event)" class="space-y-3">
+                <div>
+                    <label class="block text-sm font-bold text-yellow-200 mb-1">Título del Video:</label>
+                    <input type="text" id="input-titulo" required placeholder="Ej. El gran ataque del T-Rex" class="w-full p-2 rounded bg-emerald-900 border border-emerald-600 text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-yellow-200 mb-1">ID de YouTube (lo que va después de watch?v=):</label>
+                    <input type="text" id="input-ytid" required placeholder="Ej. dQw4w9WgXcQ" class="w-full p-2 rounded bg-emerald-900 border border-emerald-600 text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-yellow-200 mb-1">Categoría:</label>
+                    <input type="text" id="input-cat" placeholder="Ej. Carnívoros" class="w-full p-2 rounded bg-emerald-900 border border-emerald-600 text-white text-sm">
+                </div>
+                <button type="submit" class="w-full bg-yellow-400 text-emerald-950 font-bold py-2 rounded-full shadow-lg hover:bg-yellow-300 transition mt-2">
+                    🚀 Publicar Video
+                </button>
+            </form>
+            <p id="mensaje-estado" class="text-center text-sm font-bold mt-2"></p>
+        </section>
+
+        <!-- SECCIÓN: APOYAR -->
         <section id="seccion-apoyar" class="hidden text-center space-y-4 bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400">
             <h2 class="text-2xl font-bold text-yellow-300">¡Apoya el Canal! 💚</h2>
-            <p class="text-emerald-200 max-w-md mx-auto">Si te encantan los dinosaurios y quieres que sigamos creando más videos y juegos gratis, puedes invitarnos un café.</p>
+            <p class="text-emerald-200 max-w-md mx-auto">Si te encantan los dinosaurios, puedes invitarnos un café.</p>
             <div>
-                <a href="https://paypal.me/TU_USUARIO" target="_blank" class="inline-block bg-yellow-400 text-emerald-950 font-bold px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition">
+                <a href="https://paypal.me/TU_USUARIO" target="_blank" class="inline-block bg-yellow-400 text-emerald-950 font-bold px-8 py-3 rounded-full shadow-lg">
                     ☕ Invítanos un café (PayPal)
                 </a>
             </div>
@@ -66,23 +96,20 @@
     </footer>
 
     <script>
-        // ⚠️ PEGA TUS CREDENCIALES DE SUPABASE AQUÍ ABAJO ⚠️
-        const SUPABASE_URL = 'https://tvwopixlckgjaswegmnt.supabase.co/rest/v1/';
+        // CREDENCIALES DE SUPABASE CONFIGURADAS
+        const SUPABASE_URL = 'https://tvwopixlckgjaswegmnt.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2d29waXhsY2tnamFzd2VnbW50Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NDk1MzUsImV4cCI6MjEwNzQyNTUzNX0.uwDXbE6DrcFZyjYwjv2UOva255MIGkF_cOC5-U3g1CU';
         
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         function cambiarSeccion(seccion) {
-            document.getElementById('seccion-videos').classList.add('hidden');
-            document.getElementById('seccion-juegos').classList.add('hidden');
-            document.getElementById('seccion-apoyar').classList.add('hidden');
-
-            document.getElementById('btn-videos').className = "bg-emerald-700 text-white font-bold px-6 py-2 rounded-full shadow-md";
-            document.getElementById('btn-juegos').className = "bg-emerald-700 text-white font-bold px-6 py-2 rounded-full shadow-md";
-            document.getElementById('btn-apoyar').className = "bg-emerald-700 text-white font-bold px-6 py-2 rounded-full shadow-md";
+            ['videos', 'juegos', 'subir', 'apoyar'].forEach(s => {
+                document.getElementById(`seccion-${s}`).classList.add('hidden');
+                document.getElementById(`btn-${s}`).className = "bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition";
+            });
 
             document.getElementById(`seccion-${seccion}`).classList.remove('hidden');
-            document.getElementById(`btn-${seccion}`).className = "bg-yellow-400 text-emerald-950 font-bold px-6 py-2 rounded-full shadow-md transition transform hover:scale-105";
+            document.getElementById(`btn-${seccion}`).className = "bg-yellow-400 text-emerald-950 font-bold px-5 py-2 rounded-full shadow-md transition transform scale-105";
         }
 
         async function cargarVideos() {
@@ -96,7 +123,7 @@
                 if (error) throw error;
 
                 if (!videos || videos.length === 0) {
-                    contenedor.innerHTML = `<p class="text-emerald-300 col-span-2 text-center">Pronto subiremos nuevos videos de dinosaurios. ¡Vuelve pronto!</p>`;
+                    contenedor.innerHTML = `<p class="text-emerald-300 col-span-2 text-center">No hay videos todavía. ¡Usa el botón "Subir Video" para agregar el primero!</p>`;
                     return;
                 }
 
@@ -118,7 +145,33 @@
 
             } catch (err) {
                 console.error('Error cargando videos:', err);
-                contenedor.innerHTML = `<p class="text-yellow-300 col-span-2 text-center">Configura tus llaves de Supabase en el código para ver tus videos.</p>`;
+                contenedor.innerHTML = `<p class="text-yellow-300 col-span-2 text-center">Hubo un error cargando los videos. Revisa la conexión.</p>`;
+            }
+        }
+
+        async function subirVideo(e) {
+            e.preventDefault();
+            const titulo = document.getElementById('input-titulo').value;
+            const ytid = document.getElementById('input-ytid').value;
+            const categoria = document.getElementById('input-cat').value || 'Dinosaurios';
+            const estado = document.getElementById('mensaje-estado');
+
+            estado.innerText = "Publicando...";
+            estado.className = "text-center text-sm font-bold mt-2 text-yellow-300";
+
+            const { error } = await supabaseClient
+                .from('videos')
+                .insert([{ title: titulo, youtube_id: ytid, category: categoria }]);
+
+            if (error) {
+                console.error(error);
+                estado.innerText = "❌ Error al publicar. Revisa que la tabla 'videos' exista en Supabase.";
+                estado.className = "text-center text-sm font-bold mt-2 text-red-400";
+            } else {
+                estado.innerText = "¡Video publicado con éxito! 🦖";
+                estado.className = "text-center text-sm font-bold mt-2 text-green-300";
+                document.getElementById('form-video').reset();
+                cargarVideos(); 
             }
         }
 
