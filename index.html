@@ -9,6 +9,10 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
         body { font-family: 'Fredoka', sans-serif; }
+        .card-inner { transition: transform 0.4s; transform-style: preserve-3d; }
+        .card.flipped .card-inner { transform: rotateY(180deg); }
+        .card-front, .card-back { backface-visibility: hidden; }
+        .card-back { transform: rotateY(180deg); }
     </style>
 </head>
 <body class="bg-emerald-900 text-white min-h-screen flex flex-col justify-between">
@@ -22,14 +26,14 @@
         
         <!-- Pestañas de navegación -->
         <div class="flex justify-center gap-2 mb-6 flex-wrap">
-            <button onclick="cambiarSeccion('videos')" id="btn-videos" class="bg-yellow-400 text-emerald-950 font-bold px-5 py-2 rounded-full shadow-md transition">🎬 Videos</button>
-            <button onclick="cambiarSeccion('juegos')" id="btn-juegos" class="bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition">🎮 Juegos</button>
+            <button onclick="cambiarSeccion('videos')" id="btn-videos" class="bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition">🎬 Videos</button>
+            <button onclick="cambiarSeccion('juegos')" id="btn-juegos" class="bg-yellow-400 text-emerald-950 font-bold px-5 py-2 rounded-full shadow-md transition">🎮 Juegos</button>
             <button onclick="cambiarSeccion('subir')" id="btn-subir" class="bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition">➕ Subir Video</button>
             <button onclick="cambiarSeccion('apoyar')" id="btn-apoyar" class="bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition">⭐ Apoyar</button>
         </div>
 
         <!-- SECCIÓN: VIDEOS -->
-        <section id="seccion-videos" class="space-y-4">
+        <section id="seccion-videos" class="hidden space-y-4">
             <h2 class="text-2xl font-bold text-yellow-300 mb-4">Mis Videos de Dinosaurios</h2>
             <div id="lista-videos" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <p class="text-emerald-300 col-span-2 text-center">Cargando aventuras jurásicas...</p>
@@ -37,27 +41,67 @@
         </section>
 
         <!-- SECCIÓN: JUEGOS -->
-        <section id="seccion-juegos" class="hidden space-y-4">
-            <h2 class="text-2xl font-bold text-yellow-300 mb-4">Zona de Juegos</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 text-center shadow-lg">
-                    <span class="text-4xl">🧠</span>
-                    <h3 class="text-xl font-bold mt-2 text-yellow-200">Memorama Dino</h3>
-                    <p class="text-sm text-emerald-200 mt-1">Próximamente: Encuentra las parejas de dinosaurios.</p>
+        <section id="seccion-juegos" class="space-y-6">
+            <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center">🎮 Zona de Juegos Divertidos</h2>
+            
+            <!-- Selector de Juegos -->
+            <div class="flex justify-center gap-3">
+                <button onclick="abrirJuego('memorama')" id="tab-memorama" class="bg-yellow-400 text-emerald-950 font-bold px-4 py-2 rounded-xl shadow">🧠 Memorama Dino</button>
+                <button onclick="abrirJuego('colorear')" id="tab-colorear" class="bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl shadow">🎨 Colorea tu Dino</button>
+            </div>
+
+            <!-- JUEGO 1: MEMORAMA -->
+            <div id="juego-memorama" class="bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 shadow-lg text-center max-w-lg mx-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-yellow-200">Encuentra las parejas</h3>
+                    <button onclick="reiniciarMemorama()" class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-lg">🔄 Reiniciar</button>
                 </div>
-                <div class="bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 text-center shadow-lg">
-                    <span class="text-4xl">🎨</span>
-                    <h3 class="text-xl font-bold mt-2 text-yellow-200">Colorea tu Divo</h3>
-                    <p class="text-sm text-emerald-200 mt-1">Próximamente: Lienzo interactivo para pintar.</p>
+                <div id="tablero-memorama" class="grid grid-cols-4 gap-3">
+                    <!-- Las cartas se generan con JavaScript -->
                 </div>
+                <p id="mensaje-memorama" class="mt-4 text-sm font-bold text-yellow-300"></p>
+            </div>
+
+            <!-- JUEGO 2: COLOREAR -->
+            <div id="juego-colorear" class="hidden bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 shadow-lg text-center max-w-lg mx-auto">
+                <h3 class="text-xl font-bold text-yellow-200 mb-2">¡Pinta tu propio T-Rex!</h3>
+                <p class="text-xs text-emerald-200 mb-4">Elige un color y toca las partes del dinosaurio para pintarlas.</p>
+                
+                <!-- Paleta de colores -->
+                <div class="flex justify-center gap-3 mb-4">
+                    <button onclick="cambiarColor('#ef4444')" class="w-8 h-8 rounded-full bg-red-500 border-2 border-white shadow transform hover:scale-110"></button>
+                    <button onclick="cambiarColor('#22c55e')" class="w-8 h-8 rounded-full bg-green-500 border-2 border-white shadow transform hover:scale-110"></button>
+                    <button onclick="cambiarColor('#3b82f6')" class="w-8 h-8 rounded-full bg-blue-500 border-2 border-white shadow transform hover:scale-110"></button>
+                    <button onclick="cambiarColor('#eab308')" class="w-8 h-8 rounded-full bg-yellow-400 border-2 border-white shadow transform hover:scale-110"></button>
+                    <button onclick="cambiarColor('#a855f7')" class="w-8 h-8 rounded-full bg-purple-500 border-2 border-white shadow transform hover:scale-110"></button>
+                    <button onclick="cambiarColor('#ec4899')" class="w-8 h-8 rounded-full bg-pink-500 border-2 border-white shadow transform hover:scale-110"></button>
+                </div>
+
+                <!-- Lienzo interactivo del dinosaurio -->
+                <div class="bg-emerald-950 p-4 rounded-xl border border-emerald-700 flex justify-center">
+                    <svg viewBox="0 0 200 180" class="w-64 h-56 cursor-pointer">
+                        <!-- Cuerpo -->
+                        <path id="part-cuerpo" onclick="pintarParte('part-cuerpo')" d="M70,90 Q90,70 130,90 Q150,110 130,130 Q90,140 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <!-- Cabeza -->
+                        <path id="part-cabeza" onclick="pintarParte('part-cabeza')" d="M130,70 Q160,50 150,90 Q130,100 120,90 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <!-- Ojo -->
+                        <circle cx="140" cy="73" r="4" fill="white"/>
+                        <circle cx="141" cy="73" r="2" fill="black"/>
+                        <!-- Cola -->
+                        <path id="part-cola" onclick="pintarParte('part-cola')" d="M70,100 Q30,80 10,60 Q30,110 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <!-- Pata trasera -->
+                        <path id="part-patat" onclick="pintarParte('part-patat')" d="M110,130 Q120,160 100,160 Q95,140 105,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <!-- Pata delantera -->
+                        <path id="part-patad" onclick="pintarParte('part-patad')" d="M130,115 Q145,145 135,145 Q125,135 125,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                    </svg>
+                </div>
+                <button onclick="reiniciarColores()" class="mt-4 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">🔄 Limpiar Colores</button>
             </div>
         </section>
 
         <!-- SECCIÓN PROVISIONAL: SUBIR VIDEO DESDE EL CELULAR -->
         <section id="seccion-subir" class="hidden space-y-4 bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 max-w-lg mx-auto">
             <h2 class="text-2xl font-bold text-yellow-300 text-center">Panel Provisional de Subida</h2>
-            <p class="text-emerald-200 text-xs text-center">Agrega videos aquí de forma rápida sin entrar a Supabase.</p>
-            
             <form id="form-video" onsubmit="subirVideo(event)" class="space-y-3">
                 <div>
                     <label class="block text-sm font-bold text-yellow-200 mb-1">Título del Video:</label>
@@ -81,14 +125,11 @@
         <!-- SECCIÓN: APOYAR -->
         <section id="seccion-apoyar" class="hidden space-y-4 bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 max-w-xl mx-auto">
             <h2 class="text-2xl font-bold text-yellow-300 text-center">¡Apoya el Canal! 💚</h2>
-            
-            <!-- REPRODUCTOR CON TU NUEVO VIDEO DE GOOGLE DRIVE -->
             <div class="mb-4 rounded-xl overflow-hidden border-2 border-yellow-400 shadow-md bg-emerald-950">
                 <div class="relative pb-[56.25%] h-0">
                     <iframe class="absolute top-0 left-0 w-full h-full" src="https://drive.google.com/file/d/1CyZUbzWJo7XCtVH4zhXI1qLYi7m7yOzG/preview" title="Motivo de la donación" frameborder="0" allow="autoplay" allowfullscreen></iframe>
                 </div>
             </div>
-
             <p class="text-emerald-200 text-sm leading-relaxed text-center">
                 Agradecemos enormemente tus donaciones para seguir mejorando y creando más contenido de dinosaurios. 
             </p>
@@ -96,7 +137,6 @@
                 <p class="font-bold text-yellow-300 text-center text-sm">🎁 Beneficio Especial:</p>
                 <p>• Como agradecimiento a tu donativo, crearemos un <strong>contenido especial</strong> mencionando el nombre que tú elijas.</p>
                 <p>• Este video de agradecimiento estará disponible por unos días en un área especial de la app.</p>
-                <p class="italic text-center text-emerald-300 mt-2">* Recuerda que el concepto es un donativo voluntario para apoyar el proyecto y puedes indicarnos el nombre para el agradecimiento al realizarlo.</p>
             </div>
             <div class="text-center pt-2">
                 <a href="https://link.mercadopago.com.mx/donaciondinoapp" target="_blank" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-3 rounded-full shadow-lg transition transform hover:scale-105">
@@ -125,8 +165,111 @@
 
             document.getElementById(`seccion-${seccion}`).classList.remove('hidden');
             document.getElementById(`btn-${seccion}`).className = "bg-yellow-400 text-emerald-950 font-bold px-5 py-2 rounded-full shadow-md transition transform scale-105";
+            
+            if(seccion === 'videos') cargarVideos();
         }
 
+        // LÓGICA DE JUEGOS
+        function abrirJuego(juego) {
+            if(juego === 'memorama') {
+                document.getElementById('juego-memorama').classList.remove('hidden');
+                document.getElementById('juego-colorear').classList.add('hidden');
+                document.getElementById('tab-memorama').className = "bg-yellow-400 text-emerald-950 font-bold px-4 py-2 rounded-xl shadow";
+                document.getElementById('tab-colorear').className = "bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl shadow";
+            } else {
+                document.getElementById('juego-colorear').classList.remove('hidden');
+                document.getElementById('juego-memorama').classList.add('hidden');
+                document.getElementById('tab-colorear').className = "bg-yellow-400 text-emerald-950 font-bold px-4 py-2 rounded-xl shadow";
+                document.getElementById('tab-memorama').className = "bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl shadow";
+            }
+        }
+
+        // Memorama
+        const dinos = ['🦖', '🦕', '🐉', '🐲'];
+        let cartas = [...dinos, ...dinos];
+        let primeraCarta = null;
+        let segundaCarta = null;
+        let bloqueo = false;
+        let parejasEncontradas = 0;
+
+        function reiniciarMemorama() {
+            cartas.sort(() => Math.random() - 0.5);
+            const tablero = document.getElementById('tablero-memorama');
+            tablero.innerHTML = '';
+            parejasEncontradas = 0;
+            document.getElementById('mensaje-memorama').innerText = '';
+
+            cartas.forEach((dino) => {
+                const carta = document.createElement('div');
+                carta.className = "card h-20 bg-emerald-900 rounded-xl cursor-pointer perspective-1000 border-2 border-emerald-600 flex items-center justify-center text-3xl shadow";
+                carta.dataset.valor = dino;
+                carta.innerHTML = `
+                    <div class="card-inner w-full h-full relative flex items-center justify-center">
+                        <div class="card-front absolute inset-0 flex items-center justify-center bg-emerald-950 rounded-xl text-yellow-400 font-bold">❓</div>
+                        <div class="card-back absolute inset-0 flex items-center justify-center bg-yellow-400 rounded-xl">${dino}</div>
+                    </div>
+                `;
+                carta.addEventListener('click', voltearCarta);
+                tablero.appendChild(carta);
+            });
+        }
+
+        function voltearCarta() {
+            if (bloqueo) return;
+            if (this === primeraCarta) return;
+
+            this.classList.add('flipped');
+
+            if (!primeraCarta) {
+                primeraCarta = this;
+                return;
+            }
+
+            segundaCarta = this;
+            verificarPareja();
+        }
+
+        function verificarPareja() {
+            let coincide = primeraCarta.dataset.valor === segundaCarta.dataset.valor;
+            if (coincide) {
+                primeraCarta.removeEventListener('click', voltearCarta);
+                segundaCarta.removeEventListener('click', voltearCarta);
+                resetearCartas();
+                parejasEncontradas++;
+                if (parejasEncontradas === dinos.length) {
+                    document.getElementById('mensaje-memorama').innerText = "🎉 ¡Ganaste! ¡Eres un experto en dinos!";
+                }
+            } else {
+                bloqueo = true;
+                setTimeout(() => {
+                    primeraCarta.classList.remove('flipped');
+                    segundaCarta.classList.remove('flipped');
+                    resetearCartas();
+                }, 900);
+            }
+        }
+
+        function resetearCartas() {
+            [primeraCarta, segundaCarta, bloqueo] = [null, null, false];
+        }
+
+        // Colorear
+        let colorActual = '#ef4444';
+        function cambiarColor(color) {
+            colorActual = color;
+        }
+
+        function pintarParte(idParte) {
+            document.getElementById(idParte).setAttribute('fill', colorActual);
+        }
+
+        function reiniciarColores() {
+            ['part-cuerpo', 'part-cabeza', 'part-cola', 'part-patat', 'part-patad'].forEach(id => {
+                document.getElementById(id).setAttribute('fill', '#1e293b');
+            });
+        }
+
+        // Carga de Videos y Subida
         async function cargarVideos() {
             const contenedor = document.getElementById('lista-videos');
             try {
@@ -187,7 +330,6 @@
 
             if (error) {
                 alert("Hubo un error al eliminar el video.");
-                console.error(error);
             } else {
                 cargarVideos(); 
             }
@@ -230,6 +372,8 @@
             }
         }
 
+        // Inicializar juegos al cargar
+        reiniciarMemorama();
         cargarVideos();
     </script>
 </body>
