@@ -29,9 +29,8 @@
         </div>
     </header>
 
-    <!-- Reproductor de Audio invisible para la música de selva alegre -->
+    <!-- Reproductor de Audio para la música de selva -->
     <audio id="audio-selva" loop>
-        <!-- Pista alegre y rítmica libre de derechos adecuada para ambiente de selva infantil -->
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=fun-kids-110488.mp3" type="audio/mpeg">
     </audio>
 
@@ -58,9 +57,10 @@
             <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center">🎮 Zona de Juegos Divertidos</h2>
             
             <!-- Selector de Juegos -->
-            <div class="flex justify-center gap-3">
-                <button onclick="abrirJuego('memorama')" id="tab-memorama" class="bg-yellow-400 text-emerald-950 font-bold px-4 py-2 rounded-xl shadow">🧠 Memorama Dino</button>
-                <button onclick="abrirJuego('colorear')" id="tab-colorear" class="bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl shadow">🎨 Colorea tu Dino</button>
+            <div class="flex justify-center gap-2 flex-wrap">
+                <button onclick="abrirJuego('memorama')" id="tab-memorama" class="bg-yellow-400 text-emerald-950 font-bold px-3 py-2 rounded-xl shadow text-sm">🧠 Memorama</button>
+                <button onclick="abrirJuego('colorear')" id="tab-colorear" class="bg-emerald-800 text-white font-bold px-3 py-2 rounded-xl shadow text-sm">🎨 Colorear</button>
+                <button onclick="abrirJuego('pista')" id="tab-pista" class="bg-emerald-800 text-white font-bold px-3 py-2 rounded-xl shadow text-sm">🌿 Pista Selvática</button>
             </div>
 
             <!-- JUEGO 1: MEMORAMA -->
@@ -70,7 +70,7 @@
                     <button onclick="reiniciarMemorama()" class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-lg">🔄 Reiniciar</button>
                 </div>
                 <div id="tablero-memorama" class="grid grid-cols-4 gap-3">
-                    <!-- Las cartas se generan con JavaScript -->
+                    <!-- Cartas -->
                 </div>
                 <p id="mensaje-memorama" class="mt-4 text-sm font-bold text-yellow-300"></p>
             </div>
@@ -80,7 +80,6 @@
                 <h3 class="text-xl font-bold text-yellow-200 mb-2">¡Pinta tu propio T-Rex!</h3>
                 <p class="text-xs text-emerald-200 mb-4">Elige un color y toca las partes del dinosaurio para pintarlas.</p>
                 
-                <!-- Paleta de colores -->
                 <div class="flex justify-center gap-3 mb-4">
                     <button onclick="cambiarColor('#ef4444')" class="w-8 h-8 rounded-full bg-red-500 border-2 border-white shadow transform hover:scale-110"></button>
                     <button onclick="cambiarColor('#22c55e')" class="w-8 h-8 rounded-full bg-green-500 border-2 border-white shadow transform hover:scale-110"></button>
@@ -90,25 +89,31 @@
                     <button onclick="cambiarColor('#ec4899')" class="w-8 h-8 rounded-full bg-pink-500 border-2 border-white shadow transform hover:scale-110"></button>
                 </div>
 
-                <!-- Lienzo interactivo del dinosaurio -->
                 <div class="bg-emerald-950 p-4 rounded-xl border border-emerald-700 flex justify-center">
                     <svg viewBox="0 0 200 180" class="w-64 h-56 cursor-pointer">
-                        <!-- Cuerpo -->
                         <path id="part-cuerpo" onclick="pintarParte('part-cuerpo')" d="M70,90 Q90,70 130,90 Q150,110 130,130 Q90,140 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <!-- Cabeza -->
                         <path id="part-cabeza" onclick="pintarParte('part-cabeza')" d="M130,70 Q160,50 150,90 Q130,100 120,90 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <!-- Ojo -->
                         <circle cx="140" cy="73" r="4" fill="white"/>
                         <circle cx="141" cy="73" r="2" fill="black"/>
-                        <!-- Cola -->
                         <path id="part-cola" onclick="pintarParte('part-cola')" d="M70,100 Q30,80 10,60 Q30,110 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <!-- Pata trasera -->
                         <path id="part-patat" onclick="pintarParte('part-patat')" d="M110,130 Q120,160 100,160 Q95,140 105,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <!-- Pata delantera -->
                         <path id="part-patad" onclick="pintarParte('part-patad')" d="M130,115 Q145,145 135,145 Q125,135 125,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
                     </svg>
                 </div>
                 <button onclick="reiniciarColores()" class="mt-4 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">🔄 Limpiar Colores</button>
+            </div>
+
+            <!-- JUEGO 3: PISTA SELVÁTICA (NUEVO) -->
+            <div id="juego-pista" class="hidden bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 shadow-lg text-center max-w-lg mx-auto space-y-4">
+                <h3 class="text-xl font-bold text-yellow-200">🌿 Adivinanza en la Selva Jurásica</h3>
+                <p id="pista-pregunta" class="text-sm text-emerald-100 font-semibold bg-emerald-900 p-3 rounded-xl border border-emerald-700">
+                    Cargando pista...
+                </p>
+                <div id="pista-opciones" class="grid grid-cols-2 gap-3">
+                    <!-- Opciones generadas por JS -->
+                </div>
+                <p id="mensaje-pista" class="text-sm font-bold text-yellow-300 min-h-[24px]"></p>
+                <button onclick="siguientePista()" class="bg-yellow-400 text-emerald-950 font-bold text-xs px-4 py-2 rounded-lg shadow">➡️ Siguiente Pista</button>
             </div>
         </section>
 
@@ -201,6 +206,14 @@
                 gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.35);
                 osc.start(ahora);
                 osc.stop(ahora + 0.35);
+            } else if (tipo === 'error') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, ahora);
+                osc.frequency.setValueAtTime(120, ahora + 0.15);
+                gain.gain.setValueAtTime(0.15, ahora);
+                gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.3);
+                osc.start(ahora);
+                osc.stop(ahora + 0.3);
             } else if (tipo === 'pintar') {
                 osc.type = 'square';
                 osc.frequency.setValueAtTime(500, ahora);
@@ -245,17 +258,13 @@
         }
 
         function abrirJuego(juego) {
-            if(juego === 'memorama') {
-                document.getElementById('juego-memorama').classList.remove('hidden');
-                document.getElementById('juego-colorear').classList.add('hidden');
-                document.getElementById('tab-memorama').className = "bg-yellow-400 text-emerald-950 font-bold px-4 py-2 rounded-xl shadow";
-                document.getElementById('tab-colorear').className = "bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl shadow";
-            } else {
-                document.getElementById('juego-colorear').classList.remove('hidden');
-                document.getElementById('juego-memorama').classList.add('hidden');
-                document.getElementById('tab-colorear').className = "bg-yellow-400 text-emerald-950 font-bold px-4 py-2 rounded-xl shadow";
-                document.getElementById('tab-memorama').className = "bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl shadow";
-            }
+            ['memorama', 'colorear', 'pista'].forEach(j => {
+                document.getElementById(`juego-${j}`).classList.add('hidden');
+                document.getElementById(`tab-${j}`).className = "bg-emerald-800 text-white font-bold px-3 py-2 rounded-xl shadow text-sm";
+            });
+
+            document.getElementById(`juego-${juego}`).classList.remove('hidden');
+            document.getElementById(`tab-${juego}`).className = "bg-yellow-400 text-emerald-950 font-bold px-3 py-2 rounded-xl shadow text-sm";
         }
 
         // Memorama
@@ -345,6 +354,52 @@
             ['part-cuerpo', 'part-cabeza', 'part-cola', 'part-patat', 'part-patad'].forEach(id => {
                 document.getElementById(id).setAttribute('fill', '#1e293b');
             });
+        }
+
+        // JUEGO 3: PISTA SELVÁTICA
+        const pistas = [
+            { pregunta: "🌿 Es el rey de los dinosaurios carnívoros, tiene brazos pequeños y dientes gigantes. ¿Quién es?", respuesta: "T-Rex", opciones: ["T-Rex", "Triceratops", "Brontosaurio", "Velociraptor"] },
+            { pregunta: "🌿 Tiene un cuello larguísimo para alcanzar las hojas más altas de los árboles en la selva. ¿Quién es?", respuesta: "Cuellilargo", opciones: ["T-Rex", "Cuellilargo", "Spinosaurus", "Anquilosaurio"] },
+            { pregunta: "🌿 Le encantan los ríos de la selva y tiene una gran vela en su espalda como un tiburón. ¿Quién es?", respuesta: "Spinosaurus", opciones: ["Velociraptor", "Spinosaurus", "Triceratops", "Pterodáctilo"] }
+        ];
+        let indicePista = 0;
+
+        function cargarPista() {
+            const p = pistas[indicePista];
+            document.getElementById('pista-pregunta').innerText = p.pregunta;
+            document.getElementById('mensaje-pista').innerText = '';
+            const contenedorOpciones = document.getElementById('pista-opciones');
+            contenedorOpciones.innerHTML = '';
+
+            // Mezclar opciones
+            let opcionesMezcladas = [...p.opciones].sort(() => Math.random() - 0.5);
+
+            opcionesMezcladas.forEach(op => {
+                const btn = document.createElement('button');
+                btn.className = "bg-emerald-900 hover:bg-emerald-950 text-white font-bold p-3 rounded-xl border border-emerald-600 shadow transition text-sm";
+                btn.innerText = op;
+                btn.onclick = () => verificarPista(op, p.respuesta);
+                contenedorOpciones.appendChild(btn);
+            });
+        }
+
+        function verificarPista(elegida, correcta) {
+            const mensaje = document.getElementById('mensaje-pista');
+            if (elegida === correcta) {
+                reproducirSonido('acierto');
+                mensaje.innerText = "🌟 ¡Correcto! ¡Muy bien explorador!";
+                mensaje.className = "text-sm font-bold text-green-300 min-h-[24px]";
+            } else {
+                reproducirSonido('error');
+                mensaje.innerText = "❌ ¡Inténtalo de nuevo!";
+                mensaje.className = "text-sm font-bold text-yellow-300 min-h-[24px]";
+            }
+        }
+
+        function siguientePista() {
+            reproducirSonido('voltear');
+            indicePista = (indicePista + 1) % pistas.length;
+            cargarPista();
         }
 
         // Carga de Videos y Subida
@@ -452,6 +507,7 @@
 
         // Inicializar juegos al cargar
         reiniciarMemorama();
+        cargarPista();
         cargarVideos();
     </script>
 </body>
