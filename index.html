@@ -237,12 +237,13 @@
             }
         }
 
-        // --- REPRODUCIR TAMBORES SELVÁTICOS ---
+        // --- RITMO DE TAMBORES SELVÁTICOS ---
         function reproducirTamboresSelva() {
             inicializarAudioContext();
-            let tiempos = [0, 0.25, 0.5, 0.75, 1.2, 1.45];
-            let frecuencias = [110, 150, 90, 160, 100, 180];
-            let duraciones = [0.2, 0.15, 0.2, 0.15, 0.3, 0.2];
+            // Secuencia rítmica de tambores de selva (Boom - Pa - Boom - Pa - Bum Bum)
+            let tiempos = [0, 0.3, 0.6, 0.9, 1.3, 1.5, 1.8];
+            let frecuencias = [90, 140, 80, 150, 100, 110, 160];
+            let duraciones = [0.25, 0.15, 0.25, 0.15, 0.2, 0.2, 0.3];
 
             tiempos.forEach((t, i) => {
                 setTimeout(() => {
@@ -253,11 +254,11 @@
                     gain.connect(audioCtx.destination);
 
                     let ahora = audioCtx.currentTime;
-                    osc.type = 'triangle';
+                    osc.type = 'triangle'; // Sonido profundo y percusivo tipo tambor
                     osc.frequency.setValueAtTime(frecuencias[i], ahora);
-                    osc.frequency.exponentialRampToValueAtTime(40, ahora + duraciones[i]);
+                    osc.frequency.exponentialRampToValueAtTime(30, ahora + duraciones[i]);
 
-                    gain.gain.setValueAtTime(0.3, ahora);
+                    gain.gain.setValueAtTime(0.4, ahora);
                     gain.gain.exponentialRampToValueAtTime(0.01, ahora + duraciones[i]);
 
                     osc.start(ahora);
@@ -266,50 +267,54 @@
             });
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(reproducirTamboresSelva, 500);
-        });
-
-        // --- RUGIDO DE T-REX ÉPICO AL ENTRAR ---
-        function reproducirRugidoTRex(callback) {
+        // --- RUGIDO ÉPICO DE T-REX + TAMBORES ---
+        function reproducirEntradaSelvatica(callback) {
             inicializarAudioContext();
-            let ahora = audioCtx.currentTime;
+            
+            // 1. Sonan los tambores selváticos al presionar
+            reproducirTamboresSelva();
 
+            // 2. Simultáneamente un rugido potente de T-Rex
+            let ahora = audioCtx.currentTime + 0.2;
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.connect(gain);
             gain.connect(audioCtx.destination);
 
             osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(140, ahora);
-            osc.frequency.linearRampToValueAtTime(70, ahora + 0.3);
-            osc.frequency.linearRampToValueAtTime(110, ahora + 0.6);
-            osc.frequency.linearRampToValueAtTime(50, ahora + 1.0);
+            osc.frequency.setValueAtTime(130, ahora);
+            osc.frequency.linearRampToValueAtTime(60, ahora + 0.4);
+            osc.frequency.linearRampToValueAtTime(100, ahora + 0.8);
+            osc.frequency.linearRampToValueAtTime(40, ahora + 1.4);
 
-            gain.gain.setValueAtTime(0.4, ahora);
-            gain.gain.exponentialRampToValueAtTime(0.01, ahora + 1.1);
+            gain.gain.setValueAtTime(0.5, ahora);
+            gain.gain.exponentialRampToValueAtTime(0.01, ahora + 1.5);
 
             osc.start(ahora);
-            osc.stop(ahora + 1.1);
+            osc.stop(ahora + 1.5);
 
+            // Transición para cerrar la pantalla de bienvenida después de los efectos
             setTimeout(() => {
-                reproducirSonido('acierto');
                 if(callback) callback();
-            }, 900);
+            }, 1600);
         }
 
-        // --- FUNCIÓN PARA ENTRAR A LA APLICACIÓN ---
+        // --- FUNCIÓN AL HACER CLIC EN COMENZAR AVENTURA ---
         function entrarAlApp() {
             const pantalla = document.getElementById('pantalla-bienvenida');
-            reproducirRugidoTRex(() => {
+            // Ocultar botón para evitar múltiples clics
+            event.target.style.pointerEvents = 'none';
+            event.target.innerText = "🌿 ¡Entrando a la Selva...!";
+
+            reproducirEntradaSelvatica(() => {
                 pantalla.style.opacity = '0';
                 setTimeout(() => {
                     pantalla.remove();
-                }, 400);
+                }, 500);
             });
         }
 
-        // --- EFECTOS DE SONIDO SINTETIZADOS ---
+        // --- EFECTOS DE SONIDO SINTETIZADOS PARA JUEGOS ---
         function reproducirSonido(tipo) {
             inicializarAudioContext();
             const osc = audioCtx.createOscillator();
