@@ -1,422 +1,643 @@
-<script>
-    const SUPABASE_URL = 'https://tvwopixlckgjaswegmnt.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2d29waXhsY2tnamFzd2VnbW50Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NDk1MzUsImV4cCI6MjEwNzQyNTUzNX0.uwDXbE6DrcFZyjYwjv2UOva255MIGkF_cOC5-U3g1CU';
-    
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DinoAventura - Juegos y Videos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+        body { font-family: 'Fredoka', sans-serif; }
+        .card-inner { transition: transform 0.4s; transform-style: preserve-3d; }
+        .card.flipped .card-inner { transform: rotateY(180deg); }
+        .card-front, .card-back { backface-visibility: hidden; }
+        .card-back { transform: rotateY(180deg); }
 
-    let audioCtx = null;
-
-    // --- INICIALIZAR AUDIO AL HACER CLIC ---
-    function inicializarAudioContext() {
-        if (!audioCtx) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        /* Animación de rebote emocionante y flotado */
+        @keyframes reboteDino {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.08); }
         }
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
+        .animar-rebote {
+            animation: reboteDino 2s infinite ease-in-out;
         }
-    }
 
-    // --- REPRODUCIR TAMBORES SELVÁTICOS ---
-    function reproducirTamboresSelva() {
-        inicializarAudioContext();
-        let tiempos = [0, 0.25, 0.5, 0.75, 1.2, 1.45];
-        let frecuencias = [110, 150, 90, 160, 100, 180];
-        let duraciones = [0.2, 0.15, 0.2, 0.15, 0.3, 0.2];
-
-        tiempos.forEach((t, i) => {
-            setTimeout(() => {
-                if (!audioCtx) return;
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-
-                let ahora = audioCtx.currentTime;
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(frecuencias[i], ahora);
-                osc.frequency.exponentialRampToValueAtTime(40, ahora + duraciones[i]);
-
-                gain.gain.setValueAtTime(0.3, ahora);
-                gain.gain.exponentialRampToValueAtTime(0.01, ahora + duraciones[i]);
-
-                osc.start(ahora);
-                osc.stop(ahora + duraciones[i]);
-            }, t * 1000);
-        });
-    }
-
-    // Reproducir tambores justo cuando carguen los elementos y el navegador lo permita
-    window.addEventListener('DOMContentLoaded', () => {
-        // Intentar reproducir (si el navegador lo bloquea, sonará perfecto al hacer clic en el botón)
-        setTimeout(reproducirTamboresSelva, 500);
-    });
-
-    // --- RUGIDO DE T-REX ÉPICO AL ENTRAR ---
-    function reproducirRugidoTRex(callback) {
-        inicializarAudioContext();
-        let ahora = audioCtx.currentTime;
-
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(140, ahora);
-        osc.frequency.linearRampToValueAtTime(70, ahora + 0.3);
-        osc.frequency.linearRampToValueAtTime(110, ahora + 0.6);
-        osc.frequency.linearRampToValueAtTime(50, ahora + 1.0);
-
-        gain.gain.setValueAtTime(0.4, ahora);
-        gain.gain.exponentialRampToValueAtTime(0.01, ahora + 1.1);
-
-        osc.start(ahora);
-        osc.stop(ahora + 1.1);
-
-        setTimeout(() => {
-            reproducirSonido('acierto');
-            if(callback) callback();
-        }, 900);
-    }
-
-    // --- FUNCIÓN PARA ENTRAR A LA APLICACIÓN ---
-    function entrarAlApp() {
-        const pantalla = document.getElementById('pantalla-bienvenida');
-        reproducirRugidoTRex(() => {
-            pantalla.style.opacity = '0';
-            setTimeout(() => {
-                pantalla.remove();
-            }, 400);
-        });
-    }
-
-    // --- EFECTOS DE SONIDO SINTETIZADOS ---
-    function reproducirSonido(tipo) {
-        inicializarAudioContext();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        let ahora = audioCtx.currentTime;
-
-        if (tipo === 'voltear') {
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(300, ahora);
-            osc.frequency.exponentialRampToValueAtTime(600, ahora + 0.1);
-            gain.gain.setValueAtTime(0.15, ahora);
-            gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.1);
-            osc.start(ahora);
-            osc.stop(ahora + 0.1);
-        } else if (tipo === 'acierto') {
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(400, ahora);
-            osc.frequency.setValueAtTime(600, ahora + 0.1);
-            osc.frequency.setValueAtTime(800, ahora + 0.2);
-            gain.gain.setValueAtTime(0.2, ahora);
-            gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.35);
-            osc.start(ahora);
-            osc.stop(ahora + 0.35);
-        } else if (tipo === 'error') {
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(200, ahora);
-            osc.frequency.setValueAtTime(120, ahora + 0.15);
-            gain.gain.setValueAtTime(0.15, ahora);
-            gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.3);
-            osc.start(ahora);
-            osc.stop(ahora + 0.3);
-        } else if (tipo === 'pintar') {
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(500, ahora);
-            osc.frequency.exponentialRampToValueAtTime(200, ahora + 0.08);
-            gain.gain.setValueAtTime(0.1, ahora);
-            gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.08);
-            osc.start(ahora);
-            osc.stop(ahora + 0.08);
+        @keyframes latidoBrillo {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
         }
-    }
+        .animar-brillo {
+            animation: latidoBrillo 1.5s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-emerald-900 text-white min-h-screen flex flex-col justify-between">
 
-    // --- MÚSICA DE SELVA ---
-    let musicaEncendida = false;
-    function toggleMusicaSelva() {
-        const audio = document.getElementById('audio-selva');
-        const btn = document.getElementById('btn-musica');
+    <!-- INTEL / PANTALLA DE BIENVENIDA A PANTALLA COMPLETA -->
+    <div id="pantalla-bienvenida" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-emerald-950 via-emerald-900 to-black p-4 transition-opacity duration-500">
+        <!-- Elementos decorativos de fondo -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#facc15_1px,transparent_1px)] [background-size:16px_16px]"></div>
         
-        if (!musicaEncendida) {
-            audio.play().then(() => {
-                musicaEncendida = true;
-                btn.innerHTML = "🎶 <span>Música de Selva: ENCENDIDA</span>";
-                btn.className = "bg-green-400 hover:bg-green-300 text-emerald-950 text-xs font-bold px-3 py-1.5 rounded-full shadow transition flex items-center gap-1";
-            }).catch(e => console.log("Bloqueado por navegador", e));
-        } else {
-            audio.pause();
-            musicaEncendida = false;
-            btn.innerHTML = "🎵 <span>Música de Selva: APAGADA</span>";
-            btn.className = "bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold px-3 py-1.5 rounded-full shadow transition flex items-center gap-1";
-        }
-    }
-
-    function cambiarSeccion(seccion) {
-        ['videos', 'juegos', 'subir', 'apoyar'].forEach(s => {
-            document.getElementById(`seccion-${s}`).classList.add('hidden');
-            document.getElementById(`btn-${s}`).className = "bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition";
-        });
-
-        document.getElementById(`seccion-${seccion}`).classList.remove('hidden');
-        document.getElementById(`btn-${seccion}`).className = "bg-yellow-400 text-emerald-950 font-bold px-5 py-2 rounded-full shadow-md transition transform scale-105";
-        
-        if(seccion === 'videos') cargarVideos();
-    }
-
-    function abrirJuego(juego) {
-        ['memorama', 'colorear', 'pista'].forEach(j => {
-            document.getElementById(`juego-${j}`).classList.add('hidden');
-            document.getElementById(`tab-${j}`).className = "bg-emerald-800 text-white font-bold px-3 py-2 rounded-xl shadow text-sm";
-        });
-
-        document.getElementById(`juego-${juego}`).classList.remove('hidden');
-        document.getElementById(`tab-${juego}`).className = "bg-yellow-400 text-emerald-950 font-bold px-3 py-2 rounded-xl shadow text-sm";
-    }
-
-    // Memorama
-    const dinos = ['🦖', '🦕', '🐉', '🐲'];
-    let cartas = [...dinos, ...dinos];
-    let primeraCarta = null;
-    let segundaCarta = null;
-    let bloqueo = false;
-    let parejasEncontradas = 0;
-
-    function reiniciarMemorama() {
-        cartas.sort(() => Math.random() - 0.5);
-        const tablero = document.getElementById('tablero-memorama');
-        tablero.innerHTML = '';
-        parejasEncontradas = 0;
-        document.getElementById('mensaje-memorama').innerText = '';
-
-        cartas.forEach((dino) => {
-            const carta = document.createElement('div');
-            carta.className = "card h-20 bg-emerald-900 rounded-xl cursor-pointer perspective-1000 border-2 border-emerald-600 flex items-center justify-center text-3xl shadow";
-            carta.dataset.valor = dino;
-            carta.innerHTML = `
-                <div class="card-inner w-full h-full relative flex items-center justify-center">
-                    <div class="card-front absolute inset-0 flex items-center justify-center bg-emerald-950 rounded-xl text-yellow-400 font-bold">❓</div>
-                    <div class="card-back absolute inset-0 flex items-center justify-center bg-yellow-400 rounded-xl">${dino}</div>
+        <div class="relative z-10 bg-emerald-900/90 backdrop-blur-md border-4 border-yellow-400 p-8 md:p-12 rounded-3xl shadow-2xl max-w-lg w-full text-center space-y-6">
+            
+            <!-- Dinosaurio con animación de rebote -->
+            <div class="flex justify-center">
+                <div class="w-28 h-28 md:w-36 md:h-36 bg-gradient-to-tr from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-emerald-950 animar-rebote text-6xl md:text-7xl">
+                    🦖
                 </div>
-            `;
-            carta.addEventListener('click', voltearCarta);
-            tablero.appendChild(carta);
-        });
-    }
+            </div>
 
-    function voltearCarta() {
-        if (bloqueo) return;
-        if (this === primeraCarta) return;
+            <!-- Títulos y leyenda solicitada -->
+            <div class="space-y-3">
+                <span class="bg-yellow-400 text-emerald-950 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider shadow">
+                    ¡Aventura Jurásica Activada!
+                </span>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-yellow-300 drop-shadow-md">
+                    ¡DinoApp!
+                </h1>
+                <p class="text-emerald-100 text-lg md:text-xl font-medium leading-relaxed px-2">
+                    ¡Bienvenidos exploradores estás a punto de vivir una aventura en <span class="text-yellow-300 font-bold">¡DinoApp!</span> 🌿🦕
+                </p>
+            </div>
 
-        reproducirSonido('voltear');
-        this.classList.add('flipped');
+            <!-- Botón de acceso emocionante -->
+            <button onclick="entrarAlApp()" class="w-full bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-emerald-950 font-black text-xl py-4 rounded-2xl shadow-xl transition transform hover:scale-105 active:scale-95 border-2 border-yellow-200 animar-brillo flex items-center justify-center gap-2">
+                🚀 ¡Comenzar Aventura! 🌟
+            </button>
+        </div>
+    </div>
 
-        if (!primeraCarta) {
-            primeraCarta = this;
-            return;
+    <header class="bg-emerald-800 p-4 shadow-lg text-center relative">
+        <h1 class="text-3xl font-bold tracking-wide text-yellow-300">🦖 DinoAventura TV 🦕</h1>
+        <p class="text-emerald-200 text-sm">¡Videos, juegos y diversión prehistórica!</p>
+        
+        <!-- Control de Música de Selva -->
+        <div class="mt-2 flex justify-center items-center gap-2">
+            <button onclick="toggleMusicaSelva()" id="btn-musica" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold px-3 py-1.5 rounded-full shadow transition flex items-center gap-1">
+                🎵 <span>Música de Selva: APAGADA</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Reproductor de Audio para la música de selva -->
+    <audio id="audio-selva" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=fun-kids-110488.mp3" type="audio/mpeg">
+    </audio>
+
+    <main class="container mx-auto p-4 flex-grow max-w-4xl">
+        
+        <!-- Pestañas de navegación -->
+        <div class="flex justify-center gap-2 mb-6 flex-wrap">
+            <button onclick="cambiarSeccion('videos')" id="btn-videos" class="bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition">🎬 Videos</button>
+            <button onclick="cambiarSeccion('juegos')" id="btn-juegos" class="bg-yellow-400 text-emerald-950 font-bold px-5 py-2 rounded-full shadow-md transition">🎮 Juegos</button>
+            <button onclick="cambiarSeccion('subir')" id="btn-subir" class="bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition">➕ Subir Video</button>
+            <button onclick="cambiarSeccion('apoyar')" id="btn-apoyar" class="bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition">⭐ Apoyar</button>
+        </div>
+
+        <!-- SECCIÓN: VIDEOS -->
+        <section id="seccion-videos" class="hidden space-y-4">
+            <h2 class="text-2xl font-bold text-yellow-300 mb-4">Mis Videos de Dinosaurios</h2>
+            <div id="lista-videos" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <p class="text-emerald-300 col-span-2 text-center">Cargando aventuras jurásicas...</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: JUEGOS -->
+        <section id="seccion-juegos" class="space-y-6">
+            <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center">🎮 Zona de Juegos Divertidos</h2>
+            
+            <!-- Selector de Juegos -->
+            <div class="flex justify-center gap-2 flex-wrap">
+                <button onclick="abrirJuego('memorama')" id="tab-memorama" class="bg-yellow-400 text-emerald-950 font-bold px-3 py-2 rounded-xl shadow text-sm">🧠 Memorama</button>
+                <button onclick="abrirJuego('colorear')" id="tab-colorear" class="bg-emerald-800 text-white font-bold px-3 py-2 rounded-xl shadow text-sm">🎨 Colorear</button>
+                <button onclick="abrirJuego('pista')" id="tab-pista" class="bg-emerald-800 text-white font-bold px-3 py-2 rounded-xl shadow text-sm">🌿 Pista Selvática</button>
+            </div>
+
+            <!-- JUEGO 1: MEMORAMA -->
+            <div id="juego-memorama" class="bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 shadow-lg text-center max-w-lg mx-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-yellow-200">Encuentra las parejas</h3>
+                    <button onclick="reiniciarMemorama()" class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-lg">🔄 Reiniciar</button>
+                </div>
+                <div id="tablero-memorama" class="grid grid-cols-4 gap-3">
+                    <!-- Cartas -->
+                </div>
+                <p id="mensaje-memorama" class="mt-4 text-sm font-bold text-yellow-300"></p>
+            </div>
+
+            <!-- JUEGO 2: COLOREAR -->
+            <div id="juego-colorear" class="hidden bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 shadow-lg text-center max-w-lg mx-auto">
+                <h3 class="text-xl font-bold text-yellow-200 mb-2">¡Pinta tu propio T-Rex!</h3>
+                <p class="text-xs text-emerald-200 mb-4">Elige un color y toca las partes del dinosaurio para pintarlas.</p>
+                
+                <div class="flex justify-center gap-3 mb-4">
+                    <button onclick="cambiarColor('#ef4444')" class="w-8 h-8 rounded-full bg-red-500 border-2 border-white shadow transform hover:scale-110"></button>
+                    <button onclick="cambiarColor('#22c55e')" class="w-8 h-8 rounded-full bg-green-500 border-2 border-white shadow transform hover:scale-110"></button>
+                    <button onclick="cambiarColor('#3b82f6')" class="w-8 h-8 rounded-full bg-blue-500 border-2 border-white shadow transform hover:scale-110"></button>
+                    <button onclick="cambiarColor('#eab308')" class="w-8 h-8 rounded-full bg-yellow-400 border-2 border-white shadow transform hover:scale-110"></button>
+                    <button onclick="cambiarColor('#a855f7')" class="w-8 h-8 rounded-full bg-purple-500 border-2 border-white shadow transform hover:scale-110"></button>
+                    <button onclick="cambiarColor('#ec4899')" class="w-8 h-8 rounded-full bg-pink-500 border-2 border-white shadow transform hover:scale-110"></button>
+                </div>
+
+                <div class="bg-emerald-950 p-4 rounded-xl border border-emerald-700 flex justify-center">
+                    <svg viewBox="0 0 200 180" class="w-64 h-56 cursor-pointer">
+                        <path id="part-cuerpo" onclick="pintarParte('part-cuerpo')" d="M70,90 Q90,70 130,90 Q150,110 130,130 Q90,140 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <path id="part-cabeza" onclick="pintarParte('part-cabeza')" d="M130,70 Q160,50 150,90 Q130,100 120,90 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <circle cx="140" cy="73" r="4" fill="white"/>
+                        <circle cx="141" cy="73" r="2" fill="black"/>
+                        <path id="part-cola" onclick="pintarParte('part-cola')" d="M70,100 Q30,80 10,60 Q30,110 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <path id="part-patat" onclick="pintarParte('part-patat')" d="M110,130 Q120,160 100,160 Q95,140 105,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <path id="part-patad" onclick="pintarParte('part-patad')" d="M130,115 Q145,145 135,145 Q125,135 125,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                    </svg>
+                </div>
+                <button onclick="reiniciarColores()" class="mt-4 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">🔄 Limpiar Colores</button>
+            </div>
+
+            <!-- JUEGO 3: PISTA SELVÁTICA -->
+            <div id="juego-pista" class="hidden bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 shadow-lg text-center max-w-lg mx-auto space-y-4">
+                <h3 class="text-xl font-bold text-yellow-200">🌿 Adivinanza en la Selva Jurásica</h3>
+                <p id="pista-pregunta" class="text-sm text-emerald-100 font-semibold bg-emerald-900 p-3 rounded-xl border border-emerald-700">
+                    Cargando pista...
+                </p>
+                <div id="pista-opciones" class="grid grid-cols-2 gap-3">
+                    <!-- Opciones generadas por JS -->
+                </div>
+                <p id="mensaje-pista" class="text-sm font-bold text-yellow-300 min-h-[24px]"></p>
+                <button onclick="siguientePista()" class="bg-yellow-400 text-emerald-950 font-bold text-xs px-4 py-2 rounded-lg shadow">➡️ Siguiente Pista</button>
+            </div>
+        </section>
+
+        <!-- SECCIÓN PROVISIONAL: SUBIR VIDEO DESDE EL CELULAR -->
+        <section id="seccion-subir" class="hidden space-y-4 bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 max-w-lg mx-auto">
+            <h2 class="text-2xl font-bold text-yellow-300 text-center">Panel Provisional de Subida</h2>
+            <form id="form-video" onsubmit="subirVideo(event)" class="space-y-3">
+                <div>
+                    <label class="block text-sm font-bold text-yellow-200 mb-1">Título del Video:</label>
+                    <input type="text" id="input-titulo" required placeholder="Ej. El gran ataque del T-Rex" class="w-full p-2 rounded bg-emerald-900 border border-emerald-600 text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-yellow-200 mb-1">ID de YouTube (o enlace completo):</label>
+                    <input type="text" id="input-ytid" required placeholder="Ej. i-ybgEs7YQg" class="w-full p-2 rounded bg-emerald-900 border border-emerald-600 text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-yellow-200 mb-1">Categoría:</label>
+                    <input type="text" id="input-cat" placeholder="Ej. Carnívoros" class="w-full p-2 rounded bg-emerald-900 border border-emerald-600 text-white text-sm">
+                </div>
+                <button type="submit" class="w-full bg-yellow-400 text-emerald-950 font-bold py-2 rounded-full shadow-lg hover:bg-yellow-300 transition mt-2">
+                    🚀 Publicar Video
+                </button>
+            </form>
+            <p id="mensaje-estado" class="text-center text-sm font-bold mt-2"></p>
+        </section>
+
+        <!-- SECCIÓN: APOYAR -->
+        <section id="seccion-apoyar" class="hidden space-y-4 bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 max-w-xl mx-auto">
+            <h2 class="text-2xl font-bold text-yellow-300 text-center">¡Apoya el Canal! 💚</h2>
+            <div class="mb-4 rounded-xl overflow-hidden border-2 border-yellow-400 shadow-md bg-emerald-950">
+                <div class="relative pb-[56.25%] h-0">
+                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://drive.google.com/file/d/1CyZUbzWJo7XCtVH4zhXI1qLYi7m7yOzG/preview" title="Motivo de la donación" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+                </div>
+            </div>
+            <p class="text-emerald-200 text-sm leading-relaxed text-center">
+                Agradecemos enormemente tus donaciones para seguir mejorando y creando más contenido de dinosaurios. 
+            </p>
+            <div class="bg-emerald-900 p-4 rounded-xl border border-emerald-700 text-left text-xs text-emerald-200 space-y-2">
+                <p class="font-bold text-yellow-300 text-center text-sm">🎁 Beneficio Especial:</p>
+                <p>• Como agradecimiento a tu donativo, crearemos un <strong>contenido especial</strong> mencionando el nombre que tú elijas.</p>
+                <p>• Este video de agradecimiento estará disponible por unos días en un área especial de la app.</p>
+            </div>
+            <div class="text-center pt-2">
+                <a href="https://link.mercadopago.com.mx/donaciondinoapp" target="_blank" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold px-8 py-3 rounded-full shadow-lg transition transform hover:scale-105">
+                    💙 Donar con Mercado Pago
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-emerald-950 text-center p-4 text-xs text-emerald-400">
+        © 2026 DinoAventura. Hecho con Supabase y GitHub.
+    </footer>
+
+    <script>
+        const SUPABASE_URL = 'https://tvwopixlckgjaswegmnt.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2d29waXhsY2tnamFzd2VnbW50Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NDk1MzUsImV4cCI6MjEwNzQyNTUzNX0.uwDXbE6DrcFZyjYwjv2UOva255MIGkF_cOC5-U3g1CU';
+        
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let audioCtx = null;
+
+        function inicializarAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
         }
 
-        segundaCarta = this;
-        verificarPareja();
-    }
+        // --- REPRODUCIR TAMBORES SELVÁTICOS ---
+        function reproducirTamboresSelva() {
+            inicializarAudioContext();
+            let tiempos = [0, 0.25, 0.5, 0.75, 1.2, 1.45];
+            let frecuencias = [110, 150, 90, 160, 100, 180];
+            let duraciones = [0.2, 0.15, 0.2, 0.15, 0.3, 0.2];
 
-    function verificarPareja() {
-        let coincide = primeraCarta.dataset.valor === segundaCarta.dataset.valor;
-        if (coincide) {
-            reproducirSonido('acierto');
-            primeraCarta.removeEventListener('click', voltearCarta);
-            segundaCarta.removeEventListener('click', voltearCarta);
-            resetearCartas();
-            parejasEncontradas++;
-            if (parejasEncontradas === dinos.length) {
-                document.getElementById('mensaje-memorama').innerText = "🎉 ¡Ganaste! ¡Eres un experto en dinos!";
-            }
-        } else {
-            bloqueo = true;
+            tiempos.forEach((t, i) => {
+                setTimeout(() => {
+                    if (!audioCtx) return;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+
+                    let ahora = audioCtx.currentTime;
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(frecuencias[i], ahora);
+                    osc.frequency.exponentialRampToValueAtTime(40, ahora + duraciones[i]);
+
+                    gain.gain.setValueAtTime(0.3, ahora);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ahora + duraciones[i]);
+
+                    osc.start(ahora);
+                    osc.stop(ahora + duraciones[i]);
+                }, t * 1000);
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(reproducirTamboresSelva, 500);
+        });
+
+        // --- RUGIDO DE T-REX ÉPICO AL ENTRAR ---
+        function reproducirRugidoTRex(callback) {
+            inicializarAudioContext();
+            let ahora = audioCtx.currentTime;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(140, ahora);
+            osc.frequency.linearRampToValueAtTime(70, ahora + 0.3);
+            osc.frequency.linearRampToValueAtTime(110, ahora + 0.6);
+            osc.frequency.linearRampToValueAtTime(50, ahora + 1.0);
+
+            gain.gain.setValueAtTime(0.4, ahora);
+            gain.gain.exponentialRampToValueAtTime(0.01, ahora + 1.1);
+
+            osc.start(ahora);
+            osc.stop(ahora + 1.1);
+
             setTimeout(() => {
-                primeraCarta.classList.remove('flipped');
-                segundaCarta.classList.remove('flipped');
-                resetearCartas();
+                reproducirSonido('acierto');
+                if(callback) callback();
             }, 900);
         }
-    }
 
-    function resetearCartas() {
-        [primeraCarta, segundaCarta, bloqueo] = [null, null, false];
-    }
-
-    // Colorear
-    let colorActual = '#ef4444';
-    function cambiarColor(color) {
-        colorActual = color;
-    }
-
-    function pintarParte(idParte) {
-        reproducirSonido('pintar');
-        document.getElementById(idParte).setAttribute('fill', colorActual);
-    }
-
-    function reiniciarColores() {
-        reproducirSonido('voltear');
-        ['part-cuerpo', 'part-cabeza', 'part-cola', 'part-patat', 'part-patad'].forEach(id => {
-            document.getElementById(id).setAttribute('fill', '#1e293b');
-        });
-    }
-
-    // JUEGO 3: PISTA SELVÁTICA
-    const pistas = [
-        { pregunta: "🌿 Es el rey de los dinosaurios carnívoros, tiene brazos pequeños y dientes gigantes. ¿Quién es?", respuesta: "T-Rex", opciones: ["T-Rex", "Triceratops", "Brontosaurio", "Velociraptor"] },
-        { pregunta: "🌿 Tiene un cuello larguísimo para alcanzar las hojas más altas de los árboles en la selva. ¿Quién es?", respuesta: "Cuellilargo", opciones: ["T-Rex", "Cuellilargo", "Spinosaurus", "Anquilosaurio"] },
-        { pregunta: "🌿 Le encantan los ríos de la selva y tiene una gran vela en su espalda como un tiburón. ¿Quién es?", respuesta: "Spinosaurus", opciones: ["Velociraptor", "Spinosaurus", "Triceratops", "Pterodáctilo"] }
-    ];
-    let indicePista = 0;
-
-    function cargarPista() {
-        const p = pistas[indicePista];
-        document.getElementById('pista-pregunta').innerText = p.pregunta;
-        document.getElementById('mensaje-pista').innerText = '';
-        const contenedorOpciones = document.getElementById('pista-opciones');
-        contenedorOpciones.innerHTML = '';
-
-        let opcionesMezcladas = [...p.opciones].sort(() => Math.random() - 0.5);
-
-        opcionesMezcladas.forEach(op => {
-            const btn = document.createElement('button');
-            btn.className = "bg-emerald-900 hover:bg-emerald-950 text-white font-bold p-3 rounded-xl border border-emerald-600 shadow transition text-sm";
-            btn.innerText = op;
-            btn.onclick = () => verificarPista(op, p.respuesta);
-            contenedorOpciones.appendChild(btn);
-        });
-    }
-
-    function verificarPista(elegida, correcta) {
-        const mensaje = document.getElementById('mensaje-pista');
-        if (elegida === correcta) {
-            reproducirSonido('acierto');
-            mensaje.innerText = "🌟 ¡Correcto! ¡Muy bien explorador!";
-            mensaje.className = "text-sm font-bold text-green-300 min-h-[24px]";
-        } else {
-            reproducirSonido('error');
-            mensaje.innerText = "❌ ¡Inténtalo de nuevo!";
-            mensaje.className = "text-sm font-bold text-yellow-300 min-h-[24px]";
+        // --- FUNCIÓN PARA ENTRAR A LA APLICACIÓN ---
+        function entrarAlApp() {
+            const pantalla = document.getElementById('pantalla-bienvenida');
+            reproducirRugidoTRex(() => {
+                pantalla.style.opacity = '0';
+                setTimeout(() => {
+                    pantalla.remove();
+                }, 400);
+            });
         }
-    }
 
-    function siguientePista() {
-        reproducirSonido('voltear');
-        indicePista = (indicePista + 1) % pistas.length;
-        cargarPista();
-    }
+        // --- EFECTOS DE SONIDO SINTETIZADOS ---
+        function reproducirSonido(tipo) {
+            inicializarAudioContext();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
 
-    // Carga de Videos y Subida
-    async function cargarVideos() {
-        const contenedor = document.getElementById('lista-videos');
-        try {
-            const { data: videos, error } = await supabaseClient
-                .from('videos')
-                .select('*')
-                .order('created_at', { ascending: false });
+            let ahora = audioCtx.currentTime;
 
-            if (error) throw error;
+            if (tipo === 'voltear') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(300, ahora);
+                osc.frequency.exponentialRampToValueAtTime(600, ahora + 0.1);
+                gain.gain.setValueAtTime(0.15, ahora);
+                gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.1);
+                osc.start(ahora);
+                osc.stop(ahora + 0.1);
+            } else if (tipo === 'acierto') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(400, ahora);
+                osc.frequency.setValueAtTime(600, ahora + 0.1);
+                osc.frequency.setValueAtTime(800, ahora + 0.2);
+                gain.gain.setValueAtTime(0.2, ahora);
+                gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.35);
+                osc.start(ahora);
+                osc.stop(ahora + 0.35);
+            } else if (tipo === 'error') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, ahora);
+                osc.frequency.setValueAtTime(120, ahora + 0.15);
+                gain.gain.setValueAtTime(0.15, ahora);
+                gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.3);
+                osc.start(ahora);
+                osc.stop(ahora + 0.3);
+            } else if (tipo === 'pintar') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(500, ahora);
+                osc.frequency.exponentialRampToValueAtTime(200, ahora + 0.08);
+                gain.gain.setValueAtTime(0.1, ahora);
+                gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.08);
+                osc.start(ahora);
+                osc.stop(ahora + 0.08);
+            }
+        }
 
-            if (!videos || videos.length === 0) {
-                contenedor.innerHTML = `<p class="text-emerald-300 col-span-2 text-center">No hay videos todavía. ¡Usa el botón "Subir Video" para agregar el primero!</p>`;
+        // --- MÚSICA DE SELVA ---
+        let musicaEncendida = false;
+        function toggleMusicaSelva() {
+            const audio = document.getElementById('audio-selva');
+            const btn = document.getElementById('btn-musica');
+            
+            if (!musicaEncendida) {
+                audio.play().then(() => {
+                    musicaEncendida = true;
+                    btn.innerHTML = "🎶 <span>Música de Selva: ENCENDIDA</span>";
+                    btn.className = "bg-green-400 hover:bg-green-300 text-emerald-950 text-xs font-bold px-3 py-1.5 rounded-full shadow transition flex items-center gap-1";
+                }).catch(e => console.log("Bloqueado por navegador", e));
+            } else {
+                audio.pause();
+                musicaEncendida = false;
+                btn.innerHTML = "🎵 <span>Música de Selva: APAGADA</span>";
+                btn.className = "bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold px-3 py-1.5 rounded-full shadow transition flex items-center gap-1";
+            }
+        }
+
+        function cambiarSeccion(seccion) {
+            ['videos', 'juegos', 'subir', 'apoyar'].forEach(s => {
+                document.getElementById(`seccion-${s}`).classList.add('hidden');
+                document.getElementById(`btn-${s}`).className = "bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition";
+            });
+
+            document.getElementById(`seccion-${seccion}`).classList.remove('hidden');
+            document.getElementById(`btn-${seccion}`).className = "bg-yellow-400 text-emerald-950 font-bold px-5 py-2 rounded-full shadow-md transition transform scale-105";
+            
+            if(seccion === 'videos') cargarVideos();
+        }
+
+        function abrirJuego(juego) {
+            ['memorama', 'colorear', 'pista'].forEach(j => {
+                document.getElementById(`juego-${j}`).classList.add('hidden');
+                document.getElementById(`tab-${j}`).className = "bg-emerald-800 text-white font-bold px-3 py-2 rounded-xl shadow text-sm";
+            });
+
+            document.getElementById(`juego-${juego}`).classList.remove('hidden');
+            document.getElementById(`tab-${juego}`).className = "bg-yellow-400 text-emerald-950 font-bold px-3 py-2 rounded-xl shadow text-sm";
+        }
+
+        // Memorama
+        const dinos = ['🦖', '🦕', '🐉', '🐲'];
+        let cartas = [...dinos, ...dinos];
+        let primeraCarta = null;
+        let segundaCarta = null;
+        let bloqueo = false;
+        let parejasEncontradas = 0;
+
+        function reiniciarMemorama() {
+            cartas.sort(() => Math.random() - 0.5);
+            const tablero = document.getElementById('tablero-memorama');
+            tablero.innerHTML = '';
+            parejasEncontradas = 0;
+            document.getElementById('mensaje-memorama').innerText = '';
+
+            cartas.forEach((dino) => {
+                const carta = document.createElement('div');
+                carta.className = "card h-20 bg-emerald-900 rounded-xl cursor-pointer perspective-1000 border-2 border-emerald-600 flex items-center justify-center text-3xl shadow";
+                carta.dataset.valor = dino;
+                carta.innerHTML = `
+                    <div class="card-inner w-full h-full relative flex items-center justify-center">
+                        <div class="card-front absolute inset-0 flex items-center justify-center bg-emerald-950 rounded-xl text-yellow-400 font-bold">❓</div>
+                        <div class="card-back absolute inset-0 flex items-center justify-center bg-yellow-400 rounded-xl">${dino}</div>
+                    </div>
+                `;
+                carta.addEventListener('click', voltearCarta);
+                tablero.appendChild(carta);
+            });
+        }
+
+        function voltearCarta() {
+            if (bloqueo) return;
+            if (this === primeraCarta) return;
+
+            reproducirSonido('voltear');
+            this.classList.add('flipped');
+
+            if (!primeraCarta) {
+                primeraCarta = this;
                 return;
             }
 
-            contenedor.innerHTML = '';
-            videos.forEach(video => {
-                let cleanId = video.youtube_id.split('?')[0].split('&')[0];
-                if (cleanId.includes('/')) {
-                    const parts = cleanId.split('/');
-                    cleanId = parts[parts.length - 1];
+            segundaCarta = this;
+            verificarPareja();
+        }
+
+        function verificarPareja() {
+            let coincide = primeraCarta.dataset.valor === segundaCarta.dataset.valor;
+            if (coincide) {
+                reproducirSonido('acierto');
+                primeraCarta.removeEventListener('click', voltearCarta);
+                segundaCarta.removeEventListener('click', voltearCarta);
+                resetearCartas();
+                parejasEncontradas++;
+                if (parejasEncontradas === dinos.length) {
+                    document.getElementById('mensaje-memorama').innerText = "🎉 ¡Ganaste! ¡Eres un experto en dinos!";
+                }
+            } else {
+                bloqueo = true;
+                setTimeout(() => {
+                    primeraCarta.classList.remove('flipped');
+                    segundaCarta.classList.remove('flipped');
+                    resetearCartas();
+                }, 900);
+            }
+        }
+
+        function resetearCartas() {
+            [primeraCarta, segundaCarta, bloqueo] = [null, null, false];
+        }
+
+        // Colorear
+        let colorActual = '#ef4444';
+        function cambiarColor(color) {
+            colorActual = color;
+        }
+
+        function pintarParte(idParte) {
+            reproducirSonido('pintar');
+            document.getElementById(idParte).setAttribute('fill', colorActual);
+        }
+
+        function reiniciarColores() {
+            reproducirSonido('voltear');
+            ['part-cuerpo', 'part-cabeza', 'part-cola', 'part-patat', 'part-patad'].forEach(id => {
+                document.getElementById(id).setAttribute('fill', '#1e293b');
+            });
+        }
+
+        // JUEGO 3: PISTA SELVÁTICA
+        const pistas = [
+            { pregunta: "🌿 Es el rey de los dinosaurios carnívoros, tiene brazos pequeños y dientes gigantes. ¿Quién es?", respuesta: "T-Rex", opciones: ["T-Rex", "Triceratops", "Brontosaurio", "Velociraptor"] },
+            { pregunta: "🌿 Tiene un cuello larguísimo para alcanzar las hojas más altas de los árboles en la selva. ¿Quién es?", respuesta: "Cuellilargo", opciones: ["T-Rex", "Cuellilargo", "Spinosaurus", "Anquilosaurio"] },
+            { pregunta: "🌿 Le encantan los ríos de la selva y tiene una gran vela en su espalda como un tiburón. ¿Quién es?", respuesta: "Spinosaurus", opciones: ["Velociraptor", "Spinosaurus", "Triceratops", "Pterodáctilo"] }
+        ];
+        let indicePista = 0;
+
+        function cargarPista() {
+            const p = pistas[indicePista];
+            document.getElementById('pista-pregunta').innerText = p.pregunta;
+            document.getElementById('mensaje-pista').innerText = '';
+            const contenedorOpciones = document.getElementById('pista-opciones');
+            contenedorOpciones.innerHTML = '';
+
+            let opcionesMezcladas = [...p.opciones].sort(() => Math.random() - 0.5);
+
+            opcionesMezcladas.forEach(op => {
+                const btn = document.createElement('button');
+                btn.className = "bg-emerald-900 hover:bg-emerald-950 text-white font-bold p-3 rounded-xl border border-emerald-600 shadow transition text-sm";
+                btn.innerText = op;
+                btn.onclick = () => verificarPista(op, p.respuesta);
+                contenedorOpciones.appendChild(btn);
+            });
+        }
+
+        function verificarPista(elegida, correcta) {
+            const mensaje = document.getElementById('mensaje-pista');
+            if (elegida === correcta) {
+                reproducirSonido('acierto');
+                mensaje.innerText = "🌟 ¡Correcto! ¡Muy bien explorador!";
+                mensaje.className = "text-sm font-bold text-green-300 min-h-[24px]";
+            } else {
+                reproducirSonido('error');
+                mensaje.innerText = "❌ ¡Inténtalo de nuevo!";
+                mensaje.className = "text-sm font-bold text-yellow-300 min-h-[24px]";
+            }
+        }
+
+        function siguientePista() {
+            reproducirSonido('voltear');
+            indicePista = (indicePista + 1) % pistas.length;
+            cargarPista();
+        }
+
+        // Carga de Videos y Subida
+        async function cargarVideos() {
+            const contenedor = document.getElementById('lista-videos');
+            try {
+                const { data: videos, error } = await supabaseClient
+                    .from('videos')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!videos || videos.length === 0) {
+                    contenedor.innerHTML = `<p class="text-emerald-300 col-span-2 text-center">No hay videos todavía. ¡Usa el botón "Subir Video" para agregar el primero!</p>`;
+                    return;
                 }
 
-                const tarjeta = document.createElement('div');
-                tarjeta.className = "bg-emerald-800 rounded-xl overflow-hidden shadow-lg border border-emerald-700 flex flex-col justify-between";
-                tarjeta.innerHTML = `
-                    <div>
-                        <div class="relative pb-[56.25%] h-0">
-                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${cleanId}" title="${video.title}" frameborder="0" allowfullscreen></iframe>
+                contenedor.innerHTML = '';
+                videos.forEach(video => {
+                    let cleanId = video.youtube_id.split('?')[0].split('&')[0];
+                    if (cleanId.includes('/')) {
+                        const parts = cleanId.split('/');
+                        cleanId = parts[parts.length - 1];
+                    }
+
+                    const tarjeta = document.createElement('div');
+                    tarjeta.className = "bg-emerald-800 rounded-xl overflow-hidden shadow-lg border border-emerald-700 flex flex-col justify-between";
+                    tarjeta.innerHTML = `
+                        <div>
+                            <div class="relative pb-[56.25%] h-0">
+                                <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${cleanId}" title="${video.title}" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-yellow-300 text-lg">${video.title}</h3>
+                                <span class="inline-block bg-emerald-900 text-emerald-200 text-xs px-2 py-1 rounded mt-2">${video.category || 'Dinosaurios'}</span>
+                            </div>
                         </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-yellow-300 text-lg">${video.title}</h3>
-                            <span class="inline-block bg-emerald-900 text-emerald-200 text-xs px-2 py-1 rounded mt-2">${video.category || 'Dinosaurios'}</span>
+                        <div class="p-4 pt-0">
+                            <button onclick="eliminarVideo(${video.id})" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2 rounded-lg transition shadow">
+                                🗑️ Eliminar este video
+                            </button>
                         </div>
-                    </div>
-                    <div class="p-4 pt-0">
-                        <button onclick="eliminarVideo(${video.id})" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2 rounded-lg transition shadow">
-                            🗑️ Eliminar este video
-                        </button>
-                    </div>
-                `;
-                contenedor.appendChild(tarjeta);
-            });
+                    `;
+                    contenedor.appendChild(tarjeta);
+                });
 
-        } catch (err) {
-            console.error('Error cargando videos:', err);
-            contenedor.innerHTML = `<p class="text-yellow-300 col-span-2 text-center">Hubo un error cargando los videos.</p>`;
+            } catch (err) {
+                console.error('Error cargando videos:', err);
+                contenedor.innerHTML = `<p class="text-yellow-300 col-span-2 text-center">Hubo un error cargando los videos.</p>`;
+            }
         }
-    }
 
-    async function eliminarVideo(id) {
-        if (!confirm("¿Estás seguro de que quieres eliminar este video?")) return;
+        async function eliminarVideo(id) {
+            if (!confirm("¿Estás seguro de que quieres eliminar este video?")) return;
 
-        const { error } = await supabaseClient
-            .from('videos')
-            .delete()
-            .eq('id', id);
+            const { error } = await supabaseClient
+                .from('videos')
+                .delete()
+                .eq('id', id);
 
-        if (error) {
-            alert("Hubo un error al eliminar el video.");
-        } else {
-            cargarVideos(); 
+            if (error) {
+                alert("Hubo un error al eliminar el video.");
+            } else {
+                cargarVideos(); 
+            }
         }
-    }
 
-    async function subirVideo(e) {
-        e.preventDefault();
-        let rawYtId = document.getElementById('input-ytid').value.trim();
-        
-        if (rawYtId.includes('youtu.be/')) {
-            rawYtId = rawYtId.split('youtu.be/')[1];
-        } else if (rawYtId.includes('watch?v=')) {
-            rawYtId = rawYtId.split('watch?v=')[1];
-        } else if (rawYtId.includes('/shorts/')) {
-            rawYtId = rawYtId.split('/shorts/')[1];
+        async function subirVideo(e) {
+            e.preventDefault();
+            let rawYtId = document.getElementById('input-ytid').value.trim();
+            
+            if (rawYtId.includes('youtu.be/')) {
+                rawYtId = rawYtId.split('youtu.be/')[1];
+            } else if (rawYtId.includes('watch?v=')) {
+                rawYtId = rawYtId.split('watch?v=')[1];
+            } else if (rawYtId.includes('/shorts/')) {
+                rawYtId = rawYtId.split('/shorts/')[1];
+            }
+            const ytid = rawYtId.split('?')[0].split('&')[0];
+
+            const titulo = document.getElementById('input-titulo').value;
+            const categoria = document.getElementById('input-cat').value || 'Dinosaurios';
+            const estado = document.getElementById('mensaje-estado');
+
+            estado.innerText = "Publicando...";
+            estado.className = "text-center text-sm font-bold mt-2 text-yellow-300";
+
+            const { error } = await supabaseClient
+                .from('videos')
+                .insert([{ title: titulo, youtube_id: ytid, category: categoria }]);
+
+            if (error) {
+                console.error(error);
+                estado.innerText = "❌ Error al publicar.";
+                estado.className = "text-center text-sm font-bold mt-2 text-red-400";
+            } else {
+                estado.innerText = "¡Video publicado con éxito! 🦖";
+                estado.className = "text-center text-sm font-bold mt-2 text-green-300";
+                document.getElementById('form-video').reset();
+                cargarVideos(); 
+                cambiarSeccion('videos');
+            }
         }
-        const ytid = rawYtId.split('?')[0].split('&')[0];
 
-        const titulo = document.getElementById('input-titulo').value;
-        const categoria = document.getElementById('input-cat').value || 'Dinosaurios';
-        const estado = document.getElementById('mensaje-estado');
-
-        estado.innerText = "Publicando...";
-        estado.className = "text-center text-sm font-bold mt-2 text-yellow-300";
-
-        const { error } = await supabaseClient
-            .from('videos')
-            .insert([{ title: titulo, youtube_id: ytid, category: categoria }]);
-
-        if (error) {
-            console.error(error);
-            estado.innerText = "❌ Error al publicar.";
-            estado.className = "text-center text-sm font-bold mt-2 text-red-400";
-        } else {
-            estado.innerText = "¡Video publicado con éxito! 🦖";
-            estado.className = "text-center text-sm font-bold mt-2 text-green-300";
-            document.getElementById('form-video').reset();
-            cargarVideos(); 
-            cambiarSeccion('videos');
-        }
-    }
-
-    // Inicializar juegos al cargar
-    reiniciarMemorama();
-    cargarPista();
-    cargarVideos();
-</script>
+        // Inicializar juegos al cargar
+        reiniciarMemorama();
+        cargarPista();
+        cargarVideos();
+    </script>
+</body>
+</html>
