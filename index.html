@@ -91,58 +91,72 @@
             </div>
         </section>
 
-        <!-- SECCIÓN: JUEGOS -->
+        <!-- SECCIÓN: JUEGOS CON NIVELES -->
         <section id="seccion-juegos" class="space-y-6">
-            <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center drop-shadow">🎮 Zona de Juegos Divertidos</h2>
+            <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center drop-shadow">🎮 Zona de Juegos con Niveles</h2>
+            
             <div class="flex justify-center gap-2 flex-wrap">
                 <button onclick="abrirJuego('memorama')" id="tab-memorama" class="bg-yellow-400 text-emerald-950 font-bold px-3 py-2 rounded-xl shadow text-sm">🧠 Memorama</button>
                 <button onclick="abrirJuego('colorear')" id="tab-colorear" class="bg-emerald-950/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700">🎨 Colorear</button>
                 <button onclick="abrirJuego('pista')" id="tab-pista" class="bg-emerald-950/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700">🌿 Pista Selvática</button>
             </div>
 
-            <!-- Memorama -->
+            <!-- JUEGO 1: MEMORAMA MULTINIVEL -->
             <div id="juego-memorama" class="bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold text-yellow-200">Encuentra las parejas</h3>
-                    <button onclick="reiniciarMemorama()" class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-lg">🔄 Reiniciar</button>
+                <div class="flex justify-between items-center mb-3">
+                    <h3 id="titulo-nivel-memorama" class="text-lg font-bold text-yellow-200">🧠 Memorama - Nivel 1 (Fácil)</h3>
+                    <button onclick="reiniciarMemorama()" class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-lg shadow">🔄 Reiniciar</button>
                 </div>
+                
                 <div id="tablero-memorama" class="grid grid-cols-4 gap-3"></div>
-                <p id="mensaje-memorama" class="mt-4 text-sm font-bold text-yellow-300"></p>
+                
+                <!-- Pantalla de Victoria y Paso a Siguiente Nivel -->
+                <div id="pantalla-victoria-memorama" class="hidden mt-4 p-4 bg-emerald-900 border-2 border-yellow-400 rounded-xl space-y-2 animate-bounce">
+                    <p class="text-lg font-bold text-yellow-300">🎉 ¡Increíble! ¡Pasaste el Nivel!</p>
+                    <button onclick="siguienteNivelMemorama()" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-950 font-black px-6 py-2 rounded-xl shadow-lg transition">
+                        ⭐ ¡Ir al Siguiente Nivel! 🚀
+                    </button>
+                </div>
             </div>
 
-            <!-- Colorear -->
+            <!-- JUEGO 2: COLOREAR MULTINIVEL -->
             <div id="juego-colorear" class="hidden bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto">
-                <h3 class="text-xl font-bold text-yellow-200 mb-2">¡Pinta tu propio T-Rex!</h3>
-                <p class="text-xs text-emerald-200 mb-4">Elige un color y toca las partes del dinosaurio para pintarlas.</p>
-                <div class="flex justify-center gap-3 mb-4">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 id="titulo-nivel-colorear" class="text-lg font-bold text-yellow-200">🎨 Galería de Colores - Nivel 1: T-Rex</h3>
+                    <button onclick="cambiarNivelColorear()" class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-lg shadow">🔄 Cambiar Dino</button>
+                </div>
+                <p class="text-xs text-emerald-200 mb-3">Elige un color y toca las partes para pintarlo.</p>
+                
+                <div class="flex justify-center gap-3 mb-3">
                     <button onclick="cambiarColor('#ef4444')" class="w-8 h-8 rounded-full bg-red-500 border-2 border-white shadow transform hover:scale-110"></button>
                     <button onclick="cambiarColor('#22c55e')" class="w-8 h-8 rounded-full bg-green-500 border-2 border-white shadow transform hover:scale-110"></button>
                     <button onclick="cambiarColor('#3b82f6')" class="w-8 h-8 rounded-full bg-blue-500 border-2 border-white shadow transform hover:scale-110"></button>
                     <button onclick="cambiarColor('#eab308')" class="w-8 h-8 rounded-full bg-yellow-400 border-2 border-white shadow transform hover:scale-110"></button>
                     <button onclick="cambiarColor('#a855f7')" class="w-8 h-8 rounded-full bg-purple-500 border-2 border-white shadow transform hover:scale-110"></button>
-                    <button onclick="cambiarColor('#ec4899')" class="w-8 h-8 rounded-full bg-pink-500 border-2 border-white shadow transform hover:scale-110"></button>
                 </div>
+
                 <div class="bg-emerald-900/80 p-4 rounded-xl border border-emerald-700 flex justify-center">
-                    <svg viewBox="0 0 200 180" class="w-64 h-56 cursor-pointer">
-                        <path id="part-cuerpo" onclick="pintarParte('part-cuerpo')" d="M70,90 Q90,70 130,90 Q150,110 130,130 Q90,140 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <path id="part-cabeza" onclick="pintarParte('part-cabeza')" d="M130,70 Q160,50 150,90 Q130,100 120,90 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <circle cx="140" cy="73" r="4" fill="white"/>
-                        <circle cx="141" cy="73" r="2" fill="black"/>
-                        <path id="part-cola" onclick="pintarParte('part-cola')" d="M70,100 Q30,80 10,60 Q30,110 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <path id="part-patat" onclick="pintarParte('part-patat')" d="M110,130 Q120,160 100,160 Q95,140 105,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <path id="part-patad" onclick="pintarParte('part-patad')" d="M130,115 Q145,145 135,145 Q125,135 125,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                    </svg>
+                    <!-- Contenedor SVG dinámico para diferentes dinosaurios por nivel -->
+                    <div id="lienzo-dino" class="w-64 h-56 flex items-center justify-center cursor-pointer"></div>
                 </div>
-                <button onclick="reiniciarColores()" class="mt-4 bg-emerald-900 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">🔄 Limpiar Colores</button>
+
+                <div id="pantalla-victoria-colorear" class="hidden mt-3 p-3 bg-emerald-900 border border-yellow-400 rounded-xl">
+                    <p class="text-sm font-bold text-yellow-300">🌟 ¡Obra de arte jurásica completada!</p>
+                    <button onclick="cambiarNivelColorear()" class="mt-2 bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-lg text-xs shadow">Siguiente Dinosaurio ➡️</button>
+                </div>
             </div>
 
-            <!-- Pista Selvática -->
+            <!-- JUEGO 3: PISTA SELVÁTICA MULTINIVEL -->
             <div id="juego-pista" class="hidden bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto space-y-4">
-                <h3 class="text-xl font-bold text-yellow-200">🌿 Adivinanza en la Selva Jurásica</h3>
+                <h3 id="titulo-nivel-pista" class="text-lg font-bold text-yellow-200">🌿 Adivinanzas - Nivel 1</h3>
                 <p id="pista-pregunta" class="text-sm text-emerald-100 font-semibold bg-emerald-900 p-3 rounded-xl border border-emerald-700">Cargando pista...</p>
                 <div id="pista-opciones" class="grid grid-cols-2 gap-3"></div>
                 <p id="mensaje-pista" class="text-sm font-bold text-yellow-300 min-h-[24px]"></p>
-                <button onclick="siguientePista()" class="bg-yellow-400 text-emerald-950 font-bold text-xs px-4 py-2 rounded-lg shadow">➡️ Siguiente Pista</button>
+                
+                <div id="pantalla-victoria-pista" class="hidden p-3 bg-emerald-900 border border-yellow-400 rounded-xl">
+                    <p class="text-sm font-bold text-yellow-300">🎉 ¡Ronda superada con éxito!</p>
+                    <button onclick="siguienteNivelPista()" class="mt-2 bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-lg text-xs shadow">🚀 Avanzar al Siguiente Nivel</button>
+                </div>
             </div>
         </section>
 
@@ -204,14 +218,9 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let audioCtx = null;
-
         function inicializarAudioContext() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
         }
 
         function reproducirTamboresSelva() {
@@ -227,15 +236,12 @@
                     const gain = audioCtx.createGain();
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
-
                     let ahora = audioCtx.currentTime;
                     osc.type = 'triangle';
                     osc.frequency.setValueAtTime(frecuencias[i], ahora);
                     osc.frequency.exponentialRampToValueAtTime(30, ahora + duraciones[i]);
-
                     gain.gain.setValueAtTime(0.4, ahora);
                     gain.gain.exponentialRampToValueAtTime(0.01, ahora + duraciones[i]);
-
                     osc.start(ahora);
                     osc.stop(ahora + duraciones[i]);
                 }, t * 1000);
@@ -245,40 +251,30 @@
         function reproducirEntradaSelvatica(callback) {
             inicializarAudioContext();
             reproducirTamboresSelva();
-
             let ahora = audioCtx.currentTime + 0.2;
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.connect(gain);
             gain.connect(audioCtx.destination);
-
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(130, ahora);
             osc.frequency.linearRampToValueAtTime(60, ahora + 0.4);
             osc.frequency.linearRampToValueAtTime(100, ahora + 0.8);
             osc.frequency.linearRampToValueAtTime(40, ahora + 1.4);
-
             gain.gain.setValueAtTime(0.5, ahora);
             gain.gain.exponentialRampToValueAtTime(0.01, ahora + 1.5);
-
             osc.start(ahora);
             osc.stop(ahora + 1.5);
-
-            setTimeout(() => {
-                if(callback) callback();
-            }, 1600);
+            setTimeout(() => { if(callback) callback(); }, 1600);
         }
 
         function entrarAlApp() {
             const pantalla = document.getElementById('pantalla-bienvenida');
             event.target.style.pointerEvents = 'none';
             event.target.innerText = "🌿 ¡Entrando a la Selva...!";
-
             reproducirEntradaSelvatica(() => {
                 pantalla.style.opacity = '0';
-                setTimeout(() => {
-                    pantalla.remove();
-                }, 500);
+                setTimeout(() => { pantalla.remove(); }, 500);
             });
         }
 
@@ -288,7 +284,6 @@
             const gain = audioCtx.createGain();
             osc.connect(gain);
             gain.connect(audioCtx.destination);
-
             let ahora = audioCtx.currentTime;
 
             if (tipo === 'voltear') {
@@ -297,8 +292,7 @@
                 osc.frequency.exponentialRampToValueAtTime(600, ahora + 0.1);
                 gain.gain.setValueAtTime(0.15, ahora);
                 gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.1);
-                osc.start(ahora);
-                osc.stop(ahora + 0.1);
+                osc.start(ahora); osc.stop(ahora + 0.1);
             } else if (tipo === 'acierto') {
                 osc.type = 'triangle';
                 osc.frequency.setValueAtTime(400, ahora);
@@ -306,24 +300,21 @@
                 osc.frequency.setValueAtTime(800, ahora + 0.2);
                 gain.gain.setValueAtTime(0.2, ahora);
                 gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.35);
-                osc.start(ahora);
-                osc.stop(ahora + 0.35);
+                osc.start(ahora); osc.stop(ahora + 0.35);
             } else if (tipo === 'error') {
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(200, ahora);
                 osc.frequency.setValueAtTime(120, ahora + 0.15);
                 gain.gain.setValueAtTime(0.15, ahora);
                 gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.3);
-                osc.start(ahora);
-                osc.stop(ahora + 0.3);
+                osc.start(ahora); osc.stop(ahora + 0.3);
             } else if (tipo === 'pintar') {
                 osc.type = 'square';
                 osc.frequency.setValueAtTime(500, ahora);
                 osc.frequency.exponentialRampToValueAtTime(200, ahora + 0.08);
                 gain.gain.setValueAtTime(0.1, ahora);
                 gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.08);
-                osc.start(ahora);
-                osc.stop(ahora + 0.08);
+                osc.start(ahora); osc.stop(ahora + 0.08);
             }
         }
 
@@ -331,13 +322,12 @@
         function toggleMusicaSelva() {
             const audio = document.getElementById('audio-selva');
             const btn = document.getElementById('btn-musica');
-            
             if (!musicaEncendida) {
                 audio.play().then(() => {
                     musicaEncendida = true;
                     btn.innerHTML = "🎶 <span>Música de Selva: ENCENDIDA</span>";
                     btn.className = "bg-green-400 hover:bg-green-300 text-emerald-950 text-xs font-bold px-3 py-1.5 rounded-full shadow transition flex items-center gap-1";
-                }).catch(e => console.log("Bloqueado por navegador", e));
+                }).catch(e => console.log("Bloqueado", e));
             } else {
                 audio.pause();
                 musicaEncendida = false;
@@ -351,10 +341,8 @@
                 document.getElementById(`seccion-${s}`).classList.add('hidden');
                 document.getElementById(`btn-${s}`).className = "bg-emerald-900/90 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-700";
             });
-
             document.getElementById(`seccion-${seccion}`).classList.remove('hidden');
             document.getElementById(`btn-${seccion}`).className = "bg-yellow-400 text-emerald-950 font-bold px-5 py-2 rounded-full shadow-md transition transform scale-105 border border-yellow-500";
-            
             if(seccion === 'videos') cargarVideos();
         }
 
@@ -363,25 +351,26 @@
                 document.getElementById(`juego-${j}`).classList.add('hidden');
                 document.getElementById(`tab-${j}`).className = "bg-emerald-950/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700";
             });
-
             document.getElementById(`juego-${juego}`).classList.remove('hidden');
             document.getElementById(`tab-${juego}`).className = "bg-yellow-400 text-emerald-950 font-bold px-3 py-2 rounded-xl shadow text-sm";
         }
 
-        // Memorama
-        const dinos = ['🦖', '🦕', '🐉', '🐲'];
-        let cartas = [...dinos, ...dinos];
-        let primeraCarta = null;
-        let segundaCarta = null;
-        let bloqueo = false;
+        // --- JUEGO 1: MEMORAMA MULTINIVEL ---
+        let nivelMemorama = 1;
         let parejasEncontradas = 0;
+        let primeraCarta = null, segundaCarta = null, bloqueoMemorama = false;
 
         function reiniciarMemorama() {
+            let dinosPool = nivelMemorama === 1 ? ['🦖', '🦕', '🐉', '🐲'] : (nivelMemorama === 2 ? ['🦖', '🦕', '🐉', '🐲', '🐢', '🐍'] : ['🦖', '🦕', '🐉', '🐲', '🐢', '🐍', '🐊', '🐅']);
+            let cartas = [...dinosPool, ...dinosPool];
             cartas.sort(() => Math.random() - 0.5);
+
             const tablero = document.getElementById('tablero-memorama');
+            tablero.className = nivelMemorama === 1 ? "grid grid-cols-4 gap-3" : (nivelMemorama === 2 ? "grid grid-cols-4 gap-2" : "grid grid-cols-4 gap-2");
             tablero.innerHTML = '';
             parejasEncontradas = 0;
-            document.getElementById('mensaje-memorama').innerText = '';
+            document.getElementById('pantalla-victoria-memorama').classList.add('hidden');
+            document.getElementById('titulo-nivel-memorama').innerText = `🧠 Memorama - Nivel ${nivelMemorama} (${nivelMemorama === 1 ? 'Fácil' : (nivelMemorama === 2 ? 'Medio' : '¡Experto!')})`;
 
             cartas.forEach((dino) => {
                 const carta = document.createElement('div');
@@ -393,15 +382,13 @@
                         <div class="card-back absolute inset-0 flex items-center justify-center bg-yellow-400 rounded-xl">${dino}</div>
                     </div>
                 `;
-                carta.addEventListener('click', voltearCarta);
+                carta.addEventListener('click', voltearCartaMemorama);
                 tablero.appendChild(carta);
             });
         }
 
-        function voltearCarta() {
-            if (bloqueo) return;
-            if (this === primeraCarta) return;
-
+        function voltearCartaMemorama() {
+            if (bloqueoMemorama || this === primeraCarta || this.classList.contains('flipped')) return;
             reproducirSonido('voltear');
             this.classList.add('flipped');
 
@@ -409,69 +396,128 @@
                 primeraCarta = this;
                 return;
             }
-
             segundaCarta = this;
-            verificarPareja();
+            verificarParejaMemorama();
         }
 
-        function verificarPareja() {
+        function verificarParejaMemorama() {
             let coincide = primeraCarta.dataset.valor === segundaCarta.dataset.valor;
+            let totalParejas = nivelMemorama === 1 ? 4 : (nivelMemorama === 2 ? 6 : 8);
+
             if (coincide) {
                 reproducirSonido('acierto');
-                primeraCarta.removeEventListener('click', voltearCarta);
-                segundaCarta.removeEventListener('click', voltearCarta);
-                resetearCartas();
+                primeraCarta.removeEventListener('click', voltearCartaMemorama);
+                segundaCarta.removeEventListener('click', voltearCartaMemorama);
+                primeraCarta = null; segundaCarta = null;
                 parejasEncontradas++;
-                if (parejasEncontradas === dinos.length) {
-                    document.getElementById('mensaje-memorama').innerText = "🎉 ¡Ganaste! ¡Eres un experto en dinos!";
+                if (parejasEncontradas === totalParejas) {
+                    document.getElementById('pantalla-victoria-memorama').classList.remove('hidden');
                 }
             } else {
-                bloqueo = true;
+                bloqueoMemorama = true;
                 setTimeout(() => {
                     primeraCarta.classList.remove('flipped');
                     segundaCarta.classList.remove('flipped');
-                    resetearCartas();
-                }, 900);
+                    primeraCarta = null; segundaCarta = null; bloqueoMemorama = false;
+                }, 800);
             }
         }
 
-        function resetearCartas() {
-            [primeraCarta, segundaCarta, bloqueo] = [null, null, false];
+        function siguienteNivelMemorama() {
+            nivelMemorama = nivelMemorama >= 3 ? 1 : nivelMemorama + 1;
+            reiniciarMemorama();
         }
 
-        // Colorear
+        // --- JUEGO 2: COLOREAR MULTINIVEL ---
+        let nivelColorear = 1;
         let colorActual = '#ef4444';
         function cambiarColor(color) { colorActual = color; }
+
+        function cargarColorear() {
+            const lienzo = document.getElementById('lienzo-dino');
+            document.getElementById('titulo-nivel-colorear').innerText = nivelColorear === 1 ? "🎨 Nivel 1: T-Rex Feroz" : (nivelColorear === 2 ? "🎨 Nivel 2: Cuellilargo Gigante" : "🎨 Nivel 3: Pterodáctilo Volador");
+            document.getElementById('pantalla-victoria-colorear').classList.add('hidden');
+
+            if (nivelColorear === 1) {
+                lienzo.innerHTML = `
+                    <svg viewBox="0 0 200 180" class="w-64 h-56 cursor-pointer">
+                        <path id="part-cuerpo" onclick="pintarParte('part-cuerpo')" d="M70,90 Q90,70 130,90 Q150,110 130,130 Q90,140 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <path id="part-cabeza" onclick="pintarParte('part-cabeza')" d="M130,70 Q160,50 150,90 Q130,100 120,90 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <circle cx="140" cy="73" r="4" fill="white"/><circle cx="141" cy="73" r="2" fill="black"/>
+                        <path id="part-cola" onclick="pintarParte('part-cola')" d="M70,100 Q30,80 10,60 Q30,110 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <path id="part-patat" onclick="pintarParte('part-patat')" d="M110,130 Q120,160 100,160 Q95,140 105,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <path id="part-patad" onclick="pintarParte('part-patad')" d="M130,115 Q145,145 135,145 Q125,135 125,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                    </svg>`;
+            } else if (nivelColorear === 2) {
+                lienzo.innerHTML = `
+                    <svg viewBox="0 0 200 180" class="w-64 h-56 cursor-pointer">
+                        <path id="part-cuerpo" onclick="pintarParte('part-cuerpo')" d="M60,100 Q90,80 130,110 Q110,140 60,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <path id="part-cuello" onclick="pintarParte('part-cuello')" d="M120,110 Q150,50 160,40 Q170,60 135,100 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <path id="part-cola" onclick="pintarParte('part-cola')" d="M60,110 Q30,100 10,80 Q30,130 60,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <path id="part-patas" onclick="pintarParte('part-patas')" d="M70,130 Q80,160 70,160 Q65,135 65,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                    </svg>`;
+            } else {
+                lienzo.innerHTML = `
+                    <svg viewBox="0 0 200 180" class="w-64 h-56 cursor-pointer">
+                        <path id="part-cuerpo" onclick="pintarParte('part-cuerpo')" d="M80,90 Q100,80 120,90 Q110,120 80,110 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <path id="part-alas" onclick="pintarParte('part-alas')" d="M90,90 Q140,40 160,60 Q110,90 90,90 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                        <path id="part-cabeza" onclick="pintarParte('part-cabeza')" d="M120,90 Q140,80 150,90 Q135,100 120,90 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
+                    </svg>`;
+            }
+        }
 
         function pintarParte(idParte) {
             reproducirSonido('pintar');
             document.getElementById(idParte).setAttribute('fill', colorActual);
+            document.getElementById('pantalla-victoria-colorear').classList.remove('hidden');
         }
 
-        function reiniciarColores() {
-            reproducirSonido('voltear');
-            ['part-cuerpo', 'part-cabeza', 'part-cola', 'part-patat', 'part-patad'].forEach(id => {
-                document.getElementById(id).setAttribute('fill', '#1e293b');
-            });
+        function cambiarNivelColorear() {
+            nivelColorear = nivelColorear >= 3 ? 1 : nivelColorear + 1;
+            cargarColorear();
         }
 
-        // Pista Selvática
-        const pistas = [
-            { pregunta: "🌿 Es el rey de los dinosaurios carnívoros, tiene brazos pequeños y dientes gigantes. ¿Quién es?", respuesta: "T-Rex", opciones: ["T-Rex", "Triceratops", "Brontosaurio", "Velociraptor"] },
-            { pregunta: "🌿 Tiene un cuello larguísimo para alcanzar las hojas más altas de los árboles en la selva. ¿Quién es?", respuesta: "Cuellilargo", opciones: ["T-Rex", "Cuellilargo", "Spinosaurus", "Anquilosaurio"] },
-            { pregunta: "🌿 Le encantan los ríos de la selva y tiene una gran vela en su espalda como un tiburón. ¿Quién es?", respuesta: "Spinosaurus", opciones: ["Velociraptor", "Spinosaurus", "Triceratops", "Pterodáctilo"] }
+        // --- JUEGO 3: PISTA SELVÁTICA MULTINIVEL ---
+        const bloquesPistas = [
+            // Nivel 1
+            [
+                { pregunta: "🌿 Es el rey de los carnívoros, brazos pequeños y dientes gigantes. ¿Quién es?", respuesta: "T-Rex", opciones: ["T-Rex", "Triceratops", "Brontosaurio", "Velociraptor"] },
+                { pregunta: "🌿 Cuello larguísimo para alcanzar las hojas altas. ¿Quién es?", respuesta: "Cuellilargo", opciones: ["T-Rex", "Cuellilargo", "Spinosaurus", "Anquilosaurio"] }
+            ],
+            // Nivel 2
+            [
+                { pregunta: "🌿 Tiene tres cuernos en la cabeza y un escudo óseo. ¿Quién es?", respuesta: "Triceratops", opciones: ["Velociraptor", "Triceratops", "Diplodocus", "Stegosaurus"] },
+                { pregunta: "🌿 Pequeño, rápido y muy inteligente cazando en grupo. ¿Quién es?", respuesta: "Velociraptor", opciones: ["T-Rex", "Velociraptor", "Anquilosaurio", "Parasaurolophus"] }
+            ],
+            // Nivel 3
+            [
+                { pregunta: "🌿 Tiene placas en la espalda y una cola con púas afiladas. ¿Quién es?", respuesta: "Stegosaurus", opciones: ["Stegosaurus", "T-Rex", "Triceratops", "Spinosaurus"] },
+                { pregunta: "🌿 Caparazón blindado con un gran mazo en la cola. ¿Quién es?", respuesta: "Anquilosaurio", opciones: ["Velociraptor", "Anquilosaurio", "Cuellilargo", "Pterodáctilo"] }
+            ]
         ];
-        let indicePista = 0;
+
+        let nivelPista = 1;
+        let indicePreguntaPista = 0;
 
         function cargarPista() {
-            const p = pistas[indicePista];
+            let ronda = bloquesPistas[nivelPista - 1];
+            document.getElementById('titulo-nivel-pista').innerText = `🌿 Adivinanzas - Nivel ${nivelPista}`;
+            document.getElementById('pantalla-victoria-pista').classList.add('hidden');
+
+            if (indicePreguntaPista >= ronda.length) {
+                document.getElementById('pista-pregunta').innerText = "🏆 ¡Has completado todas las pistas de este nivel!";
+                document.getElementById('pista-opciones').innerHTML = '';
+                document.getElementById('pantalla-victoria-pista').classList.remove('hidden');
+                return;
+            }
+
+            const p = ronda[indicePreguntaPista];
             document.getElementById('pista-pregunta').innerText = p.pregunta;
             document.getElementById('mensaje-pista').innerText = '';
             const contenedorOpciones = document.getElementById('pista-opciones');
             contenedorOpciones.innerHTML = '';
 
             let opcionesMezcladas = [...p.opciones].sort(() => Math.random() - 0.5);
-
             opcionesMezcladas.forEach(op => {
                 const btn = document.createElement('button');
                 btn.className = "bg-emerald-900 hover:bg-emerald-950 text-white font-bold p-3 rounded-xl border border-emerald-600 shadow transition text-sm";
@@ -482,25 +528,26 @@
         }
 
         function verificarPista(elegida, correcta) {
+            let ronda = bloquesPistas[nivelPista - 1];
             const mensaje = document.getElementById('mensaje-pista');
             if (elegida === correcta) {
                 reproducirSonido('acierto');
-                mensaje.innerText = "🌟 ¡Correcto! ¡Muy bien explorador!";
-                mensaje.className = "text-sm font-bold text-green-300 min-h-[24px]";
+                mensaje.innerText = "🌟 ¡Correcto!";
+                indicePreguntaPista++;
+                setTimeout(() => { cargarPista(); }, 1000);
             } else {
                 reproducirSonido('error');
                 mensaje.innerText = "❌ ¡Inténtalo de nuevo!";
-                mensaje.className = "text-sm font-bold text-yellow-300 min-h-[24px]";
             }
         }
 
-        function siguientePista() {
-            reproducirSonido('voltear');
-            indicePista = (indicePista + 1) % pistas.length;
+        function siguienteNivelPista() {
+            nivelPista = nivelPista >= 3 ? 1 : nivelPista + 1;
+            indicePreguntaPista = 0;
             cargarPista();
         }
 
-        // --- CARGA DE VIDEOS, LIKES Y COMENTARIOS ROBUSTA ---
+        // --- VIDEOS Y SUPABASE ---
         async function cargarVideos() {
             const contenedor = document.getElementById('lista-videos');
             try {
@@ -510,9 +557,8 @@
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
-
                 if (!videos || videos.length === 0) {
-                    contenedor.innerHTML = `<p class="text-emerald-300 col-span-2 text-center">No hay videos todavía. ¡Usa el botón "Subir Video" para agregar el primero!</p>`;
+                    contenedor.innerHTML = `<p class="text-emerald-300 col-span-2 text-center">No hay videos todavía.</p>`;
                     return;
                 }
 
@@ -526,18 +572,13 @@
 
                     let comentariosLista = '';
                     let commentsArr = [];
-                    
                     if (video.comments) {
-                        try {
-                            commentsArr = typeof video.comments === 'string' ? JSON.parse(video.comments) : video.comments;
-                        } catch(e) {
-                            commentsArr = [];
-                        }
+                        try { commentsArr = typeof video.comments === 'string' ? JSON.parse(video.comments) : video.comments; } catch(e) { commentsArr = []; }
                     }
 
                     if (Array.isArray(commentsArr) && commentsArr.length > 0) {
                         commentsArr.forEach(c => {
-                            comentariosLista += `<div class="bg-emerald-900/60 p-2 rounded-lg text-xs mb-1 border border-emerald-700/50">🦖 <strong>${c.nombre || 'Explorador'} :</strong> ${c.texto || ''}</div>`;
+                            comentariosLista += `<div class="bg-emerald-900/60 p-2 rounded-lg text-xs mb-1 border border-emerald-700/50">🦖 <strong>${c.nombre || 'Explorador'}:</strong> ${c.texto || ''}</div>`;
                         });
                     } else {
                         comentariosLista = `<p class="text-xs text-emerald-400 italic">Sé el primero en comentar...</p>`;
@@ -555,20 +596,14 @@
                                     <h3 class="font-bold text-yellow-300 text-lg">${video.title}</h3>
                                     <span class="inline-block bg-emerald-900 text-emerald-200 text-xs px-2 py-1 rounded mt-1">${video.category || 'Dinosaurios'}</span>
                                 </div>
-
-                                <!-- Botón de Reacciones (Likes) -->
                                 <div class="flex items-center justify-between pt-2 border-t border-emerald-900">
                                     <button onclick="darLike(${video.id}, ${video.likes || 0})" class="bg-emerald-900 hover:bg-emerald-800 text-yellow-300 font-bold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1.5 transition border border-emerald-700">
                                         💚 Me gusta <span class="bg-emerald-950 px-2 py-0.5 rounded-full text-white">${video.likes || 0}</span>
                                     </button>
                                 </div>
-
-                                <!-- Sección de Comentarios -->
                                 <div class="space-y-2 pt-2 border-t border-emerald-900">
                                     <p class="text-xs font-bold text-yellow-200">💬 Comentarios de Exploradores:</p>
-                                    <div class="max-h-28 overflow-y-auto space-y-1 pr-1">
-                                        ${comentariosLista}
-                                    </div>
+                                    <div class="max-h-28 overflow-y-auto space-y-1 pr-1">${comentariosLista}</div>
                                     <form onsubmit="agregarComentario(event, ${video.id})" class="flex gap-1 pt-1">
                                         <input type="text" id="input-comentario-${video.id}" required placeholder="Escribe tu comentario..." class="flex-grow p-1.5 text-xs rounded bg-emerald-900 border border-emerald-700 text-white focus:outline-none focus:border-yellow-400">
                                         <button type="submit" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-950 font-bold px-3 py-1.5 rounded text-xs shadow">Enviar</button>
@@ -579,23 +614,15 @@
                     `;
                     contenedor.appendChild(tarjeta);
                 });
-
             } catch (err) {
-                console.error('Error cargando videos:', err);
-                contenedor.innerHTML = `<p class="text-yellow-300 col-span-2 text-center">Hubo un error cargando los videos.</p>`;
+                console.error(err);
             }
         }
 
         async function darLike(id, likesActuales) {
             reproducirSonido('acierto');
-            const { error } = await supabaseClient
-                .from('videos')
-                .update({ likes: likesActuales + 1 })
-                .eq('id', id);
-
-            if (!error) {
-                cargarVideos();
-            }
+            await supabaseClient.from('videos').update({ likes: likesActuales + 1 }).eq('id', id);
+            cargarVideos();
         }
 
         async function agregarComentario(e, id) {
@@ -605,45 +632,21 @@
             const textoComentario = input.value.trim();
             if (!textoComentario) return;
 
-            const { data: videoActual, error: errFetch } = await supabaseClient
-                .from('videos')
-                .select('comments')
-                .eq('id', id)
-                .single();
-
-            if (errFetch) return;
-
+            const { data: videoActual } = await supabaseClient.from('videos').select('comments').eq('id', id).single();
             let arr = [];
-            if (videoActual.comments) {
-                try {
-                    arr = typeof videoActual.comments === 'string' ? JSON.parse(videoActual.comments) : videoActual.comments;
-                } catch(e) { arr = []; }
-            }
-
+            try { arr = videoActual.comments ? JSON.parse(videoActual.comments) : []; } catch(e) { arr = []; }
             arr.push({ nombre: 'Explorador', texto: textoComentario });
-
-            const { error } = await supabaseClient
-                .from('videos')
-                .update({ comments: JSON.stringify(arr) })
-                .eq('id', id);
-
-            if (!error) {
-                input.value = '';
-                cargarVideos();
-            }
+            await supabaseClient.from('videos').update({ comments: JSON.stringify(arr) }).eq('id', id);
+            input.value = '';
+            cargarVideos();
         }
 
         async function subirVideo(e) {
             e.preventDefault();
             let rawYtId = document.getElementById('input-ytid').value.trim();
-            
-            if (rawYtId.includes('youtu.be/')) {
-                rawYtId = rawYtId.split('youtu.be/')[1];
-            } else if (rawYtId.includes('watch?v=')) {
-                rawYtId = rawYtId.split('watch?v=')[1];
-            } else if (rawYtId.includes('/shorts/')) {
-                rawYtId = rawYtId.split('/shorts/')[1];
-            }
+            if (rawYtId.includes('youtu.be/')) rawYtId = rawYtId.split('youtu.be/')[1];
+            else if (rawYtId.includes('watch?v=')) rawYtId = rawYtId.split('watch?v=')[1];
+            else if (rawYtId.includes('/shorts/')) rawYtId = rawYtId.split('/shorts/')[1];
             const ytid = rawYtId.split('?')[0].split('&')[0];
 
             const titulo = document.getElementById('input-titulo').value;
@@ -651,27 +654,21 @@
             const estado = document.getElementById('mensaje-estado');
 
             estado.innerText = "Publicando...";
-            estado.className = "text-center text-sm font-bold mt-2 text-yellow-300";
-
-            const { error } = await supabaseClient
-                .from('videos')
-                .insert([{ title: titulo, youtube_id: ytid, category: categoria, likes: 0, comments: JSON.stringify([]) }]);
+            const { error } = await supabaseClient.from('videos').insert([{ title: titulo, youtube_id: ytid, category: categoria, likes: 0, comments: JSON.stringify([]) }]);
 
             if (error) {
-                console.error(error);
                 estado.innerText = "❌ Error al publicar.";
-                estado.className = "text-center text-sm font-bold mt-2 text-red-400";
             } else {
                 estado.innerText = "¡Video publicado con éxito! 🦖";
-                estado.className = "text-center text-sm font-bold mt-2 text-green-300";
                 document.getElementById('form-video').reset();
-                cargarVideos(); 
+                cargarVideos();
                 cambiarSeccion('videos');
             }
         }
 
         // Inicializar juegos y videos al cargar
         reiniciarMemorama();
+        cargarColorear();
         cargarPista();
         cargarVideos();
     </script>
