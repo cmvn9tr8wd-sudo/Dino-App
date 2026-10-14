@@ -14,13 +14,12 @@
         .card-front, .card-back { backface-visibility: hidden; }
         .card-back { transform: rotateY(180deg); }
 
-        /* Fondo de selva estilizado con patron de hojas y degradado profundo */
-        .bg-selva-jurassica {
-            background-color: #064e3b;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(234, 179, 8, 0.15) 0%, transparent 40%),
-                linear-gradient(to bottom, #022c22, #064e3b, #022c22);
+        /* Fondo de selva basado exactamente en tu imagen de referencia */
+        .fondo-selva {
+            background-image: linear-gradient(rgba(2, 44, 34, 0.75), rgba(4, 47, 36, 0.85)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1600&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         /* Animación de rebote emocionante y flotado */
@@ -41,21 +40,15 @@
         }
     </style>
 </head>
-<body class="bg-selva-jurassica text-white min-h-screen flex flex-col justify-between relative overflow-x-hidden">
-
-    <!-- Decoraciones tropicales flotantes en las esquinas inspiradas en la selva -->
-    <div class="absolute top-0 left-0 text-5xl md:text-7xl opacity-40 select-none pointer-events-none p-2">🌿</div>
-    <div class="absolute top-0 right-0 text-5xl md:text-7xl opacity-40 select-none pointer-events-none p-2">🌴</div>
-    <div class="absolute bottom-10 left-0 text-5xl md:text-7xl opacity-30 select-none pointer-events-none p-2">🍃</div>
-    <div class="absolute bottom-10 right-0 text-5xl md:text-7xl opacity-30 select-none pointer-events-none p-2">🌿</div>
+<body class="fondo-selva text-white min-h-screen flex flex-col justify-between relative">
 
     <!-- INTEL / PANTALLA DE BIENVENIDA A PANTALLA COMPLETA -->
     <div id="pantalla-bienvenida" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-opacity duration-500">
-        <div class="relative z-10 bg-gradient-to-b from-emerald-900 to-emerald-950 border-4 border-yellow-400 p-8 md:p-12 rounded-3xl shadow-2xl max-w-lg w-full text-center space-y-6">
+        <div class="relative z-10 bg-emerald-950/95 border-4 border-yellow-400 p-8 md:p-12 rounded-3xl shadow-2xl max-w-lg w-full text-center space-y-6">
             
             <!-- Dinosaurio con animación de rebote -->
             <div class="flex justify-center">
-                <div class="w-28 h-28 md:w-36 md:h-36 bg-gradient-to-tr from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-emerald-950 animar-rebote text-6xl md:text-7xl">
+                <div class="w-28 h-28 md:w-36 md:h-36 bg-gradient-to-tr from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-emerald-900 animar-rebote text-6xl md:text-7xl">
                     🦖
                 </div>
             </div>
@@ -80,7 +73,7 @@
         </div>
     </div>
 
-    <header class="bg-emerald-950/80 backdrop-blur-md border-b-2 border-emerald-700/50 p-4 shadow-lg text-center relative z-10">
+    <header class="bg-emerald-950/90 backdrop-blur-md border-b-2 border-yellow-500/30 p-4 shadow-lg text-center relative z-10">
         <h1 class="text-3xl font-bold tracking-wide text-yellow-300 drop-shadow">🦖 DinoAventura TV 🦕</h1>
         <p class="text-emerald-200 text-sm">¡Videos, juegos y diversión prehistórica!</p>
         
@@ -101,15 +94,15 @@
         
         <!-- Pestañas de navegación -->
         <div class="flex justify-center gap-2 mb-6 flex-wrap">
-            <button onclick="cambiarSeccion('videos')" id="btn-videos" class="bg-emerald-800 hover:bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-600">🎬 Videos</button>
+            <button onclick="cambiarSeccion('videos')" id="btn-videos" class="bg-emerald-900/90 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-700">🎬 Videos</button>
             <button onclick="cambiarSeccion('juegos')" id="btn-juegos" class="bg-yellow-400 text-emerald-950 font-bold px-5 py-2 rounded-full shadow-md transition border border-yellow-500">🎮 Juegos</button>
-            <button onclick="cambiarSeccion('subir')" id="btn-subir" class="bg-emerald-800 hover:bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-600">➕ Subir Video</button>
-            <button onclick="cambiarSeccion('apoyar')" id="btn-apoyar" class="bg-emerald-800 hover:bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-600">⭐ Apoyar</button>
+            <button onclick="cambiarSeccion('subir')" id="btn-subir" class="bg-emerald-900/90 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-700">➕ Subir Video</button>
+            <button onclick="cambiarSeccion('apoyar')" id="btn-apoyar" class="bg-emerald-900/90 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-700">⭐ Apoyar</button>
         </div>
 
         <!-- SECCIÓN: VIDEOS -->
         <section id="seccion-videos" class="hidden space-y-4">
-            <h2 class="text-2xl font-bold text-yellow-300 mb-4">Mis Videos de Dinosaurios</h2>
+            <h2 class="text-2xl font-bold text-yellow-300 mb-4 drop-shadow">Mis Videos de Dinosaurios</h2>
             <div id="lista-videos" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <p class="text-emerald-300 col-span-2 text-center">Cargando aventuras jurásicas...</p>
             </div>
@@ -117,17 +110,17 @@
 
         <!-- SECCIÓN: JUEGOS -->
         <section id="seccion-juegos" class="space-y-6">
-            <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center">🎮 Zona de Juegos Divertidos</h2>
+            <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center drop-shadow">🎮 Zona de Juegos Divertidos</h2>
             
             <!-- Selector de Juegos -->
             <div class="flex justify-center gap-2 flex-wrap">
                 <button onclick="abrirJuego('memorama')" id="tab-memorama" class="bg-yellow-400 text-emerald-950 font-bold px-3 py-2 rounded-xl shadow text-sm">🧠 Memorama</button>
-                <button onclick="abrirJuego('colorear')" id="tab-colorear" class="bg-emerald-900/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700">🎨 Colorear</button>
-                <button onclick="abrirJuego('pista')" id="tab-pista" class="bg-emerald-900/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700">🌿 Pista Selvática</button>
+                <button onclick="abrirJuego('colorear')" id="tab-colorear" class="bg-emerald-950/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700">🎨 Colorear</button>
+                <button onclick="abrirJuego('pista')" id="tab-pista" class="bg-emerald-950/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700">🌿 Pista Selvática</button>
             </div>
 
             <!-- JUEGO 1: MEMORAMA -->
-            <div id="juego-memorama" class="bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-xl text-center max-w-lg mx-auto">
+            <div id="juego-memorama" class="bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-bold text-yellow-200">Encuentra las parejas</h3>
                     <button onclick="reiniciarMemorama()" class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-lg">🔄 Reiniciar</button>
@@ -139,7 +132,7 @@
             </div>
 
             <!-- JUEGO 2: COLOREAR -->
-            <div id="juego-colorear" class="hidden bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-xl text-center max-w-lg mx-auto">
+            <div id="juego-colorear" class="hidden bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto">
                 <h3 class="text-xl font-bold text-yellow-200 mb-2">¡Pinta tu propio T-Rex!</h3>
                 <p class="text-xs text-emerald-200 mb-4">Elige un color y toca las partes del dinosaurio para pintarlas.</p>
                 
@@ -163,11 +156,11 @@
                         <path id="part-patad" onclick="pintarParte('part-patad')" d="M130,115 Q145,145 135,145 Q125,135 125,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
                     </svg>
                 </div>
-                <button onclick="reiniciarColores()" class="mt-4 bg-emerald-800 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">🔄 Limpiar Colores</button>
+                <button onclick="reiniciarColores()" class="mt-4 bg-emerald-900 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">🔄 Limpiar Colores</button>
             </div>
 
             <!-- JUEGO 3: PISTA SELVÁTICA -->
-            <div id="juego-pista" class="hidden bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-xl text-center max-w-lg mx-auto space-y-4">
+            <div id="juego-pista" class="hidden bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto space-y-4">
                 <h3 class="text-xl font-bold text-yellow-200">🌿 Adivinanza en la Selva Jurásica</h3>
                 <p id="pista-pregunta" class="text-sm text-emerald-100 font-semibold bg-emerald-900 p-3 rounded-xl border border-emerald-700">
                     Cargando pista...
@@ -181,7 +174,7 @@
         </section>
 
         <!-- SECCIÓN PROVISIONAL: SUBIR VIDEO DESDE EL CELULAR -->
-        <section id="seccion-subir" class="hidden space-y-4 bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 max-w-lg mx-auto shadow-xl">
+        <section id="seccion-subir" class="hidden space-y-4 bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 max-w-lg mx-auto shadow-2xl">
             <h2 class="text-2xl font-bold text-yellow-300 text-center">Panel Provisional de Subida</h2>
             <form id="form-video" onsubmit="subirVideo(event)" class="space-y-3">
                 <div>
@@ -204,7 +197,7 @@
         </section>
 
         <!-- SECCIÓN: APOYAR -->
-        <section id="seccion-apoyar" class="hidden space-y-4 bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 max-w-xl mx-auto shadow-xl">
+        <section id="seccion-apoyar" class="hidden space-y-4 bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 max-w-xl mx-auto shadow-2xl">
             <h2 class="text-2xl font-bold text-yellow-300 text-center">¡Apoya el Canal! 💚</h2>
             <div class="mb-4 rounded-xl overflow-hidden border-2 border-yellow-400 shadow-md bg-emerald-900">
                 <div class="relative pb-[56.25%] h-0">
@@ -389,7 +382,7 @@
         function cambiarSeccion(seccion) {
             ['videos', 'juegos', 'subir', 'apoyar'].forEach(s => {
                 document.getElementById(`seccion-${s}`).classList.add('hidden');
-                document.getElementById(`btn-${s}`).className = "bg-emerald-800 hover:bg-emerald-700 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-600";
+                document.getElementById(`btn-${s}`).className = "bg-emerald-900/90 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-700";
             });
 
             document.getElementById(`seccion-${seccion}`).classList.remove('hidden');
@@ -401,7 +394,7 @@
         function abrirJuego(juego) {
             ['memorama', 'colorear', 'pista'].forEach(j => {
                 document.getElementById(`juego-${j}`).classList.add('hidden');
-                document.getElementById(`tab-${j}`).className = "bg-emerald-900/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700";
+                document.getElementById(`tab-${j}`).className = "bg-emerald-950/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700";
             });
 
             document.getElementById(`juego-${juego}`).classList.remove('hidden');
@@ -567,7 +560,7 @@
                     }
 
                     const tarjeta = document.createElement('div');
-                    tarjeta.className = "bg-emerald-900/90 rounded-xl overflow-hidden shadow-lg border border-emerald-700 flex flex-col justify-between";
+                    tarjeta.className = "bg-emerald-950/90 rounded-xl overflow-hidden shadow-xl border border-emerald-700 flex flex-col justify-between";
                     tarjeta.innerHTML = `
                         <div>
                             <div class="relative pb-[56.25%] h-0">
@@ -575,7 +568,7 @@
                             </div>
                             <div class="p-4">
                                 <h3 class="font-bold text-yellow-300 text-lg">${video.title}</h3>
-                                <span class="inline-block bg-emerald-950 text-emerald-200 text-xs px-2 py-1 rounded mt-2">${video.category || 'Dinosaurios'}</span>
+                                <span class="inline-block bg-emerald-900 text-emerald-200 text-xs px-2 py-1 rounded mt-2">${video.category || 'Dinosaurios'}</span>
                             </div>
                         </div>
                         <div class="p-4 pt-0">
