@@ -32,11 +32,17 @@
             50% { transform: scale(1.03); }
         }
         .animar-brillo { animation: latidoBrillo 1.5s infinite ease-in-out; }
+
+        /* Efectos Neón para el Apodo */
+        .neon-rojo { color: #ff3335; text-shadow: 0 0 8px #ff3335, 0 0 20px #ff3335; }
+        .neon-azul { color: #38bdf8; text-shadow: 0 0 8px #38bdf8, 0 0 20px #38bdf8; }
+        .neon-verde { color: #4ade80; text-shadow: 0 0 8px #4ade80, 0 0 20px #4ade80; }
+        .neon-morado { color: #c084fc; text-shadow: 0 0 8px #c084fc, 0 0 20px #c084fc; }
     </style>
 </head>
 <body class="fondo-selva text-white min-h-screen flex flex-col justify-between relative">
 
-    <!-- PANTALLA DE BIENVENIDA / CREACIÓN DE APODO Y AVATAR -->
+    <!-- PANTALLA DE BIENVENIDA / CREACIÓN DE PERFIL -->
     <div id="pantalla-bienvenida" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 transition-opacity duration-500">
         <div class="relative z-10 bg-emerald-950/95 border-4 border-yellow-400 p-6 md:p-10 rounded-3xl shadow-2xl max-w-md w-full text-center space-y-5">
             
@@ -48,55 +54,50 @@
 
             <div class="space-y-2">
                 <span class="bg-yellow-400 text-emerald-950 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider shadow">
-                    🌿 ¡Perfil de Explorador! 🌴
+                    🌿 ¡Bono de Bienvenida: 100 💵! 🌴
                 </span>
                 <h1 class="text-2xl md:text-3xl font-extrabold text-yellow-300">
                     ¡DinoApp!
                 </h1>
-                <p class="text-emerald-100 text-sm">Elige tu apodo y tu avatar jurásico para comenzar la aventura:</p>
+                <p class="text-emerald-100 text-sm">Elige tu apodo y tu avatar para arrancar con 100 billetes de regalo:</p>
             </div>
 
-            <!-- Formulario de Apodo y Avatar -->
             <div class="space-y-3 text-left">
                 <div>
                     <label class="block text-xs font-bold text-yellow-200 mb-1">Tu Apodo de Explorador:</label>
                     <input type="text" id="input-apodo" value="ExploradorRex" class="w-full p-2.5 rounded-xl bg-emerald-900 border border-emerald-600 text-white text-sm focus:outline-none focus:border-yellow-400">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-yellow-200 mb-1">Elige tu Avatar:</label>
+                    <label class="block text-xs font-bold text-yellow-200 mb-1">Elige tu Avatar Inicial:</label>
                     <div class="grid grid-cols-4 gap-2 text-2xl">
-                        <button type="button" onclick="seleccionarAvatar('🦖', this)" class="avatar-btn p-2 bg-emerald-900 border-2 border-yellow-400 rounded-xl flex items-center justify-center shadow">🦖</button>
-                        <button type="button" onclick="seleccionarAvatar('🦕', this)" class="avatar-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🦕</button>
-                        <button type="button" onclick="seleccionarAvatar('🐉', this)" class="avatar-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🐉</button>
-                        <button type="button" onclick="seleccionarAvatar('🐢', this)" class="avatar-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🐢</button>
+                        <button type="button" onclick="seleccionarAvatarInicial('🦖', this)" class="avatar-inicial-btn p-2 bg-emerald-800 border-2 border-yellow-400 rounded-xl flex items-center justify-center shadow">🦖</button>
+                        <button type="button" onclick="seleccionarAvatarInicial('🦕', this)" class="avatar-inicial-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🦕</button>
+                        <button type="button" onclick="seleccionarAvatarInicial('🐉', this)" class="avatar-inicial-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🐉</button>
+                        <button type="button" onclick="seleccionarAvatarInicial('🐢', this)" class="avatar-inicial-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🐢</button>
                     </div>
                 </div>
             </div>
 
             <button onclick="entrarAlApp()" class="w-full bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-emerald-950 font-black text-lg py-3 rounded-2xl shadow-xl transition transform hover:scale-105 active:scale-95 border-2 border-yellow-200 animar-brillo flex items-center justify-center gap-2">
-                🚀 ¡Comenzar Aventura! 🌟
+                🚀 ¡Reclamar 100 💵 y Entrar! 🌟
             </button>
         </div>
     </div>
 
-    <!-- HEADER CON PERFIL Y BILLETERA EN LA ESQUINA SUPERIOR DERECHA -->
+    <!-- HEADER CON PERFIL Y TIENDA -->
     <header class="bg-emerald-950/90 backdrop-blur-md border-b-2 border-yellow-500/30 p-3 px-4 shadow-lg flex justify-between items-center relative z-10">
         <div>
             <h1 class="text-xl md:text-2xl font-bold tracking-wide text-yellow-300 drop-shadow">🦖 DinoAventura TV 🦕</h1>
-            <p class="text-emerald-200 text-xs hidden md:block">¡Videos, juegos y diversión prehistórica!</p>
         </div>
 
-        <!-- Cartera y Perfil -->
-        <div class="flex items-center gap-3">
-            <div id="btn-musica-container">
-                <button onclick="toggleMusicaSelva()" id="btn-musica" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold px-2.5 py-1.5 rounded-full shadow transition flex items-center gap-1">
-                    🎵 <span class="hidden md:inline">Selva: </span>APAGADA
-                </button>
-            </div>
+        <div class="flex items-center gap-2 md:gap-3">
+            <button onclick="toggleMusicaSelva()" id="btn-musica" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold px-2 py-1.5 rounded-full shadow transition flex items-center gap-1">
+                🎵 <span class="hidden md:inline">Selva: </span>APAGADA
+            </button>
 
             <!-- Cartera de Billetes 💵 -->
             <div class="bg-emerald-900 border-2 border-yellow-400 px-3 py-1.5 rounded-2xl shadow-md flex items-center gap-1.5 text-yellow-300 font-bold text-sm">
-                <span>💵</span> <span id="contador-billetes">0</span>
+                <span>💵</span> <span id="contador-billetes">100</span>
             </div>
 
             <!-- Perfil del usuario -->
@@ -113,10 +114,11 @@
 
     <main class="container mx-auto p-4 flex-grow max-w-4xl relative z-10">
         <div class="flex justify-center gap-2 mb-6 flex-wrap">
-            <button onclick="cambiarSeccion('videos')" id="btn-videos" class="bg-emerald-900/90 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-700">🎬 Videos</button>
-            <button onclick="cambiarSeccion('juegos')" id="btn-juegos" class="bg-yellow-400 text-emerald-950 font-bold px-5 py-2 rounded-full shadow-md transition border border-yellow-500">🎮 Juegos</button>
-            <button onclick="cambiarSeccion('subir')" id="btn-subir" class="bg-emerald-900/90 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-700">➕ Subir Video</button>
-            <button onclick="cambiarSeccion('apoyar')" id="btn-apoyar" class="bg-emerald-900/90 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-700">⭐ Apoyar</button>
+            <button onclick="cambiarSeccion('videos')" id="btn-videos" class="bg-emerald-900/90 text-white font-bold px-4 py-2 rounded-full shadow-md transition border border-emerald-700 text-sm">🎬 Videos</button>
+            <button onclick="cambiarSeccion('juegos')" id="btn-juegos" class="bg-yellow-400 text-emerald-950 font-bold px-4 py-2 rounded-full shadow-md transition border border-yellow-500 text-sm">🎮 Juegos</button>
+            <button onclick="cambiarSeccion('tienda')" id="btn-tienda" class="bg-emerald-900/90 text-yellow-300 font-bold px-4 py-2 rounded-full shadow-md transition border border-yellow-500/50 text-sm flex items-center gap-1">🛍️ Tienda Dino</button>
+            <button onclick="cambiarSeccion('subir')" id="btn-subir" class="bg-emerald-900/90 text-white font-bold px-4 py-2 rounded-full shadow-md transition border border-emerald-700 text-sm">➕ Subir</button>
+            <button onclick="cambiarSeccion('apoyar')" id="btn-apoyar" class="bg-emerald-900/90 text-white font-bold px-4 py-2 rounded-full shadow-md transition border border-emerald-700 text-sm">⭐ Apoyar</button>
         </div>
 
         <!-- SECCIÓN: VIDEOS -->
@@ -127,6 +129,26 @@
             </div>
         </section>
 
+        <!-- SECCIÓN: TIENDA DINO (AVATARES Y EFECTOS NEÓN) -->
+        <section id="seccion-tienda" class="hidden space-y-6 bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 max-w-2xl mx-auto shadow-2xl">
+            <div class="text-center space-y-1">
+                <h2 class="text-2xl font-bold text-yellow-300">🛍️ Tienda de Recompensas Jurásicas</h2>
+                <p class="text-xs text-emerald-200">Desbloquea avatares misteriosos y efectos neón exclusivos para tu apodo. ¡Todo a 100 💵!</p>
+            </div>
+
+            <!-- Pestañas de la Tienda -->
+            <div class="flex justify-center gap-2">
+                <button onclick="cambiarTabTienda('avatares')" id="tab-tienda-avatares" class="bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-xl text-xs shadow">🦖 Avatares (12)</button>
+                <button onclick="cambiarTabTienda('efectos')" id="tab-tienda-efectos" class="bg-emerald-900 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow border border-emerald-700">✨ Efectos Neón (4)</button>
+            </div>
+
+            <!-- Contenedor de Avatares -->
+            <div id="grid-tienda-avatares" class="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-80 overflow-y-auto pr-1"></div>
+
+            <!-- Contenedor de Efectos Neón -->
+            <div id="grid-tienda-efectos" class="hidden grid-cols-1 sm:grid-cols-2 gap-4 max-h-80 overflow-y-auto pr-1"></div>
+        </section>
+
         <!-- SECCIÓN: JUEGOS -->
         <section id="seccion-juegos" class="space-y-6">
             <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center drop-shadow">🎮 Zona de Juegos con Niveles</h2>
@@ -134,7 +156,7 @@
             <div class="flex justify-center gap-2 flex-wrap">
                 <button onclick="abrirJuego('memorama')" id="tab-memorama" class="bg-yellow-400 text-emerald-950 font-bold px-3 py-2 rounded-xl shadow text-sm">🧠 Memorama</button>
                 <button onclick="abrirJuego('colorear')" id="tab-colorear" class="bg-emerald-950/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700">🎨 Colorear</button>
-                <button onclick="abrirJuego('pista')" id="tab-pista" class="bg-emerald-950/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700">🌿 Pista Selvática</button>
+                <button onclick="abrirJuego('pista')" id="tab-pista" class="bg-emerald-950/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700">🌿 Trivia Selvática</button>
             </div>
 
             <!-- JUEGO 1: MEMORAMA -->
@@ -150,7 +172,6 @@
 
                 <div id="tablero-memorama" class="grid grid-cols-4 gap-3"></div>
                 
-                <!-- Pantalla de Victoria -->
                 <div id="pantalla-victoria-memorama" class="hidden mt-4 p-4 bg-emerald-900 border-2 border-yellow-400 rounded-xl space-y-2">
                     <p id="texto-victoria-memorama" class="text-lg font-bold text-yellow-300">🎉 ¡Nivel Superado!</p>
                     <button onclick="siguienteNivelMemorama()" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-950 font-black px-6 py-2 rounded-xl shadow-lg transition">
@@ -158,7 +179,6 @@
                     </button>
                 </div>
 
-                <!-- Pantalla de Derrota -->
                 <div id="pantalla-derrota-memorama" class="hidden mt-4 p-4 bg-red-950 border-2 border-red-500 rounded-xl space-y-2">
                     <p class="text-lg font-bold text-red-300">❌ ¡Te quedaste sin intentos! Regresas al Nivel 1.</p>
                     <button onclick="reiniciarJuegoCompletoMemorama()" class="bg-red-500 hover:bg-red-400 text-white font-black px-6 py-2 rounded-xl shadow-lg transition">
@@ -190,15 +210,29 @@
                 </div>
             </div>
 
-            <!-- JUEGO 3: PISTA SELVÁTICA -->
+            <!-- JUEGO 3: TRIVIA SELVÁTICA CON NIVELES Y ROTACIÓN -->
             <div id="juego-pista" class="hidden bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto space-y-4">
-                <h3 id="titulo-nivel-pista" class="text-lg font-bold text-yellow-200">🌿 Adivinanzas - Nivel 1</h3>
+                <div class="flex justify-between items-center">
+                    <h3 id="titulo-nivel-pista" class="text-lg font-bold text-yellow-200">🌿 Trivia Selvática - Nivel 1</h3>
+                    <button onclick="reiniciarTrivia()" class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-lg shadow">🔄 Reiniciar</button>
+                </div>
+
+                <div id="panel-fallos-trivia" class="hidden bg-red-950/80 p-2 rounded-xl border border-red-500 text-xs font-bold text-red-200">
+                    ⚠️ Errores permitidos antes de reiniciar Nivel 3: <span id="contador-fallos-trivia">2</span>
+                </div>
+
                 <p id="pista-pregunta" class="text-sm text-emerald-100 font-semibold bg-emerald-900 p-3 rounded-xl border border-emerald-700">Cargando pista...</p>
                 <div id="pista-opciones" class="grid grid-cols-2 gap-3"></div>
                 <p id="mensaje-pista" class="text-sm font-bold text-yellow-300 min-h-[24px]"></p>
-                <div id="pantalla-victoria-pista" class="hidden p-3 bg-emerald-900 border border-yellow-400 rounded-xl">
-                    <p class="text-sm font-bold text-yellow-300">🎉 ¡Ronda superada con éxito!</p>
-                    <button onclick="siguienteNivelPista()" class="mt-2 bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-lg text-xs shadow">🚀 Avanzar al Siguiente Nivel</button>
+                
+                <div id="pantalla-victoria-pista" class="hidden p-3 bg-emerald-900 border border-yellow-400 rounded-xl space-y-2">
+                    <p id="texto-victoria-pista" class="text-sm font-bold text-yellow-300">🎉 ¡Ronda superada!</p>
+                    <button onclick="siguienteNivelPista()" class="bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-lg text-xs shadow">🚀 Avanzar al Siguiente Nivel</button>
+                </div>
+
+                <div id="pantalla-derrota-pista" class="hidden p-3 bg-red-950 border border-red-500 rounded-xl space-y-2">
+                    <p class="text-sm font-bold text-red-300">❌ ¡Demasiados errores en Nivel 3! Regresas al Nivel 1.</p>
+                    <button onclick="reiniciarTriviaCompleta()" class="bg-red-500 text-white font-bold px-4 py-1.5 rounded-lg text-xs shadow">🔄 Volver al Nivel 1</button>
                 </div>
             </div>
         </section>
@@ -261,20 +295,174 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let audioCtx = null;
-        let billetes = 0;
-        let avatarSeleccionado = '🦖';
+        let billetes = 100; // ¡100 billetes de regalo iniciales!
+        let avatarActual = '🦖';
+        let efectoApodoActual = '';
+
+        // Paquete de Avatares (12 en total)
+        let avataresTienda = [
+            { id: 'av1', nombre: 'T-Rex Feroz', emoji: '🦖', desbloqueado: true },
+            { id: 'av2', nombre: 'Cuellilargo', emoji: '🦕', desbloqueado: false },
+            { id: 'av3', nombre: 'Raptor Alfa', emoji: '🐉', desbloqueado: false },
+            { id: 'av4', nombre: 'Tortuga Prehistórica', emoji: '🐢', desbloqueado: false },
+            { id: 'av5', nombre: 'Triceratops Blindado', emoji: '🛡️', desbloqueado: false },
+            { id: 'av6', nombre: 'Pterodáctilo del Cielo', emoji: '🦅', desbloqueado: false },
+            { id: 'av7', nombre: 'Spinosaurus Acuático', emoji: '🐊', desbloqueado: false },
+            { id: 'av8', nombre: 'Estegosaurio con Púas', emoji: '🌵', desbloqueado: false },
+            { id: 'av9', nombre: 'Anquilosaurio Tanque', emoji: '🪙', desbloqueado: false },
+            { id: 'av10', nombre: 'Velociraptor Nocturno', emoji: '🌙', desbloqueado: false },
+            { id: 'av11', nombre: 'Volcán Jurásico', emoji: '🌋', desbloqueado: false },
+            { id: 'av12', nombre: 'Huevo de Dino', emoji: '🥚', desbloqueado: false }
+        ];
+
+        // Efectos Neón para el Apodo (4 en total)
+        let efectosTienda = [
+            { id: 'ef1', nombre: 'Neón Rojo Fuego', clase: 'neon-rojo', desbloqueado: false },
+            { id: 'ef2', nombre: 'Neón Azul Océano', clase: 'neon-azul', desbloqueado: false },
+            { id: 'ef3', nombre: 'Neón Verde Selva', clase: 'neon-verde', desbloqueado: false },
+            { id: 'ef4', nombre: 'Neón Morado Místico', clase: 'neon-morado', desbloqueado: false }
+        ];
 
         function inicializarAudioContext() {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
         }
 
-        function seleccionarAvatar(avatar, btn) {
-            avatarSeleccionado = avatar;
-            document.querySelectorAll('.avatar-btn').forEach(b => b.classList.remove('border-yellow-400', 'bg-emerald-800'));
+        function seleccionarAvatarInicial(avatar, btn) {
+            avatarActual = avatar;
+            document.querySelectorAll('.avatar-inicial-btn').forEach(b => b.classList.remove('border-yellow-400', 'bg-emerald-800'));
             btn.classList.add('border-yellow-400', 'bg-emerald-800');
         }
 
+        function entrarAlApp() {
+            const apodo = document.getElementById('input-apodo').value.trim() || 'Explorador';
+            actualizarHeaderPerfil(apodo, avatarActual);
+
+            const pantalla = document.getElementById('pantalla-bienvenida');
+            event.target.style.pointerEvents = 'none';
+            event.target.innerText = "🌿 ¡100 Billetes Recibidos! Entrando...";
+            reproducirEntradaSelvatica(() => {
+                pantalla.style.opacity = '0';
+                setTimeout(() => { pantalla.remove(); }, 500);
+            });
+            renderizarTienda();
+            reiniciarTrivia();
+        }
+
+        function actualizarHeaderPerfil(apodo, avatar) {
+            const elemApodo = document.getElementById('header-apodo');
+            elemApodo.innerText = apodo;
+            elemApodo.className = `hidden sm:inline font-bold ${efectoApodoActual}`;
+            document.getElementById('header-avatar').innerText = avatar;
+        }
+
+        // --- SISTEMA DE TIENDA Y COMPRAS ---
+        function cambiarTabTienda(tab) {
+            const btnAv = document.getElementById('tab-tienda-avatares');
+            const btnEf = document.getElementById('tab-tienda-efectos');
+            const gridAv = document.getElementById('grid-tienda-avatares');
+            const gridEf = document.getElementById('grid-tienda-efectos');
+
+            if (tab === 'avatares') {
+                btnAv.className = "bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-xl text-xs shadow";
+                btnEf.className = "bg-emerald-900 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow border border-emerald-700";
+                gridAv.classList.remove('hidden');
+                gridEf.classList.add('hidden');
+            } else {
+                btnEf.className = "bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-xl text-xs shadow";
+                btnAv.className = "bg-emerald-900 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow border border-emerald-700";
+                gridEf.classList.remove('hidden');
+                gridAv.classList.add('hidden');
+            }
+        }
+
+        function renderizarTienda() {
+            // Renderizar Avatares
+            const gridAv = document.getElementById('grid-tienda-avatares');
+            gridAv.innerHTML = '';
+            avataresTienda.forEach(av => {
+                const card = document.createElement('div');
+                card.className = "bg-emerald-900/90 p-3 rounded-xl border border-emerald-700 text-center flex flex-col justify-between items-center shadow";
+                
+                if (av.desbloqueado) {
+                    card.innerHTML = `
+                        <div class="text-4xl mb-1">${av.emoji}</div>
+                        <p class="text-xs font-bold text-yellow-300 mb-2">${av.nombre}</p>
+                        <button onclick="equiparAvatar('${av.emoji}')" class="w-full bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold py-1.5 rounded-lg shadow">Usar</button>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <div class="text-4xl mb-1 filter brightness-0">❓</div>
+                        <p class="text-xs font-bold text-emerald-300 mb-2">Bloqueado 🔒</p>
+                        <button onclick="comprarAvatar('${av.id}')" class="w-full bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold py-1.5 rounded-lg shadow">Comprar (100 💵)</button>
+                    `;
+                }
+                gridAv.appendChild(card);
+            });
+
+            // Renderizar Efectos Neón
+            const gridEf = document.getElementById('grid-tienda-efectos');
+            gridEf.innerHTML = '';
+            efectosTienda.forEach(ef => {
+                const card = document.createElement('div');
+                card.className = "bg-emerald-900/90 p-3 rounded-xl border border-emerald-700 text-center flex flex-col justify-between items-center shadow";
+
+                if (ef.desbloqueado) {
+                    card.innerHTML = `
+                        <p class="text-sm font-bold ${ef.clase} mb-2">${ef.nombre}</p>
+                        <button onclick="equiparEfecto('${ef.clase}')" class="w-full bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold py-1.5 rounded-lg shadow">Equipar</button>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <p class="text-sm font-bold text-emerald-300 mb-2">${ef.nombre} 🔒</p>
+                        <button onclick="comprarEfecto('${ef.id}')" class="w-full bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold py-1.5 rounded-lg shadow">Comprar (100 💵)</button>
+                    `;
+                }
+                gridEf.appendChild(card);
+            });
+        }
+
+        function comprarAvatar(id) {
+            if (billetes >= 100) {
+                billetes -= 100;
+                document.getElementById('contador-billetes').innerText = billetes;
+                let av = avataresTienda.find(a => a.id === id);
+                if(av) av.desbloqueado = true;
+                reproducirSonido('victoria');
+                renderizarTienda();
+            } else {
+                reproducirSonido('error');
+                alert("¡Te faltan billetes! Gana más jugando en los niveles y minijuegos.");
+            }
+        }
+
+        function comprarEfecto(id) {
+            if (billetes >= 100) {
+                billetes -= 100;
+                document.getElementById('contador-billetes').innerText = billetes;
+                let ef = efectosTienda.find(e => e.id === id);
+                if(ef) ef.desbloqueado = true;
+                reproducirSonido('victoria');
+                renderizarTienda();
+            } else {
+                reproducirSonido('error');
+                alert("¡Te faltan billetes! Gana más jugando en los niveles y minijuegos.");
+            }
+        }
+
+        function equiparAvatar(emoji) {
+            avatarActual = emoji;
+            actualizarHeaderPerfil(document.getElementById('header-apodo').innerText, avatarActual);
+            reproducirSonido('acierto');
+        }
+
+        function equiparEfecto(clase) {
+            efectoApodoActual = clase;
+            actualizarHeaderPerfil(document.getElementById('header-apodo').innerText, avatarActual);
+            reproducirSonido('acierto');
+        }
+
+        // --- AUDIO Y EFECTOS DE SONIDO ---
         function reproducirTamboresSelva() {
             inicializarAudioContext();
             let tiempos = [0, 0.3, 0.6, 0.9, 1.3, 1.5, 1.8];
@@ -286,16 +474,14 @@
                     if (!audioCtx) return;
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
+                    osc.connect(gain); gain.connect(audioCtx.destination);
                     let ahora = audioCtx.currentTime;
                     osc.type = 'triangle';
                     osc.frequency.setValueAtTime(frecuencias[i], ahora);
                     osc.frequency.exponentialRampToValueAtTime(30, ahora + duraciones[i]);
                     gain.gain.setValueAtTime(0.4, ahora);
                     gain.gain.exponentialRampToValueAtTime(0.01, ahora + duraciones[i]);
-                    osc.start(ahora);
-                    osc.stop(ahora + duraciones[i]);
+                    osc.start(ahora); osc.stop(ahora + duraciones[i]);
                 }, t * 1000);
             });
         }
@@ -306,8 +492,7 @@
             let ahora = audioCtx.currentTime + 0.2;
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
+            osc.connect(gain); gain.connect(audioCtx.destination);
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(130, ahora);
             osc.frequency.linearRampToValueAtTime(60, ahora + 0.4);
@@ -315,32 +500,15 @@
             osc.frequency.linearRampToValueAtTime(40, ahora + 1.4);
             gain.gain.setValueAtTime(0.5, ahora);
             gain.gain.exponentialRampToValueAtTime(0.01, ahora + 1.5);
-            osc.start(ahora);
-            osc.stop(ahora + 1.5);
+            osc.start(ahora); osc.stop(ahora + 1.5);
             setTimeout(() => { if(callback) callback(); }, 1600);
         }
 
-        function entrarAlApp() {
-            const apodo = document.getElementById('input-apodo').value.trim() || 'Explorador';
-            document.getElementById('header-apodo').innerText = apodo;
-            document.getElementById('header-avatar').innerText = avatarSeleccionado;
-
-            const pantalla = document.getElementById('pantalla-bienvenida');
-            event.target.style.pointerEvents = 'none';
-            event.target.innerText = "🌿 ¡Entrando a la Selva...!";
-            reproducirEntradaSelvatica(() => {
-                pantalla.style.opacity = '0';
-                setTimeout(() => { pantalla.remove(); }, 500);
-            });
-        }
-
-        // --- EFECTOS DE SONIDO SINTETIZADOS (VICTORIA Y DERROTA) ---
         function reproducirSonido(tipo) {
             inicializarAudioContext();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
+            osc.connect(gain); gain.connect(audioCtx.destination);
             let ahora = audioCtx.currentTime;
 
             if (tipo === 'voltear') {
@@ -373,7 +541,6 @@
                 gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.08);
                 osc.start(ahora); osc.stop(ahora + 0.08);
             } else if (tipo === 'victoria') {
-                // Fanfarria triunfal de victoria
                 let notas = [330, 392, 523, 659];
                 let tiemposN = [0, 0.15, 0.3, 0.45];
                 notas.forEach((freq, i) => {
@@ -390,7 +557,6 @@
                     }, tiemposN[i] * 1000);
                 });
             } else if (tipo === 'derrota') {
-                // Sonido descendente de derrota
                 let notasD = [300, 250, 200, 150];
                 let tiemposD = [0, 0.2, 0.4, 0.6];
                 notasD.forEach((freq, i) => {
@@ -417,24 +583,30 @@
                 audio.play().then(() => {
                     musicaEncendida = true;
                     btn.innerHTML = "🎶 <span class='hidden md:inline'>Selva: </span>ENCENDIDA";
-                    btn.className = "bg-green-400 hover:bg-green-300 text-emerald-950 text-xs font-bold px-2.5 py-1.5 rounded-full shadow transition flex items-center gap-1";
+                    btn.className = "bg-green-400 hover:bg-green-300 text-emerald-950 text-xs font-bold px-2 py-1.5 rounded-full shadow transition flex items-center gap-1";
                 }).catch(e => console.log("Bloqueado", e));
             } else {
                 audio.pause();
                 musicaEncendida = false;
                 btn.innerHTML = "🎵 <span class='hidden md:inline'>Selva: </span>APAGADA";
-                btn.className = "bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold px-2.5 py-1.5 rounded-full shadow transition flex items-center gap-1";
+                btn.className = "bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold px-2 py-1.5 rounded-full shadow transition flex items-center gap-1";
             }
         }
 
         function cambiarSeccion(seccion) {
-            ['videos', 'juegos', 'subir', 'apoyar'].forEach(s => {
-                document.getElementById(`seccion-${s}`).classList.add('hidden');
-                document.getElementById(`btn-${s}`).className = "bg-emerald-900/90 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-700";
+            ['videos', 'juegos', 'tienda', 'subir', 'apoyar'].forEach(s => {
+                const el = document.getElementById(`seccion-${s}`);
+                if(el) el.classList.add('hidden');
+                const btn = document.getElementById(`btn-${s}`);
+                if(btn) btn.className = "bg-emerald-900/90 text-white font-bold px-4 py-2 rounded-full shadow-md transition border border-emerald-700 text-sm";
             });
-            document.getElementById(`seccion-${seccion}`).classList.remove('hidden');
-            document.getElementById(`btn-${seccion}`).className = "bg-yellow-400 text-emerald-950 font-bold px-5 py-2 rounded-full shadow-md transition transform scale-105 border border-yellow-500";
+            const secActiva = document.getElementById(`seccion-${seccion}`);
+            if(secActiva) secActiva.classList.remove('hidden');
+            const btnActivo = document.getElementById(`btn-${seccion}`);
+            if(btnActivo) btnActivo.className = "bg-yellow-400 text-emerald-950 font-bold px-4 py-2 rounded-full shadow-md transition transform scale-105 border border-yellow-500 text-sm";
+            
             if(seccion === 'videos') cargarVideos();
+            if(seccion === 'tienda') renderizarTienda();
         }
 
         function abrirJuego(juego) {
@@ -446,7 +618,7 @@
             document.getElementById(`tab-${juego}`).className = "bg-yellow-400 text-emerald-950 font-bold px-3 py-2 rounded-xl shadow text-sm";
         }
 
-        // --- JUEGO 1: MEMORAMA MULTINIVEL CON RETO DE 16 INTENTOS Y RECOMPENSA DE 💵 ---
+        // --- JUEGO 1: MEMORAMA MULTINIVEL ---
         let nivelMemorama = 1;
         let parejasEncontradas = 0;
         let intentosRestantes = 16;
@@ -458,7 +630,7 @@
             cartas.sort(() => Math.random() - 0.5);
 
             const tablero = document.getElementById('tablero-memorama');
-            tablero.className = nivelMemorama === 1 ? "grid grid-cols-4 gap-3" : (nivelMemorama === 2 ? "grid grid-cols-4 gap-2" : "grid grid-cols-4 gap-2");
+            tablero.className = "grid grid-cols-4 gap-2";
             tablero.innerHTML = '';
             parejasEncontradas = 0;
             bloqueoMemorama = false;
@@ -491,12 +663,10 @@
                 tablero.appendChild(carta);
             });
 
-            // REGLA NIVEL 3: Mostrar caras por 2 segundos al inicio
             if (nivelMemorama === 3) {
                 bloqueoMemorama = true;
                 const todasLasCartas = tablero.querySelectorAll('.card');
                 todasLasCartas.forEach(c => c.classList.add('flipped'));
-
                 setTimeout(() => {
                     todasLasCartas.forEach(c => c.classList.remove('flipped'));
                     bloqueoMemorama = false;
@@ -530,13 +700,11 @@
 
                 if (parejasEncontradas === totalParejas) {
                     let mensajeVictoria = document.getElementById('texto-victoria-memorama');
-                    
                     if (nivelMemorama === 3) {
-                        // ¡Victoria total de los 3 niveles! Se otorgan 3 billetes
                         billetes += 3;
                         document.getElementById('contador-billetes').innerText = billetes;
                         reproducirSonido('victoria');
-                        mensajeVictoria.innerHTML = "🏆 ¡Felicidades! Pasaste los 3 niveles y ganaste <span class='text-yellow-300 font-bold'>3 💵</span>!";
+                        mensajeVictoria.innerHTML = "🏆 ¡Pasaste los 3 niveles y ganaste <span class='text-yellow-300 font-bold'>3 💵</span>!";
                     } else {
                         reproducirSonido('victoria');
                         mensajeVictoria.innerText = `🎉 ¡Nivel ${nivelMemorama} superado con éxito!`;
@@ -545,20 +713,15 @@
                 }
             } else {
                 bloqueoMemorama = true;
-
                 if (nivelMemorama === 3) {
                     intentosRestantes--;
                     document.getElementById('contador-intentos').innerText = intentosRestantes;
-
                     if (intentosRestantes <= 0) {
                         reproducirSonido('derrota');
-                        setTimeout(() => {
-                            document.getElementById('pantalla-derrota-memorama').classList.remove('hidden');
-                        }, 500);
+                        setTimeout(() => { document.getElementById('pantalla-derrota-memorama').classList.remove('hidden'); }, 500);
                         return;
                     }
                 }
-
                 setTimeout(() => {
                     primeraCarta.classList.remove('flipped');
                     segundaCarta.classList.remove('flipped');
@@ -568,11 +731,7 @@
         }
 
         function siguienteNivelMemorama() {
-            if (nivelMemorama >= 3) {
-                nivelMemorama = 1;
-            } else {
-                nivelMemorama++;
-            }
+            nivelMemorama = nivelMemorama >= 3 ? 1 : nivelMemorama + 1;
             reiniciarMemorama();
         }
 
@@ -592,30 +751,11 @@
             document.getElementById('pantalla-victoria-colorear').classList.add('hidden');
 
             if (nivelColorear === 1) {
-                lienzo.innerHTML = `
-                    <svg viewBox="0 0 200 180" class="w-64 h-56 cursor-pointer">
-                        <path id="part-cuerpo" onclick="pintarParte('part-cuerpo')" d="M70,90 Q90,70 130,90 Q150,110 130,130 Q90,140 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <path id="part-cabeza" onclick="pintarParte('part-cabeza')" d="M130,70 Q160,50 150,90 Q130,100 120,90 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <circle cx="140" cy="73" r="4" fill="white"/><circle cx="141" cy="73" r="2" fill="black"/>
-                        <path id="part-cola" onclick="pintarParte('part-cola')" d="M70,100 Q30,80 10,60 Q30,110 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <path id="part-patat" onclick="pintarParte('part-patat')" d="M110,130 Q120,160 100,160 Q95,140 105,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <path id="part-patad" onclick="pintarParte('part-patad')" d="M130,115 Q145,145 135,145 Q125,135 125,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                    </svg>`;
+                lienzo.innerHTML = `<svg viewBox="0 0 200 180" class="w-64 h-56 cursor-pointer"><path id="part-cuerpo" onclick="pintarParte('part-cuerpo')" d="M70,90 Q90,70 130,90 Q150,110 130,130 Q90,140 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/><path id="part-cabeza" onclick="pintarParte('part-cabeza')" d="M130,70 Q160,50 150,90 Q130,100 120,90 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/><circle cx="140" cy="73" r="4" fill="white"/><circle cx="141" cy="73" r="2" fill="black"/><path id="part-cola" onclick="pintarParte('part-cola')" d="M70,100 Q30,80 10,60 Q30,110 70,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/><path id="part-patat" onclick="pintarParte('part-patat')" d="M110,130 Q120,160 100,160 Q95,140 105,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/><path id="part-patad" onclick="pintarParte('part-patad')" d="M130,115 Q145,145 135,145 Q125,135 125,120 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/></svg>`;
             } else if (nivelColorear === 2) {
-                lienzo.innerHTML = `
-                    <svg viewBox="0 0 200 180" class="w-64 h-56 cursor-pointer">
-                        <path id="part-cuerpo" onclick="pintarParte('part-cuerpo')" d="M60,100 Q90,80 130,110 Q110,140 60,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <path id="part-cuello" onclick="pintarParte('part-cuello')" d="M120,110 Q150,50 160,40 Q170,60 135,100 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <path id="part-cola" onclick="pintarParte('part-cola')" d="M60,110 Q30,100 10,80 Q30,130 60,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <path id="part-patas" onclick="pintarParte('part-patas')" d="M70,130 Q80,160 70,160 Q65,135 65,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                    </svg>`;
+                lienzo.innerHTML = `<svg viewBox="0 0 200 180" class="w-64 h-56 cursor-pointer"><path id="part-cuerpo" onclick="pintarParte('part-cuerpo')" d="M60,100 Q90,80 130,110 Q110,140 60,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/><path id="part-cuello" onclick="pintarParte('part-cuello')" d="M120,110 Q150,50 160,40 Q170,60 135,100 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/><path id="part-cola" onclick="pintarParte('part-cola')" d="M60,110 Q30,100 10,80 Q30,130 60,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/><path id="part-patas" onclick="pintarParte('part-patas')" d="M70,130 Q80,160 70,160 Q65,135 65,130 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/></svg>`;
             } else {
-                lienzo.innerHTML = `
-                    <svg viewBox="0 0 200 180" class="w-64 h-56 cursor-pointer">
-                        <path id="part-cuerpo" onclick="pintarParte('part-cuerpo')" d="M80,90 Q100,80 120,90 Q110,120 80,110 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <path id="part-alas" onclick="pintarParte('part-alas')" d="M90,90 Q140,40 160,60 Q110,90 90,90 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                        <path id="part-cabeza" onclick="pintarParte('part-cabeza')" d="M120,90 Q140,80 150,90 Q135,100 120,90 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/>
-                    </svg>`;
+                lienzo.innerHTML = `<svg viewBox="0 0 200 180" class="w-64 h-56 cursor-pointer"><path id="part-cuerpo" onclick="pintarParte('part-cuerpo')" d="M80,90 Q100,80 120,90 Q110,120 80,110 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/><path id="part-alas" onclick="pintarParte('part-alas')" d="M90,90 Q140,40 160,60 Q110,90 90,90 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/><path id="part-cabeza" onclick="pintarParte('part-cabeza')" d="M120,90 Q140,80 150,90 Q135,100 120,90 Z" fill="#1e293b" stroke="#facc15" stroke-width="3"/></svg>`;
             }
         }
 
@@ -631,71 +771,114 @@
             cargarColorear();
         }
 
-        // --- JUEGO 3: PISTA SELVÁTICA ---
-        const bloquesPistas = [
-            [
-                { pregunta: "🌿 Es el rey de los carnívoros, brazos pequeños y dientes gigantes. ¿Quién es?", respuesta: "T-Rex", opciones: ["T-Rex", "Triceratops", "Brontosaurio", "Velociraptor"] },
-                { pregunta: "🌿 Cuello larguísimo para alcanzar las hojas altas. ¿Quién es?", respuesta: "Cuellilargo", opciones: ["T-Rex", "Cuellilargo", "Spinosaurus", "Anquilosaurio"] }
+        // --- JUEGO 3: TRIVIA SELVÁTICA CON 3 NIVELES, ROTACIÓN Y RECOMPENSA DE 1 💵 ---
+        const bancoPreguntasTrivia = {
+            1: [
+                { p: "🌿 Es el rey de los carnívoros, brazos pequeños y dientes gigantes. ¿Quién es?", r: "T-Rex", ops: ["T-Rex", "Triceratops", "Brontosaurio", "Velociraptor"] },
+                { p: "🌿 Cuello larguísimo para alcanzar las hojas altas. ¿Quién es?", r: "Cuellilargo", ops: ["T-Rex", "Cuellilargo", "Spinosaurus", "Anquilosaurio"] },
+                { p: "🌿 Pequeño dinosaurio herbívoro con una cola en forma de látigo. ¿Quién es?", r: "Diplodocus", ops: ["Diplodocus", "T-Rex", "Raptor", "Pterodáctilo"] }
             ],
-            [
-                { pregunta: "🌿 Tiene tres cuernos en la cabeza y un escudo óseo. ¿Quién es?", respuesta: "Triceratops", opciones: ["Velociraptor", "Triceratops", "Diplodocus", "Stegosaurus"] },
-                { pregunta: "🌿 Pequeño, rápido y muy inteligente cazando en grupo. ¿Quién es?", respuesta: "Velociraptor", opciones: ["T-Rex", "Velociraptor", "Anquilosaurio", "Parasaurolophus"] }
+            2: [
+                { p: "🌿 Tiene tres cuernos en la cabeza y un escudo óseo. ¿Quién es?", r: "Triceratops", ops: ["Velociraptor", "Triceratops", "Diplodocus", "Stegosaurus"] },
+                { p: "🌿 Pequeño, rápido y muy inteligente cazando en grupo. ¿Quién es?", r: "Velociraptor", ops: ["T-Rex", "Velociraptor", "Anquilosaurio", "Parasaurolophus"] },
+                { p: "🌿 Dinosaurio con una cresta en forma de tubo en la cabeza que emitía sonidos. ¿Quién es?", r: "Parasaurolophus", ops: ["Parasaurolophus", "T-Rex", "Spinosaurus", "Triceratops"] }
             ],
-            [
-                { pregunta: "🌿 Tiene placas en la espalda y una cola con púas afiladas. ¿Quién es?", respuesta: "Stegosaurus", opciones: ["Stegosaurus", "T-Rex", "Triceratops", "Spinosaurus"] },
-                { pregunta: "🌿 Caparazón blindado con un gran mazo en la cola. ¿Quién es?", respuesta: "Anquilosaurio", opciones: ["Velociraptor", "Anquilosaurio", "Cuellilargo", "Pterodáctilo"] }
+            3: [
+                { p: "🌿 Tiene placas en la espalda y una cola con púas afiladas. ¿Quién es?", r: "Stegosaurus", ops: ["Stegosaurus", "T-Rex", "Triceratops", "Spinosaurus"] },
+                { p: "🌿 Caparazón blindado con un gran mazo pesado en la cola. ¿Quién es?", r: "Anquilosaurio", ops: ["Velociraptor", "Anquilosaurio", "Cuellilargo", "Pterodáctilo"] },
+                { p: "🌿 Gigante de los ríos con una vela dorsal como tiburón. ¿Quién es?", r: "Spinosaurus", ops: ["Spinosaurus", "Stegosaurus", "Triceratops", "T-Rex"] }
             ]
-        ];
+        };
 
-        let nivelPista = 1;
-        let indicePreguntaPista = 0;
+        let nivelTrivia = 1;
+        let preguntaActualTrivia = null;
+        let fallosTriviaNivel3 = 2;
 
-        function cargarPista() {
-            let ronda = bloquesPistas[nivelPista - 1];
-            document.getElementById('titulo-nivel-pista').innerText = `🌿 Adivinanzas - Nivel ${nivelPista}`;
+        function reiniciarTrivia() {
+            nivelTrivia = 1;
+            fallosTriviaNivel3 = 2;
+            cargarSiguientePreguntaTrivia();
+        }
+
+        function reiniciarTriviaCompleta() {
+            nivelTrivia = 1;
+            fallosTriviaNivel3 = 2;
+            cargarSiguientePreguntaTrivia();
+        }
+
+        function cargarSiguientePreguntaTrivia() {
             document.getElementById('pantalla-victoria-pista').classList.add('hidden');
+            document.getElementById('pantalla-derrota-pista').classList.add('hidden');
+            document.getElementById('titulo-nivel-pista').innerText = `🌿 Trivia Selvática - Nivel ${nivelTrivia}`;
 
-            if (indicePreguntaPista >= ronda.length) {
-                reproducirSonido('victoria');
-                document.getElementById('pista-pregunta').innerText = "🏆 ¡Has completado todas las pistas de este nivel!";
-                document.getElementById('pista-opciones').innerHTML = '';
-                document.getElementById('pantalla-victoria-pista').classList.remove('hidden');
-                return;
+            const panelFallos = document.getElementById('panel-fallos-trivia');
+            if (nivelTrivia === 3) {
+                panelFallos.classList.remove('hidden');
+                document.getElementById('contador-fallos-trivia').innerText = fallosTriviaNivel3;
+            } else {
+                panelFallos.classList.add('hidden');
             }
 
-            const p = ronda[indicePreguntaPista];
-            document.getElementById('pista-pregunta').innerText = p.pregunta;
+            // Seleccionar pregunta aleatoria del banco correspondiente al nivel para que no se repita de forma obvia
+            let lista = bancoPreguntasTrivia[nivelTrivia];
+            preguntaActualTrivia = lista[Math.floor(Math.random() * lista.length)];
+
+            document.getElementById('pista-pregunta').innerText = preguntaActualTrivia.p;
             document.getElementById('mensaje-pista').innerText = '';
+            
             const contenedorOpciones = document.getElementById('pista-opciones');
             contenedorOpciones.innerHTML = '';
 
-            let opcionesMezcladas = [...p.opciones].sort(() => Math.random() - 0.5);
+            let opcionesMezcladas = [...preguntaActualTrivia.ops].sort(() => Math.random() - 0.5);
             opcionesMezcladas.forEach(op => {
                 const btn = document.createElement('button');
                 btn.className = "bg-emerald-900 hover:bg-emerald-950 text-white font-bold p-3 rounded-xl border border-emerald-600 shadow transition text-sm";
                 btn.innerText = op;
-                btn.onclick = () => verificarPista(op, p.respuesta);
+                btn.onclick = () => verificarTrivia(op, preguntaActualTrivia.r);
                 contenedorOpciones.appendChild(btn);
             });
         }
 
-        function verificarPista(elegida, correcta) {
+        function verificarTrivia(elegida, correcta) {
             const mensaje = document.getElementById('mensaje-pista');
             if (elegida === correcta) {
                 reproducirSonido('acierto');
                 mensaje.innerText = "🌟 ¡Correcto!";
-                indicePreguntaPista++;
-                setTimeout(() => { cargarPista(); }, 1000);
+                
+                let textoVic = document.getElementById('texto-victoria-pista');
+                if (nivelTrivia === 3) {
+                    billetes += 1; // Recompensa de 1 billete en Nivel 3
+                    document.getElementById('contador-billetes').innerText = billetes;
+                    reproducirSonido('victoria');
+                    textoVic.innerHTML = "🏆 ¡Superaste el Nivel 3 y ganaste <span class='text-yellow-300 font-bold'>1 💵</span>!";
+                } else {
+                    reproducirSonido('victoria');
+                    textoVic.innerText = `🎉 ¡Nivel ${nivelTrivia} superado con éxito!`;
+                }
+                document.getElementById('pantalla-victoria-pista').classList.remove('hidden');
             } else {
                 reproducirSonido('error');
+                if (nivelTrivia === 3) {
+                    fallosTriviaNivel3--;
+                    document.getElementById('contador-fallos-trivia').innerText = fallosTriviaNivel3;
+                    if (fallosTriviaNivel3 <= 0) {
+                        reproducirSonido('derrota');
+                        document.getElementById('pantalla-derrota-pista').classList.remove('hidden');
+                        return;
+                    }
+                }
                 mensaje.innerText = "❌ ¡Inténtalo de nuevo!";
             }
         }
 
         function siguienteNivelPista() {
-            nivelPista = nivelPista >= 3 ? 1 : nivelPista + 1;
-            indicePreguntaPista = 0;
-            cargarPista();
+            if (nivelTrivia >= 3) {
+                nivelTrivia = 1;
+                fallosTriviaNivel3 = 2;
+            } else {
+                nivelTrivia++;
+            }
+            cargarSiguientePreguntaTrivia();
         }
 
         // --- VIDEOS Y SUPABASE ---
@@ -729,7 +912,7 @@
 
                     if (Array.isArray(commentsArr) && commentsArr.length > 0) {
                         commentsArr.forEach(c => {
-                            comentariosLista += `<div class="bg-emerald-900/60 p-2 rounded-lg text-xs mb-1 border border-emerald-700/50">🦖 <strong>${c.nombre || 'Explorador'}:</strong> ${c.texto || ''}</div>`;
+                            comentariosLista += `<div class="bg-emerald-900/60 p-2 rounded-lg text-xs mb-1 border border-emerald-700/50">🦖 <strong class="${c.efecto || ''}">${c.nombre || 'Explorador'}:</strong> ${c.texto || ''}</div>`;
                         });
                     } else {
                         comentariosLista = `<p class="text-xs text-emerald-400 italic">Sé el primero en comentar...</p>`;
@@ -786,7 +969,13 @@
             const { data: videoActual } = await supabaseClient.from('videos').select('comments').eq('id', id).single();
             let arr = [];
             try { arr = videoActual.comments ? JSON.parse(videoActual.comments) : []; } catch(e) { arr = []; }
-            arr.push({ nombre: document.getElementById('header-apodo').innerText || 'Explorador', texto: textoComentario });
+            
+            arr.push({ 
+                nombre: document.getElementById('header-apodo').innerText || 'Explorador', 
+                texto: textoComentario,
+                efecto: efectoApodoActual 
+            });
+
             await supabaseClient.from('videos').update({ comments: JSON.stringify(arr) }).eq('id', id);
             input.value = '';
             cargarVideos();
@@ -820,7 +1009,6 @@
         // Inicializar juegos y videos al cargar
         reiniciarMemorama();
         cargarColorear();
-        cargarPista();
         cargarVideos();
     </script>
 </body>
