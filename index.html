@@ -36,38 +36,74 @@
 </head>
 <body class="fondo-selva text-white min-h-screen flex flex-col justify-between relative">
 
-    <!-- PANTALLA DE BIENVENIDA -->
-    <div id="pantalla-bienvenida" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-opacity duration-500">
-        <div class="relative z-10 bg-emerald-950/95 border-4 border-yellow-400 p-8 md:p-12 rounded-3xl shadow-2xl max-w-lg w-full text-center space-y-6">
+    <!-- PANTALLA DE BIENVENIDA / CREACIÓN DE APODO Y AVATAR -->
+    <div id="pantalla-bienvenida" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 transition-opacity duration-500">
+        <div class="relative z-10 bg-emerald-950/95 border-4 border-yellow-400 p-6 md:p-10 rounded-3xl shadow-2xl max-w-md w-full text-center space-y-5">
+            
             <div class="flex justify-center">
-                <div class="w-28 h-28 md:w-36 md:h-36 bg-gradient-to-tr from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-emerald-900 animar-rebote text-6xl md:text-7xl">
+                <div class="w-24 h-24 bg-gradient-to-tr from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-emerald-900 animar-rebote text-5xl">
                     🦖
                 </div>
             </div>
-            <div class="space-y-3">
+
+            <div class="space-y-2">
                 <span class="bg-yellow-400 text-emerald-950 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider shadow">
-                    🌿 ¡Aventura Jurásica Activada! 🌴
+                    🌿 ¡Perfil de Explorador! 🌴
                 </span>
-                <h1 class="text-3xl md:text-4xl font-extrabold text-yellow-300 drop-shadow-md">
+                <h1 class="text-2xl md:text-3xl font-extrabold text-yellow-300">
                     ¡DinoApp!
                 </h1>
-                <p class="text-emerald-100 text-lg md:text-xl font-medium leading-relaxed px-2">
-                    ¡Bienvenidos exploradores estás a punto de vivir una aventura en <span class="text-yellow-300 font-bold">¡DinoApp!</span> 🌿🦕
-                </p>
+                <p class="text-emerald-100 text-sm">Elige tu apodo y tu avatar jurásico para comenzar la aventura:</p>
             </div>
-            <button onclick="entrarAlApp()" class="w-full bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-emerald-950 font-black text-xl py-4 rounded-2xl shadow-xl transition transform hover:scale-105 active:scale-95 border-2 border-yellow-200 animar-brillo flex items-center justify-center gap-2">
+
+            <!-- Formulario de Apodo y Avatar -->
+            <div class="space-y-3 text-left">
+                <div>
+                    <label class="block text-xs font-bold text-yellow-200 mb-1">Tu Apodo de Explorador:</label>
+                    <input type="text" id="input-apodo" value="ExploradorRex" class="w-full p-2.5 rounded-xl bg-emerald-900 border border-emerald-600 text-white text-sm focus:outline-none focus:border-yellow-400">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-yellow-200 mb-1">Elige tu Avatar:</label>
+                    <div class="grid grid-cols-4 gap-2 text-2xl">
+                        <button type="button" onclick="seleccionarAvatar('🦖', this)" class="avatar-btn p-2 bg-emerald-900 border-2 border-yellow-400 rounded-xl flex items-center justify-center shadow">🦖</button>
+                        <button type="button" onclick="seleccionarAvatar('🦕', this)" class="avatar-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🦕</button>
+                        <button type="button" onclick="seleccionarAvatar('🐉', this)" class="avatar-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🐉</button>
+                        <button type="button" onclick="seleccionarAvatar('🐢', this)" class="avatar-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🐢</button>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="entrarAlApp()" class="w-full bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-emerald-950 font-black text-lg py-3 rounded-2xl shadow-xl transition transform hover:scale-105 active:scale-95 border-2 border-yellow-200 animar-brillo flex items-center justify-center gap-2">
                 🚀 ¡Comenzar Aventura! 🌟
             </button>
         </div>
     </div>
 
-    <header class="bg-emerald-950/90 backdrop-blur-md border-b-2 border-yellow-500/30 p-4 shadow-lg text-center relative z-10">
-        <h1 class="text-3xl font-bold tracking-wide text-yellow-300 drop-shadow">🦖 DinoAventura TV 🦕</h1>
-        <p class="text-emerald-200 text-sm">¡Videos, juegos y diversión prehistórica!</p>
-        <div class="mt-2 flex justify-center items-center gap-2">
-            <button onclick="toggleMusicaSelva()" id="btn-musica" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold px-3 py-1.5 rounded-full shadow transition flex items-center gap-1">
-                🎵 <span>Música de Selva: APAGADA</span>
-            </button>
+    <!-- HEADER CON PERFIL Y BILLETERA EN LA ESQUINA SUPERIOR DERECHA -->
+    <header class="bg-emerald-950/90 backdrop-blur-md border-b-2 border-yellow-500/30 p-3 px-4 shadow-lg flex justify-between items-center relative z-10">
+        <div>
+            <h1 class="text-xl md:text-2xl font-bold tracking-wide text-yellow-300 drop-shadow">🦖 DinoAventura TV 🦕</h1>
+            <p class="text-emerald-200 text-xs hidden md:block">¡Videos, juegos y diversión prehistórica!</p>
+        </div>
+
+        <!-- Cartera y Perfil -->
+        <div class="flex items-center gap-3">
+            <div id="btn-musica-container">
+                <button onclick="toggleMusicaSelva()" id="btn-musica" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold px-2.5 py-1.5 rounded-full shadow transition flex items-center gap-1">
+                    🎵 <span class="hidden md:inline">Selva: </span>APAGADA
+                </button>
+            </div>
+
+            <!-- Cartera de Billetes 💵 -->
+            <div class="bg-emerald-900 border-2 border-yellow-400 px-3 py-1.5 rounded-2xl shadow-md flex items-center gap-1.5 text-yellow-300 font-bold text-sm">
+                <span>💵</span> <span id="contador-billetes">0</span>
+            </div>
+
+            <!-- Perfil del usuario -->
+            <div class="bg-emerald-900/90 border border-emerald-600 px-3 py-1 rounded-2xl flex items-center gap-2 text-xs font-bold text-white shadow">
+                <span id="header-avatar" class="text-base">🦖</span>
+                <span id="header-apodo" class="hidden sm:inline">Explorador</span>
+            </div>
         </div>
     </header>
 
@@ -101,21 +137,20 @@
                 <button onclick="abrirJuego('pista')" id="tab-pista" class="bg-emerald-950/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700">🌿 Pista Selvática</button>
             </div>
 
-            <!-- JUEGO 1: MEMORAMA CON MECÁNICA DE RETO Y RECOMPENSA -->
+            <!-- JUEGO 1: MEMORAMA -->
             <div id="juego-memorama" class="bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto">
                 <div class="flex justify-between items-center mb-2">
                     <h3 id="titulo-nivel-memorama" class="text-lg font-bold text-yellow-200">🧠 Memorama - Nivel 1 (Práctica)</h3>
                     <button onclick="reiniciarMemorama()" class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-lg shadow">🔄 Reiniciar</button>
                 </div>
                 
-                <!-- Indicador de Intentos en Nivel 3 -->
                 <div id="panel-intentos" class="hidden mb-2 bg-emerald-900/80 p-2 rounded-xl border border-yellow-500 text-sm font-bold text-yellow-300">
                     ⚡ Intentos Restantes: <span id="contador-intentos">16</span>
                 </div>
 
                 <div id="tablero-memorama" class="grid grid-cols-4 gap-3"></div>
                 
-                <!-- Pantalla de Victoria por Nivel -->
+                <!-- Pantalla de Victoria -->
                 <div id="pantalla-victoria-memorama" class="hidden mt-4 p-4 bg-emerald-900 border-2 border-yellow-400 rounded-xl space-y-2">
                     <p id="texto-victoria-memorama" class="text-lg font-bold text-yellow-300">🎉 ¡Nivel Superado!</p>
                     <button onclick="siguienteNivelMemorama()" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-950 font-black px-6 py-2 rounded-xl shadow-lg transition">
@@ -123,7 +158,7 @@
                     </button>
                 </div>
 
-                <!-- Pantalla de Derrota en Nivel 3 -->
+                <!-- Pantalla de Derrota -->
                 <div id="pantalla-derrota-memorama" class="hidden mt-4 p-4 bg-red-950 border-2 border-red-500 rounded-xl space-y-2">
                     <p class="text-lg font-bold text-red-300">❌ ¡Te quedaste sin intentos! Regresas al Nivel 1.</p>
                     <button onclick="reiniciarJuegoCompletoMemorama()" class="bg-red-500 hover:bg-red-400 text-white font-black px-6 py-2 rounded-xl shadow-lg transition">
@@ -226,9 +261,18 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let audioCtx = null;
+        let billetes = 0;
+        let avatarSeleccionado = '🦖';
+
         function inicializarAudioContext() {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function seleccionarAvatar(avatar, btn) {
+            avatarSeleccionado = avatar;
+            document.querySelectorAll('.avatar-btn').forEach(b => b.classList.remove('border-yellow-400', 'bg-emerald-800'));
+            btn.classList.add('border-yellow-400', 'bg-emerald-800');
         }
 
         function reproducirTamboresSelva() {
@@ -277,6 +321,10 @@
         }
 
         function entrarAlApp() {
+            const apodo = document.getElementById('input-apodo').value.trim() || 'Explorador';
+            document.getElementById('header-apodo').innerText = apodo;
+            document.getElementById('header-avatar').innerText = avatarSeleccionado;
+
             const pantalla = document.getElementById('pantalla-bienvenida');
             event.target.style.pointerEvents = 'none';
             event.target.innerText = "🌿 ¡Entrando a la Selva...!";
@@ -286,6 +334,7 @@
             });
         }
 
+        // --- EFECTOS DE SONIDO SINTETIZADOS (VICTORIA Y DERROTA) ---
         function reproducirSonido(tipo) {
             inicializarAudioContext();
             const osc = audioCtx.createOscillator();
@@ -323,6 +372,40 @@
                 gain.gain.setValueAtTime(0.1, ahora);
                 gain.gain.exponentialRampToValueAtTime(0.01, ahora + 0.08);
                 osc.start(ahora); osc.stop(ahora + 0.08);
+            } else if (tipo === 'victoria') {
+                // Fanfarria triunfal de victoria
+                let notas = [330, 392, 523, 659];
+                let tiemposN = [0, 0.15, 0.3, 0.45];
+                notas.forEach((freq, i) => {
+                    setTimeout(() => {
+                        if (!audioCtx) return;
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g); g.connect(audioCtx.destination);
+                        o.type = 'triangle';
+                        o.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                        g.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                        g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                        o.start(audioCtx.currentTime); o.stop(audioCtx.currentTime + 0.3);
+                    }, tiemposN[i] * 1000);
+                });
+            } else if (tipo === 'derrota') {
+                // Sonido descendente de derrota
+                let notasD = [300, 250, 200, 150];
+                let tiemposD = [0, 0.2, 0.4, 0.6];
+                notasD.forEach((freq, i) => {
+                    setTimeout(() => {
+                        if (!audioCtx) return;
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g); g.connect(audioCtx.destination);
+                        o.type = 'sawtooth';
+                        o.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                        g.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                        g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                        o.start(audioCtx.currentTime); o.stop(audioCtx.currentTime + 0.3);
+                    }, tiemposD[i] * 1000);
+                });
             }
         }
 
@@ -333,14 +416,14 @@
             if (!musicaEncendida) {
                 audio.play().then(() => {
                     musicaEncendida = true;
-                    btn.innerHTML = "🎶 <span>Música de Selva: ENCENDIDA</span>";
-                    btn.className = "bg-green-400 hover:bg-green-300 text-emerald-950 text-xs font-bold px-3 py-1.5 rounded-full shadow transition flex items-center gap-1";
+                    btn.innerHTML = "🎶 <span class='hidden md:inline'>Selva: </span>ENCENDIDA";
+                    btn.className = "bg-green-400 hover:bg-green-300 text-emerald-950 text-xs font-bold px-2.5 py-1.5 rounded-full shadow transition flex items-center gap-1";
                 }).catch(e => console.log("Bloqueado", e));
             } else {
                 audio.pause();
                 musicaEncendida = false;
-                btn.innerHTML = "🎵 <span>Música de Selva: APAGADA</span>";
-                btn.className = "bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold px-3 py-1.5 rounded-full shadow transition flex items-center gap-1";
+                btn.innerHTML = "🎵 <span class='hidden md:inline'>Selva: </span>APAGADA";
+                btn.className = "bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold px-2.5 py-1.5 rounded-full shadow transition flex items-center gap-1";
             }
         }
 
@@ -447,9 +530,15 @@
 
                 if (parejasEncontradas === totalParejas) {
                     let mensajeVictoria = document.getElementById('texto-victoria-memorama');
+                    
                     if (nivelMemorama === 3) {
+                        // ¡Victoria total de los 3 niveles! Se otorgan 3 billetes
+                        billetes += 3;
+                        document.getElementById('contador-billetes').innerText = billetes;
+                        reproducirSonido('victoria');
                         mensajeVictoria.innerHTML = "🏆 ¡Felicidades! Pasaste los 3 niveles y ganaste <span class='text-yellow-300 font-bold'>3 💵</span>!";
                     } else {
+                        reproducirSonido('victoria');
                         mensajeVictoria.innerText = `🎉 ¡Nivel ${nivelMemorama} superado con éxito!`;
                     }
                     document.getElementById('pantalla-victoria-memorama').classList.remove('hidden');
@@ -457,12 +546,12 @@
             } else {
                 bloqueoMemorama = true;
 
-                // Descontar intentos solo en nivel 3
                 if (nivelMemorama === 3) {
                     intentosRestantes--;
                     document.getElementById('contador-intentos').innerText = intentosRestantes;
 
                     if (intentosRestantes <= 0) {
+                        reproducirSonido('derrota');
                         setTimeout(() => {
                             document.getElementById('pantalla-derrota-memorama').classList.remove('hidden');
                         }, 500);
@@ -480,7 +569,6 @@
 
         function siguienteNivelMemorama() {
             if (nivelMemorama >= 3) {
-                // Si completó los 3 niveles, regresa al 1 y se le entregaron los 3 dólares
                 nivelMemorama = 1;
             } else {
                 nivelMemorama++;
@@ -534,6 +622,7 @@
         function pintarParte(idParte) {
             reproducirSonido('pintar');
             document.getElementById(idParte).setAttribute('fill', colorActual);
+            reproducirSonido('victoria');
             document.getElementById('pantalla-victoria-colorear').classList.remove('hidden');
         }
 
@@ -567,6 +656,7 @@
             document.getElementById('pantalla-victoria-pista').classList.add('hidden');
 
             if (indicePreguntaPista >= ronda.length) {
+                reproducirSonido('victoria');
                 document.getElementById('pista-pregunta').innerText = "🏆 ¡Has completado todas las pistas de este nivel!";
                 document.getElementById('pista-opciones').innerHTML = '';
                 document.getElementById('pantalla-victoria-pista').classList.remove('hidden');
@@ -696,7 +786,7 @@
             const { data: videoActual } = await supabaseClient.from('videos').select('comments').eq('id', id).single();
             let arr = [];
             try { arr = videoActual.comments ? JSON.parse(videoActual.comments) : []; } catch(e) { arr = []; }
-            arr.push({ nombre: 'Explorador', texto: textoComentario });
+            arr.push({ nombre: document.getElementById('header-apodo').innerText || 'Explorador', texto: textoComentario });
             await supabaseClient.from('videos').update({ comments: JSON.stringify(arr) }).eq('id', id);
             input.value = '';
             cargarVideos();
