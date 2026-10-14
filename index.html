@@ -226,19 +226,88 @@
         
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // --- FUNCIÓN PARA ENTRAR A LA APLICACIÓN DESDE LA PANTALLA COMPLETA ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        // --- REPRODUCIR TAMBORES SELVÁTICOS AL CARGAR LA PÁGINA ---
+        function reproducirTamboresSelva() {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            // Secuencia de ritmos de tambor (Boom - Pam - Boom - Pam)
+            let tiempos = [0, 0.25, 0.5, 0.75, 1.2, 1.45];
+            let frecuencias = [110, 150, 90, 160, 100, 180];
+            let duraciones = [0.2, 0.15, 0.2, 0.15, 0.3, 0.2];
+
+            tiempos.forEach((t, i) => {
+                setTimeout(() => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+
+                    let ahora = audioCtx.currentTime;
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(frecuencias[i], ahora);
+                    osc.frequency.exponentialRampToValueAtTime(40, ahora + duraciones[i]);
+
+                    gain.gain.setValueAtTime(0.3, ahora);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ahora + duraciones[i]);
+
+                    osc.start(ahora);
+                    osc.stop(ahora + duraciones[i]);
+                }, t * 1000);
+            });
+        }
+
+        // Ejecutar tambores al cargar la ventana
+        window.addEventListener('load', () => {
+            reproducirTamboresSelva();
+        });
+
+        // --- RUGIDO DE T-REX ÉPICO AL ENTRAR ---
+        function reproducirRugidoTRex(callback) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            let ahora = audioCtx.currentTime;
+
+            // Simulación de rugido grave con osciladores de diente de sierra y modulación
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(140, ahora);
+            osc.frequency.linearRampToValueAtTime(70, ahora + 0.3);
+            osc.frequency.linearRampToValueAtTime(110, ahora + 0.6);
+            osc.frequency.linearRampToValueAtTime(50, ahora + 1.0);
+
+            gain.gain.setValueAtTime(0.4, ahora);
+            gain.gain.exponentialRampToValueAtTime(0.01, ahora + 1.1);
+
+            osc.start(ahora);
+            osc.stop(ahora + 1.1);
+
+            // Sonido triunfal posterior
+            setTimeout(() => {
+                reproducirSonido('acierto');
+                if(callback) callback();
+            }, 900);
+        }
+
+        // --- FUNCIÓN PARA ENTRAR A LA APLICACIÓN ---
         function entrarAlApp() {
             const pantalla = document.getElementById('pantalla-bienvenida');
-            pantalla.style.opacity = '0';
-            setTimeout(() => {
-                pantalla.remove();
-            }, 500);
-            reproducirSonido('acierto');
+            reproducirRugidoTRex(() => {
+                pantalla.style.opacity = '0';
+                setTimeout(() => {
+                    pantalla.remove();
+                }, 400);
+            });
         }
 
         // --- EFECTOS DE SONIDO SINTETIZADOS ---
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
         function reproducirSonido(tipo) {
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
