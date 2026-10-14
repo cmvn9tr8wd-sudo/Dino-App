@@ -14,7 +14,7 @@
         .card-front, .card-back { backface-visibility: hidden; }
         .card-back { transform: rotateY(180deg); }
 
-        /* Fondo de selva basado exactamente en tu imagen de referencia */
+        /* Fondo de selva estilizado */
         .fondo-selva {
             background-image: linear-gradient(rgba(2, 44, 34, 0.75), rgba(4, 47, 36, 0.85)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1600&auto=format&fit=crop');
             background-size: cover;
@@ -22,7 +22,6 @@
             background-attachment: fixed;
         }
 
-        /* Animación de rebote emocionante y flotado */
         @keyframes reboteDino {
             0%, 100% { transform: translateY(0) scale(1); }
             50% { transform: translateY(-20px) scale(1.08); }
@@ -46,14 +45,12 @@
     <div id="pantalla-bienvenida" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-opacity duration-500">
         <div class="relative z-10 bg-emerald-950/95 border-4 border-yellow-400 p-8 md:p-12 rounded-3xl shadow-2xl max-w-lg w-full text-center space-y-6">
             
-            <!-- Dinosaurio con animación de rebote -->
             <div class="flex justify-center">
                 <div class="w-28 h-28 md:w-36 md:h-36 bg-gradient-to-tr from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-emerald-900 animar-rebote text-6xl md:text-7xl">
                     🦖
                 </div>
             </div>
 
-            <!-- Títulos y leyenda solicitada -->
             <div class="space-y-3">
                 <span class="bg-yellow-400 text-emerald-950 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider shadow">
                     🌿 ¡Aventura Jurásica Activada! 🌴
@@ -66,7 +63,6 @@
                 </p>
             </div>
 
-            <!-- Botón de acceso emocionante -->
             <button onclick="entrarAlApp()" class="w-full bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-emerald-950 font-black text-xl py-4 rounded-2xl shadow-xl transition transform hover:scale-105 active:scale-95 border-2 border-yellow-200 animar-brillo flex items-center justify-center gap-2">
                 🚀 ¡Comenzar Aventura! 🌟
             </button>
@@ -77,7 +73,6 @@
         <h1 class="text-3xl font-bold tracking-wide text-yellow-300 drop-shadow">🦖 DinoAventura TV 🦕</h1>
         <p class="text-emerald-200 text-sm">¡Videos, juegos y diversión prehistórica!</p>
         
-        <!-- Control de Música de Selva -->
         <div class="mt-2 flex justify-center items-center gap-2">
             <button onclick="toggleMusicaSelva()" id="btn-musica" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold px-3 py-1.5 rounded-full shadow transition flex items-center gap-1">
                 🎵 <span>Música de Selva: APAGADA</span>
@@ -85,14 +80,12 @@
         </div>
     </header>
 
-    <!-- Reproductor de Audio para la música de selva -->
     <audio id="audio-selva" loop>
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=fun-kids-110488.mp3" type="audio/mpeg">
     </audio>
 
     <main class="container mx-auto p-4 flex-grow max-w-4xl relative z-10">
         
-        <!-- Pestañas de navegación -->
         <div class="flex justify-center gap-2 mb-6 flex-wrap">
             <button onclick="cambiarSeccion('videos')" id="btn-videos" class="bg-emerald-900/90 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-700">🎬 Videos</button>
             <button onclick="cambiarSeccion('juegos')" id="btn-juegos" class="bg-yellow-400 text-emerald-950 font-bold px-5 py-2 rounded-full shadow-md transition border border-yellow-500">🎮 Juegos</button>
@@ -100,10 +93,10 @@
             <button onclick="cambiarSeccion('apoyar')" id="btn-apoyar" class="bg-emerald-900/90 text-white font-bold px-5 py-2 rounded-full shadow-md transition border border-emerald-700">⭐ Apoyar</button>
         </div>
 
-        <!-- SECCIÓN: VIDEOS -->
-        <section id="seccion-videos" class="hidden space-y-4">
+        <!-- SECCIÓN: VIDEOS CON REACCIONES Y COMENTARIOS -->
+        <section id="seccion-videos" class="hidden space-y-6">
             <h2 class="text-2xl font-bold text-yellow-300 mb-4 drop-shadow">Mis Videos de Dinosaurios</h2>
-            <div id="lista-videos" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div id="lista-videos" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <p class="text-emerald-300 col-span-2 text-center">Cargando aventuras jurásicas...</p>
             </div>
         </section>
@@ -112,7 +105,6 @@
         <section id="seccion-juegos" class="space-y-6">
             <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center drop-shadow">🎮 Zona de Juegos Divertidos</h2>
             
-            <!-- Selector de Juegos -->
             <div class="flex justify-center gap-2 flex-wrap">
                 <button onclick="abrirJuego('memorama')" id="tab-memorama" class="bg-yellow-400 text-emerald-950 font-bold px-3 py-2 rounded-xl shadow text-sm">🧠 Memorama</button>
                 <button onclick="abrirJuego('colorear')" id="tab-colorear" class="bg-emerald-950/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700">🎨 Colorear</button>
@@ -125,9 +117,7 @@
                     <h3 class="text-xl font-bold text-yellow-200">Encuentra las parejas</h3>
                     <button onclick="reiniciarMemorama()" class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-lg">🔄 Reiniciar</button>
                 </div>
-                <div id="tablero-memorama" class="grid grid-cols-4 gap-3">
-                    <!-- Cartas -->
-                </div>
+                <div id="tablero-memorama" class="grid grid-cols-4 gap-3"></div>
                 <p id="mensaje-memorama" class="mt-4 text-sm font-bold text-yellow-300"></p>
             </div>
 
@@ -162,12 +152,8 @@
             <!-- JUEGO 3: PISTA SELVÁTICA -->
             <div id="juego-pista" class="hidden bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto space-y-4">
                 <h3 class="text-xl font-bold text-yellow-200">🌿 Adivinanza en la Selva Jurásica</h3>
-                <p id="pista-pregunta" class="text-sm text-emerald-100 font-semibold bg-emerald-900 p-3 rounded-xl border border-emerald-700">
-                    Cargando pista...
-                </p>
-                <div id="pista-opciones" class="grid grid-cols-2 gap-3">
-                    <!-- Opciones generadas por JS -->
-                </div>
+                <p id="pista-pregunta" class="text-sm text-emerald-100 font-semibold bg-emerald-900 p-3 rounded-xl border border-emerald-700">Cargando pista...</p>
+                <div id="pista-opciones" class="grid grid-cols-2 gap-3"></div>
                 <p id="mensaje-pista" class="text-sm font-bold text-yellow-300 min-h-[24px]"></p>
                 <button onclick="siguientePista()" class="bg-yellow-400 text-emerald-950 font-bold text-xs px-4 py-2 rounded-lg shadow">➡️ Siguiente Pista</button>
             </div>
@@ -242,7 +228,6 @@
             }
         }
 
-        // --- RITMO DE TAMBORES SELVÁTICOS ---
         function reproducirTamboresSelva() {
             inicializarAudioContext();
             let tiempos = [0, 0.3, 0.6, 0.9, 1.3, 1.5, 1.8];
@@ -271,7 +256,6 @@
             });
         }
 
-        // --- RUGIDO ÉPICO DE T-REX + TAMBORES ---
         function reproducirEntradaSelvatica(callback) {
             inicializarAudioContext();
             reproducirTamboresSelva();
@@ -299,7 +283,6 @@
             }, 1600);
         }
 
-        // --- FUNCIÓN AL HACER CLIC EN COMENZAR AVENTURA ---
         function entrarAlApp() {
             const pantalla = document.getElementById('pantalla-bienvenida');
             event.target.style.pointerEvents = 'none';
@@ -313,7 +296,6 @@
             });
         }
 
-        // --- EFECTOS DE SONIDO SINTETIZADOS PARA JUEGOS ---
         function reproducirSonido(tipo) {
             inicializarAudioContext();
             const osc = audioCtx.createOscillator();
@@ -359,7 +341,6 @@
             }
         }
 
-        // --- MÚSICA DE SELVA ---
         let musicaEncendida = false;
         function toggleMusicaSelva() {
             const audio = document.getElementById('audio-selva');
@@ -490,7 +471,7 @@
             });
         }
 
-        // JUEGO 3: PISTA SELVÁTICA
+        // Pista Selvática
         const pistas = [
             { pregunta: "🌿 Es el rey de los dinosaurios carnívoros, tiene brazos pequeños y dientes gigantes. ¿Quién es?", respuesta: "T-Rex", opciones: ["T-Rex", "Triceratops", "Brontosaurio", "Velociraptor"] },
             { pregunta: "🌿 Tiene un cuello larguísimo para alcanzar las hojas más altas de los árboles en la selva. ¿Quién es?", respuesta: "Cuellilargo", opciones: ["T-Rex", "Cuellilargo", "Spinosaurus", "Anquilosaurio"] },
@@ -535,7 +516,7 @@
             cargarPista();
         }
 
-        // Carga de Videos y Subida
+        // --- CARGA DE VIDEOS, LIKES Y COMENTARIOS ---
         async function cargarVideos() {
             const contenedor = document.getElementById('lista-videos');
             try {
@@ -559,22 +540,48 @@
                         cleanId = parts[parts.length - 1];
                     }
 
+                    let comentariosLista = '';
+                    let commentsArr = [];
+                    try {
+                        commentsArr = video.comments ? JSON.parse(video.comments) : [];
+                    } catch(e) { commentsArr = []; }
+
+                    commentsArr.forEach(c => {
+                        comentariosLista += `<div class="bg-emerald-900/60 p-2 rounded-lg text-xs mb-1 border border-emerald-700/50">🦖 <strong>${c.nombre}:</strong> ${c.texto}</div>`;
+                    });
+
                     const tarjeta = document.createElement('div');
-                    tarjeta.className = "bg-emerald-950/90 rounded-xl overflow-hidden shadow-xl border border-emerald-700 flex flex-col justify-between";
+                    tarjeta.className = "bg-emerald-950/90 rounded-2xl overflow-hidden shadow-xl border-2 border-emerald-700 flex flex-col justify-between";
                     tarjeta.innerHTML = `
                         <div>
                             <div class="relative pb-[56.25%] h-0">
                                 <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${cleanId}" title="${video.title}" frameborder="0" allowfullscreen></iframe>
                             </div>
-                            <div class="p-4">
-                                <h3 class="font-bold text-yellow-300 text-lg">${video.title}</h3>
-                                <span class="inline-block bg-emerald-900 text-emerald-200 text-xs px-2 py-1 rounded mt-2">${video.category || 'Dinosaurios'}</span>
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <h3 class="font-bold text-yellow-300 text-lg">${video.title}</h3>
+                                    <span class="inline-block bg-emerald-900 text-emerald-200 text-xs px-2 py-1 rounded mt-1">${video.category || 'Dinosaurios'}</span>
+                                </div>
+
+                                <!-- Botón de Reacciones (Likes) -->
+                                <div class="flex items-center justify-between pt-2 border-t border-emerald-900">
+                                    <button onclick="darLike(${video.id}, ${video.likes || 0})" class="bg-emerald-900 hover:bg-emerald-800 text-yellow-300 font-bold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1.5 transition border border-emerald-700">
+                                        💚 Me gusta <span class="bg-emerald-950 px-2 py-0.5 rounded-full text-white">${video.likes || 0}</span>
+                                    </button>
+                                </div>
+
+                                <!-- Sección de Comentarios -->
+                                <div class="space-y-2 pt-2 border-t border-emerald-900">
+                                    <p class="text-xs font-bold text-yellow-200">💬 Comentarios de Exploradores:</p>
+                                    <div class="max-h-28 overflow-y-auto space-y-1 pr-1">
+                                        ${comentariosLista || '<p class="text-xs text-emerald-400 italic">Sé el primero en comentar...</p>'}
+                                    </div>
+                                    <form onsubmit="agregarComentario(event, ${video.id})" class="flex gap-1 pt-1">
+                                        <input type="text" id="input-comentario-${video.id}" required placeholder="Escribe tu comentario..." class="flex-grow p-1.5 text-xs rounded bg-emerald-900 border border-emerald-700 text-white focus:outline-none focus:border-yellow-400">
+                                        <button type="submit" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-950 font-bold px-3 py-1.5 rounded text-xs shadow">Enviar</button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                        <div class="p-4 pt-0">
-                            <button onclick="eliminarVideo(${video.id})" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2 rounded-lg transition shadow">
-                                🗑️ Eliminar este video
-                            </button>
                         </div>
                     `;
                     contenedor.appendChild(tarjeta);
@@ -586,18 +593,49 @@
             }
         }
 
-        async function eliminarVideo(id) {
-            if (!confirm("¿Estás seguro de que quieres eliminar este video?")) return;
+        async function darLike(id, likesActuales) {
+            reproducirSonido('acierto');
+            const { error } = await supabaseClient
+                .from('videos')
+                .update({ likes: likesActuales + 1 })
+                .eq('id', id);
+
+            if (!error) {
+                cargarVideos();
+            }
+        }
+
+        async function agregarComentario(e, id) {
+            e.preventDefault();
+            reproducirSonido('voltear');
+            const input = document.getElementById(`input-comentario-${id}`);
+            const textoComentario = input.value.trim();
+            if (!textoComentario) return;
+
+            // Obtener video actual para recuperar comentarios previos
+            const { data: videoActual, error: errFetch } = await supabaseClient
+                .from('videos')
+                .select('comments')
+                .eq('id', id)
+                .single();
+
+            if (errFetch) return;
+
+            let arr = [];
+            try {
+                arr = videoActual.comments ? JSON.parse(videoActual.comments) : [];
+            } catch(e) { arr = []; }
+
+            arr.push({ nombre: 'Explorador', texto: textoComentario });
 
             const { error } = await supabaseClient
                 .from('videos')
-                .delete()
+                .update({ comments: JSON.stringify(arr) })
                 .eq('id', id);
 
-            if (error) {
-                alert("Hubo un error al eliminar el video.");
-            } else {
-                cargarVideos(); 
+            if (!error) {
+                input.value = '';
+                cargarVideos();
             }
         }
 
@@ -623,7 +661,7 @@
 
             const { error } = await supabaseClient
                 .from('videos')
-                .insert([{ title: titulo, youtube_id: ytid, category: categoria }]);
+                .insert([{ title: titulo, youtube_id: ytid, category: categoria, likes: 0, comments: JSON.stringify([]) }]);
 
             if (error) {
                 console.error(error);
@@ -638,7 +676,7 @@
             }
         }
 
-        // Inicializar juegos al cargar
+        // Inicializar juegos y videos al cargar
         reiniciarMemorama();
         cargarPista();
         cargarVideos();
