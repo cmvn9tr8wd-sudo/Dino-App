@@ -36,7 +36,7 @@
 </head>
 <body class="fondo-selva text-white min-h-screen flex flex-col justify-between relative">
 
-    <!-- INTEL / PANTALLA DE BIENVENIDA -->
+    <!-- PANTALLA DE BIENVENIDA -->
     <div id="pantalla-bienvenida" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 transition-opacity duration-500">
         <div class="relative z-10 bg-emerald-950/95 border-4 border-yellow-400 p-8 md:p-12 rounded-3xl shadow-2xl max-w-lg w-full text-center space-y-6">
             <div class="flex justify-center">
@@ -91,7 +91,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN: JUEGOS CON NIVELES -->
+        <!-- SECCIÓN: JUEGOS -->
         <section id="seccion-juegos" class="space-y-6">
             <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center drop-shadow">🎮 Zona de Juegos con Niveles</h2>
             
@@ -101,32 +101,44 @@
                 <button onclick="abrirJuego('pista')" id="tab-pista" class="bg-emerald-950/90 text-white font-bold px-3 py-2 rounded-xl shadow text-sm border border-emerald-700">🌿 Pista Selvática</button>
             </div>
 
-            <!-- JUEGO 1: MEMORAMA MULTINIVEL -->
+            <!-- JUEGO 1: MEMORAMA CON MECÁNICA DE RETO Y RECOMPENSA -->
             <div id="juego-memorama" class="bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 id="titulo-nivel-memorama" class="text-lg font-bold text-yellow-200">🧠 Memorama - Nivel 1 (Fácil)</h3>
+                <div class="flex justify-between items-center mb-2">
+                    <h3 id="titulo-nivel-memorama" class="text-lg font-bold text-yellow-200">🧠 Memorama - Nivel 1 (Práctica)</h3>
                     <button onclick="reiniciarMemorama()" class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-lg shadow">🔄 Reiniciar</button>
                 </div>
                 
+                <!-- Indicador de Intentos en Nivel 3 -->
+                <div id="panel-intentos" class="hidden mb-2 bg-emerald-900/80 p-2 rounded-xl border border-yellow-500 text-sm font-bold text-yellow-300">
+                    ⚡ Intentos Restantes: <span id="contador-intentos">16</span>
+                </div>
+
                 <div id="tablero-memorama" class="grid grid-cols-4 gap-3"></div>
                 
-                <!-- Pantalla de Victoria y Paso a Siguiente Nivel -->
-                <div id="pantalla-victoria-memorama" class="hidden mt-4 p-4 bg-emerald-900 border-2 border-yellow-400 rounded-xl space-y-2 animate-bounce">
-                    <p class="text-lg font-bold text-yellow-300">🎉 ¡Increíble! ¡Pasaste el Nivel!</p>
+                <!-- Pantalla de Victoria por Nivel -->
+                <div id="pantalla-victoria-memorama" class="hidden mt-4 p-4 bg-emerald-900 border-2 border-yellow-400 rounded-xl space-y-2">
+                    <p id="texto-victoria-memorama" class="text-lg font-bold text-yellow-300">🎉 ¡Nivel Superado!</p>
                     <button onclick="siguienteNivelMemorama()" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-950 font-black px-6 py-2 rounded-xl shadow-lg transition">
-                        ⭐ ¡Ir al Siguiente Nivel! 🚀
+                        ⭐ ¡Continuar Aventura! 🚀
+                    </button>
+                </div>
+
+                <!-- Pantalla de Derrota en Nivel 3 -->
+                <div id="pantalla-derrota-memorama" class="hidden mt-4 p-4 bg-red-950 border-2 border-red-500 rounded-xl space-y-2">
+                    <p class="text-lg font-bold text-red-300">❌ ¡Te quedaste sin intentos! Regresas al Nivel 1.</p>
+                    <button onclick="reiniciarJuegoCompletoMemorama()" class="bg-red-500 hover:bg-red-400 text-white font-black px-6 py-2 rounded-xl shadow-lg transition">
+                        🔄 Volver a Intentar
                     </button>
                 </div>
             </div>
 
-            <!-- JUEGO 2: COLOREAR MULTINIVEL -->
+            <!-- JUEGO 2: COLOREAR -->
             <div id="juego-colorear" class="hidden bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto">
                 <div class="flex justify-between items-center mb-2">
                     <h3 id="titulo-nivel-colorear" class="text-lg font-bold text-yellow-200">🎨 Galería de Colores - Nivel 1: T-Rex</h3>
                     <button onclick="cambiarNivelColorear()" class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-lg shadow">🔄 Cambiar Dino</button>
                 </div>
                 <p class="text-xs text-emerald-200 mb-3">Elige un color y toca las partes para pintarlo.</p>
-                
                 <div class="flex justify-center gap-3 mb-3">
                     <button onclick="cambiarColor('#ef4444')" class="w-8 h-8 rounded-full bg-red-500 border-2 border-white shadow transform hover:scale-110"></button>
                     <button onclick="cambiarColor('#22c55e')" class="w-8 h-8 rounded-full bg-green-500 border-2 border-white shadow transform hover:scale-110"></button>
@@ -134,25 +146,21 @@
                     <button onclick="cambiarColor('#eab308')" class="w-8 h-8 rounded-full bg-yellow-400 border-2 border-white shadow transform hover:scale-110"></button>
                     <button onclick="cambiarColor('#a855f7')" class="w-8 h-8 rounded-full bg-purple-500 border-2 border-white shadow transform hover:scale-110"></button>
                 </div>
-
                 <div class="bg-emerald-900/80 p-4 rounded-xl border border-emerald-700 flex justify-center">
-                    <!-- Contenedor SVG dinámico para diferentes dinosaurios por nivel -->
                     <div id="lienzo-dino" class="w-64 h-56 flex items-center justify-center cursor-pointer"></div>
                 </div>
-
                 <div id="pantalla-victoria-colorear" class="hidden mt-3 p-3 bg-emerald-900 border border-yellow-400 rounded-xl">
                     <p class="text-sm font-bold text-yellow-300">🌟 ¡Obra de arte jurásica completada!</p>
                     <button onclick="cambiarNivelColorear()" class="mt-2 bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-lg text-xs shadow">Siguiente Dinosaurio ➡️</button>
                 </div>
             </div>
 
-            <!-- JUEGO 3: PISTA SELVÁTICA MULTINIVEL -->
+            <!-- JUEGO 3: PISTA SELVÁTICA -->
             <div id="juego-pista" class="hidden bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto space-y-4">
                 <h3 id="titulo-nivel-pista" class="text-lg font-bold text-yellow-200">🌿 Adivinanzas - Nivel 1</h3>
                 <p id="pista-pregunta" class="text-sm text-emerald-100 font-semibold bg-emerald-900 p-3 rounded-xl border border-emerald-700">Cargando pista...</p>
                 <div id="pista-opciones" class="grid grid-cols-2 gap-3"></div>
                 <p id="mensaje-pista" class="text-sm font-bold text-yellow-300 min-h-[24px]"></p>
-                
                 <div id="pantalla-victoria-pista" class="hidden p-3 bg-emerald-900 border border-yellow-400 rounded-xl">
                     <p class="text-sm font-bold text-yellow-300">🎉 ¡Ronda superada con éxito!</p>
                     <button onclick="siguienteNivelPista()" class="mt-2 bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-lg text-xs shadow">🚀 Avanzar al Siguiente Nivel</button>
@@ -355,9 +363,10 @@
             document.getElementById(`tab-${juego}`).className = "bg-yellow-400 text-emerald-950 font-bold px-3 py-2 rounded-xl shadow text-sm";
         }
 
-        // --- JUEGO 1: MEMORAMA MULTINIVEL ---
+        // --- JUEGO 1: MEMORAMA MULTINIVEL CON RETO DE 16 INTENTOS Y RECOMPENSA DE 💵 ---
         let nivelMemorama = 1;
         let parejasEncontradas = 0;
+        let intentosRestantes = 16;
         let primeraCarta = null, segundaCarta = null, bloqueoMemorama = false;
 
         function reiniciarMemorama() {
@@ -369,8 +378,21 @@
             tablero.className = nivelMemorama === 1 ? "grid grid-cols-4 gap-3" : (nivelMemorama === 2 ? "grid grid-cols-4 gap-2" : "grid grid-cols-4 gap-2");
             tablero.innerHTML = '';
             parejasEncontradas = 0;
+            bloqueoMemorama = false;
+            primeraCarta = null; segundaCarta = null;
+
             document.getElementById('pantalla-victoria-memorama').classList.add('hidden');
-            document.getElementById('titulo-nivel-memorama').innerText = `🧠 Memorama - Nivel ${nivelMemorama} (${nivelMemorama === 1 ? 'Fácil' : (nivelMemorama === 2 ? 'Medio' : '¡Experto!')})`;
+            document.getElementById('pantalla-derrota-memorama').classList.add('hidden');
+
+            if (nivelMemorama === 3) {
+                intentosRestantes = 16;
+                document.getElementById('panel-intentos').classList.remove('hidden');
+                document.getElementById('contador-intentos').innerText = intentosRestantes;
+                document.getElementById('titulo-nivel-memorama').innerText = `🧠 Memorama - Nivel 3 (¡RETO EXTREMO!)`;
+            } else {
+                document.getElementById('panel-intentos').classList.add('hidden');
+                document.getElementById('titulo-nivel-memorama').innerText = `🧠 Memorama - Nivel ${nivelMemorama} (${nivelMemorama === 1 ? 'Práctica' : 'Medio'})`;
+            }
 
             cartas.forEach((dino) => {
                 const carta = document.createElement('div');
@@ -385,6 +407,18 @@
                 carta.addEventListener('click', voltearCartaMemorama);
                 tablero.appendChild(carta);
             });
+
+            // REGLA NIVEL 3: Mostrar caras por 2 segundos al inicio
+            if (nivelMemorama === 3) {
+                bloqueoMemorama = true;
+                const todasLasCartas = tablero.querySelectorAll('.card');
+                todasLasCartas.forEach(c => c.classList.add('flipped'));
+
+                setTimeout(() => {
+                    todasLasCartas.forEach(c => c.classList.remove('flipped'));
+                    bloqueoMemorama = false;
+                }, 2000);
+            }
         }
 
         function voltearCartaMemorama() {
@@ -410,11 +444,32 @@
                 segundaCarta.removeEventListener('click', voltearCartaMemorama);
                 primeraCarta = null; segundaCarta = null;
                 parejasEncontradas++;
+
                 if (parejasEncontradas === totalParejas) {
+                    let mensajeVictoria = document.getElementById('texto-victoria-memorama');
+                    if (nivelMemorama === 3) {
+                        mensajeVictoria.innerHTML = "🏆 ¡Felicidades! Pasaste los 3 niveles y ganaste <span class='text-yellow-300 font-bold'>3 💵</span>!";
+                    } else {
+                        mensajeVictoria.innerText = `🎉 ¡Nivel ${nivelMemorama} superado con éxito!`;
+                    }
                     document.getElementById('pantalla-victoria-memorama').classList.remove('hidden');
                 }
             } else {
                 bloqueoMemorama = true;
+
+                // Descontar intentos solo en nivel 3
+                if (nivelMemorama === 3) {
+                    intentosRestantes--;
+                    document.getElementById('contador-intentos').innerText = intentosRestantes;
+
+                    if (intentosRestantes <= 0) {
+                        setTimeout(() => {
+                            document.getElementById('pantalla-derrota-memorama').classList.remove('hidden');
+                        }, 500);
+                        return;
+                    }
+                }
+
                 setTimeout(() => {
                     primeraCarta.classList.remove('flipped');
                     segundaCarta.classList.remove('flipped');
@@ -424,11 +479,21 @@
         }
 
         function siguienteNivelMemorama() {
-            nivelMemorama = nivelMemorama >= 3 ? 1 : nivelMemorama + 1;
+            if (nivelMemorama >= 3) {
+                // Si completó los 3 niveles, regresa al 1 y se le entregaron los 3 dólares
+                nivelMemorama = 1;
+            } else {
+                nivelMemorama++;
+            }
             reiniciarMemorama();
         }
 
-        // --- JUEGO 2: COLOREAR MULTINIVEL ---
+        function reiniciarJuegoCompletoMemorama() {
+            nivelMemorama = 1;
+            reiniciarMemorama();
+        }
+
+        // --- JUEGO 2: COLOREAR ---
         let nivelColorear = 1;
         let colorActual = '#ef4444';
         function cambiarColor(color) { colorActual = color; }
@@ -477,19 +542,16 @@
             cargarColorear();
         }
 
-        // --- JUEGO 3: PISTA SELVÁTICA MULTINIVEL ---
+        // --- JUEGO 3: PISTA SELVÁTICA ---
         const bloquesPistas = [
-            // Nivel 1
             [
                 { pregunta: "🌿 Es el rey de los carnívoros, brazos pequeños y dientes gigantes. ¿Quién es?", respuesta: "T-Rex", opciones: ["T-Rex", "Triceratops", "Brontosaurio", "Velociraptor"] },
                 { pregunta: "🌿 Cuello larguísimo para alcanzar las hojas altas. ¿Quién es?", respuesta: "Cuellilargo", opciones: ["T-Rex", "Cuellilargo", "Spinosaurus", "Anquilosaurio"] }
             ],
-            // Nivel 2
             [
                 { pregunta: "🌿 Tiene tres cuernos en la cabeza y un escudo óseo. ¿Quién es?", respuesta: "Triceratops", opciones: ["Velociraptor", "Triceratops", "Diplodocus", "Stegosaurus"] },
                 { pregunta: "🌿 Pequeño, rápido y muy inteligente cazando en grupo. ¿Quién es?", respuesta: "Velociraptor", opciones: ["T-Rex", "Velociraptor", "Anquilosaurio", "Parasaurolophus"] }
             ],
-            // Nivel 3
             [
                 { pregunta: "🌿 Tiene placas en la espalda y una cola con púas afiladas. ¿Quién es?", respuesta: "Stegosaurus", opciones: ["Stegosaurus", "T-Rex", "Triceratops", "Spinosaurus"] },
                 { pregunta: "🌿 Caparazón blindado con un gran mazo en la cola. ¿Quién es?", respuesta: "Anquilosaurio", opciones: ["Velociraptor", "Anquilosaurio", "Cuellilargo", "Pterodáctilo"] }
@@ -528,7 +590,6 @@
         }
 
         function verificarPista(elegida, correcta) {
-            let ronda = bloquesPistas[nivelPista - 1];
             const mensaje = document.getElementById('mensaje-pista');
             if (elegida === correcta) {
                 reproducirSonido('acierto');
