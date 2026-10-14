@@ -17,6 +17,22 @@
 </head>
 <body class="bg-emerald-900 text-white min-h-screen flex flex-col justify-between">
 
+    <!-- MODAL / INTRO LLAMATIVO DE BIENVENIDA -->
+    <div id="modal-bienvenida" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in">
+        <div class="bg-gradient-to-b from-emerald-800 to-emerald-950 border-4 border-yellow-400 p-6 md:p-8 rounded-3xl shadow-2xl max-w-md w-full text-center relative transform transition-all scale-100">
+            <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-emerald-950 text-4xl p-3 rounded-full border-4 border-emerald-800 shadow-lg">
+                🦖
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-yellow-300 mt-6 mb-3">¡Bienvenido a DinoApp!</h2>
+            <p class="text-emerald-100 text-base md:text-lg mb-6 leading-relaxed">
+                ¡Bienvenidos exploradores estás a punto de vivir una aventura en <strong>¡DinoApp!</strong> 🌿🦕
+            </p>
+            <button onclick="cerrarBienvenida()" class="w-full bg-yellow-400 hover:bg-yellow-300 text-emerald-950 font-extrabold text-lg py-3 rounded-full shadow-lg transition transform hover:scale-105">
+                🚀 ¡Comenzar Aventura!
+            </button>
+        </div>
+    </div>
+
     <header class="bg-emerald-800 p-4 shadow-lg text-center relative">
         <h1 class="text-3xl font-bold tracking-wide text-yellow-300">🦖 DinoAventura TV 🦕</h1>
         <p class="text-emerald-200 text-sm">¡Videos, juegos y diversión prehistórica!</p>
@@ -103,7 +119,7 @@
                 <button onclick="reiniciarColores()" class="mt-4 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-lg shadow">🔄 Limpiar Colores</button>
             </div>
 
-            <!-- JUEGO 3: PISTA SELVÁTICA (NUEVO) -->
+            <!-- JUEGO 3: PISTA SELVÁTICA -->
             <div id="juego-pista" class="hidden bg-emerald-800 p-6 rounded-2xl border-2 border-yellow-400 shadow-lg text-center max-w-lg mx-auto space-y-4">
                 <h3 class="text-xl font-bold text-yellow-200">🌿 Adivinanza en la Selva Jurásica</h3>
                 <p id="pista-pregunta" class="text-sm text-emerald-100 font-semibold bg-emerald-900 p-3 rounded-xl border border-emerald-700">
@@ -174,6 +190,17 @@
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2d29waXhsY2tnamFzd2VnbW50Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NDk1MzUsImV4cCI6MjEwNzQyNTUzNX0.uwDXbE6DrcFZyjYwjv2UOva255MIGkF_cOC5-U3g1CU';
         
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // --- FUNCIÓN PARA CERRAR EL MODAL DE BIENVENIDA ---
+        function cerrarBienvenida() {
+            const modal = document.getElementById('modal-bienvenida');
+            modal.style.opacity = '0';
+            modal.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => {
+                modal.remove();
+            }, 300);
+            reproducirSonido('acierto');
+        }
 
         // --- EFECTOS DE SONIDO SINTETIZADOS ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -371,7 +398,6 @@
             const contenedorOpciones = document.getElementById('pista-opciones');
             contenedorOpciones.innerHTML = '';
 
-            // Mezclar opciones
             let opcionesMezcladas = [...p.opciones].sort(() => Math.random() - 0.5);
 
             opcionesMezcladas.forEach(op => {
