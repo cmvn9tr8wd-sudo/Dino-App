@@ -1,5 +1,3 @@
-El problema ocurre porque al hacer clic en el botón, el código intentaba usar event.target, pero al tener elementos internos dentro del botón (como texto y emojis), event.target apuntaba al texto en lugar de al botón en sí, causando que fallara la función y se quedara congelado en la pantalla de bienvenida.
-Aquí tienes el archivo index.html completo y corregido para que pase sin problemas al hacer clic:
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1003,4 +1001,3 @@ Aquí tienes el archivo index.html completo y corregido para que pase sin proble
     </script>
 </body>
 </html>
-
