@@ -38,6 +38,9 @@
         .neon-azul { color: #38bdf8; text-shadow: 0 0 8px #38bdf8, 0 0 20px #38bdf8; }
         .neon-verde { color: #4ade80; text-shadow: 0 0 8px #4ade80, 0 0 20px #4ade80; }
         .neon-morado { color: #c084fc; text-shadow: 0 0 8px #c084fc, 0 0 20px #c084fc; }
+
+        .avatar-img { width: 64px; height: 64px; object-fit: contain; }
+        .silueta-negra { filter: brightness(0) invert(0); }
     </style>
 </head>
 <body class="fondo-selva text-white min-h-screen flex flex-col justify-between relative">
@@ -69,11 +72,10 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-yellow-200 mb-1">Elige tu Avatar Inicial:</label>
-                    <div class="grid grid-cols-4 gap-2 text-2xl">
-                        <button type="button" onclick="seleccionarAvatarInicial('🦖', this)" class="avatar-inicial-btn p-2 bg-emerald-800 border-2 border-yellow-400 rounded-xl flex items-center justify-center shadow">🦖</button>
-                        <button type="button" onclick="seleccionarAvatarInicial('🦕', this)" class="avatar-inicial-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🦕</button>
-                        <button type="button" onclick="seleccionarAvatarInicial('🐉', this)" class="avatar-inicial-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🐉</button>
-                        <button type="button" onclick="seleccionarAvatarInicial('🐢', this)" class="avatar-inicial-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🐢</button>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button type="button" onclick="seleccionarAvatarInicial('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop', this)" class="avatar-inicial-btn p-2 bg-emerald-800 border-2 border-yellow-400 rounded-xl flex items-center justify-center shadow">🦖</button>
+                        <button type="button" onclick="seleccionarAvatarInicial('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=200&auto=format&fit=crop', this)" class="avatar-inicial-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🦕</button>
+                        <button type="button" onclick="seleccionarAvatarInicial('https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=200&auto=format&fit=crop', this)" class="avatar-inicial-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🐉</button>
                     </div>
                 </div>
             </div>
@@ -102,7 +104,7 @@
 
             <!-- Perfil del usuario -->
             <div class="bg-emerald-900/90 border border-emerald-600 px-3 py-1 rounded-2xl flex items-center gap-2 text-xs font-bold text-white shadow">
-                <span id="header-avatar" class="text-base">🦖</span>
+                <img id="header-avatar" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop" class="w-6 h-6 rounded-full object-cover">
                 <span id="header-apodo" class="hidden sm:inline">Explorador</span>
             </div>
         </div>
@@ -129,16 +131,16 @@
             </div>
         </section>
 
-        <!-- SECCIÓN: TIENDA DINO (AVATARES Y EFECTOS NEÓN) -->
+        <!-- SECCIÓN: TIENDA DINO (AVATARES NUEVOS Y EFECTOS NEÓN) -->
         <section id="seccion-tienda" class="hidden space-y-6 bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 max-w-2xl mx-auto shadow-2xl">
             <div class="text-center space-y-1">
                 <h2 class="text-2xl font-bold text-yellow-300">🛍️ Tienda de Recompensas Jurásicas</h2>
-                <p class="text-xs text-emerald-200">Desbloquea avatares misteriosos y efectos neón exclusivos para tu apodo. ¡Todo a 100 💵!</p>
+                <p class="text-xs text-emerald-200">Desbloquea los nuevos avatares en silueta y efectos neón exclusivos. ¡Todo a 100 💵!</p>
             </div>
 
             <!-- Pestañas de la Tienda -->
             <div class="flex justify-center gap-2">
-                <button onclick="cambiarTabTienda('avatares')" id="tab-tienda-avatares" class="bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-xl text-xs shadow">🦖 Avatares (12)</button>
+                <button onclick="cambiarTabTienda('avatares')" id="tab-tienda-avatares" class="bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-xl text-xs shadow">🦖 Avatares Exclusivos (6)</button>
                 <button onclick="cambiarTabTienda('efectos')" id="tab-tienda-efectos" class="bg-emerald-900 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow border border-emerald-700">✨ Efectos Neón (4)</button>
             </div>
 
@@ -210,7 +212,7 @@
                 </div>
             </div>
 
-            <!-- JUEGO 3: TRIVIA SELVÁTICA CON NIVELES Y ROTACIÓN -->
+            <!-- JUEGO 3: TRIVIA SELVÁTICA -->
             <div id="juego-pista" class="hidden bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto space-y-4">
                 <div class="flex justify-between items-center">
                     <h3 id="titulo-nivel-pista" class="text-lg font-bold text-yellow-200">🌿 Trivia Selvática - Nivel 1</h3>
@@ -295,24 +297,18 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let audioCtx = null;
-        let billetes = 100; // ¡100 billetes de regalo iniciales!
-        let avatarActual = '🦖';
+        let billetes = 100; // 100 billetes de regalo iniciales
+        let avatarActual = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop';
         let efectoApodoActual = '';
 
-        // Paquete de Avatares (12 en total)
+        // Paquete de Avatares Nuevos en la Tienda (100 💵 cada uno)
         let avataresTienda = [
-            { id: 'av1', nombre: 'T-Rex Feroz', emoji: '🦖', desbloqueado: true },
-            { id: 'av2', nombre: 'Cuellilargo', emoji: '🦕', desbloqueado: false },
-            { id: 'av3', nombre: 'Raptor Alfa', emoji: '🐉', desbloqueado: false },
-            { id: 'av4', nombre: 'Tortuga Prehistórica', emoji: '🐢', desbloqueado: false },
-            { id: 'av5', nombre: 'Triceratops Blindado', emoji: '🛡️', desbloqueado: false },
-            { id: 'av6', nombre: 'Pterodáctilo del Cielo', emoji: '🦅', desbloqueado: false },
-            { id: 'av7', nombre: 'Spinosaurus Acuático', emoji: '🐊', desbloqueado: false },
-            { id: 'av8', nombre: 'Estegosaurio con Púas', emoji: '🌵', desbloqueado: false },
-            { id: 'av9', nombre: 'Anquilosaurio Tanque', emoji: '🪙', desbloqueado: false },
-            { id: 'av10', nombre: 'Velociraptor Nocturno', emoji: '🌙', desbloqueado: false },
-            { id: 'av11', nombre: 'Volcán Jurásico', emoji: '🌋', desbloqueado: false },
-            { id: 'av12', nombre: 'Huevo de Dino', emoji: '🥚', desbloqueado: false }
+            { id: 'av1', nombre: 'Stegosaurus Veloz', url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop', desbloqueado: true },
+            { id: 'av2', nombre: 'Anquilosaurio Blindado', url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=200&auto=format&fit=crop', desbloqueado: false },
+            { id: 'av3', nombre: 'Triceratops Protector', url: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=200&auto=format&fit=crop', desbloqueado: false },
+            { id: 'av4', nombre: 'T-Rex Feroz', url: 'https://images.unsplash.com/photo-1579353977828-2a4eab540b9f?q=80&w=200&auto=format&fit=crop', desbloqueado: false },
+            { id: 'av5', nombre: 'Pteranodon Volador', url: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=200&auto=format&fit=crop', desbloqueado: false },
+            { id: 'av6', nombre: 'Raptor Escarlata', url: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=200&auto=format&fit=crop', desbloqueado: false }
         ];
 
         // Efectos Neón para el Apodo (4 en total)
@@ -328,8 +324,8 @@
             if (audioCtx.state === 'suspended') audioCtx.resume();
         }
 
-        function seleccionarAvatarInicial(avatar, btn) {
-            avatarActual = avatar;
+        function seleccionarAvatarInicial(url, btn) {
+            avatarActual = url;
             document.querySelectorAll('.avatar-inicial-btn').forEach(b => b.classList.remove('border-yellow-400', 'bg-emerald-800'));
             btn.classList.add('border-yellow-400', 'bg-emerald-800');
         }
@@ -349,11 +345,11 @@
             reiniciarTrivia();
         }
 
-        function actualizarHeaderPerfil(apodo, avatar) {
+        function actualizarHeaderPerfil(apodo, avatarUrl) {
             const elemApodo = document.getElementById('header-apodo');
             elemApodo.innerText = apodo;
             elemApodo.className = `hidden sm:inline font-bold ${efectoApodoActual}`;
-            document.getElementById('header-avatar').innerText = avatar;
+            document.getElementById('header-avatar').src = avatarUrl;
         }
 
         // --- SISTEMA DE TIENDA Y COMPRAS ---
@@ -386,13 +382,13 @@
                 
                 if (av.desbloqueado) {
                     card.innerHTML = `
-                        <div class="text-4xl mb-1">${av.emoji}</div>
+                        <div class="mb-1"><img src="${av.url}" class="avatar-img mx-auto rounded-full border-2 border-yellow-400"></div>
                         <p class="text-xs font-bold text-yellow-300 mb-2">${av.nombre}</p>
-                        <button onclick="equiparAvatar('${av.emoji}')" class="w-full bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold py-1.5 rounded-lg shadow">Usar</button>
+                        <button onclick="equiparAvatar('${av.url}')" class="w-full bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold py-1.5 rounded-lg shadow">Usar</button>
                     `;
                 } else {
                     card.innerHTML = `
-                        <div class="text-4xl mb-1 filter brightness-0">❓</div>
+                        <div class="mb-1"><img src="${av.url}" class="avatar-img mx-auto rounded-full silueta-negra border-2 border-emerald-600"></div>
                         <p class="text-xs font-bold text-emerald-300 mb-2">Bloqueado 🔒</p>
                         <button onclick="comprarAvatar('${av.id}')" class="w-full bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold py-1.5 rounded-lg shadow">Comprar (100 💵)</button>
                     `;
@@ -450,8 +446,8 @@
             }
         }
 
-        function equiparAvatar(emoji) {
-            avatarActual = emoji;
+        function equiparAvatar(url) {
+            avatarActual = url;
             actualizarHeaderPerfil(document.getElementById('header-apodo').innerText, avatarActual);
             reproducirSonido('acierto');
         }
@@ -760,256 +756,4 @@
         }
 
         function pintarParte(idParte) {
-            reproducirSonido('pintar');
-            document.getElementById(idParte).setAttribute('fill', colorActual);
-            reproducirSonido('victoria');
-            document.getElementById('pantalla-victoria-colorear').classList.remove('hidden');
-        }
-
-        function cambiarNivelColorear() {
-            nivelColorear = nivelColorear >= 3 ? 1 : nivelColorear + 1;
-            cargarColorear();
-        }
-
-        // --- JUEGO 3: TRIVIA SELVÁTICA CON 3 NIVELES, ROTACIÓN Y RECOMPENSA DE 1 💵 ---
-        const bancoPreguntasTrivia = {
-            1: [
-                { p: "🌿 Es el rey de los carnívoros, brazos pequeños y dientes gigantes. ¿Quién es?", r: "T-Rex", ops: ["T-Rex", "Triceratops", "Brontosaurio", "Velociraptor"] },
-                { p: "🌿 Cuello larguísimo para alcanzar las hojas altas. ¿Quién es?", r: "Cuellilargo", ops: ["T-Rex", "Cuellilargo", "Spinosaurus", "Anquilosaurio"] },
-                { p: "🌿 Pequeño dinosaurio herbívoro con una cola en forma de látigo. ¿Quién es?", r: "Diplodocus", ops: ["Diplodocus", "T-Rex", "Raptor", "Pterodáctilo"] }
-            ],
-            2: [
-                { p: "🌿 Tiene tres cuernos en la cabeza y un escudo óseo. ¿Quién es?", r: "Triceratops", ops: ["Velociraptor", "Triceratops", "Diplodocus", "Stegosaurus"] },
-                { p: "🌿 Pequeño, rápido y muy inteligente cazando en grupo. ¿Quién es?", r: "Velociraptor", ops: ["T-Rex", "Velociraptor", "Anquilosaurio", "Parasaurolophus"] },
-                { p: "🌿 Dinosaurio con una cresta en forma de tubo en la cabeza que emitía sonidos. ¿Quién es?", r: "Parasaurolophus", ops: ["Parasaurolophus", "T-Rex", "Spinosaurus", "Triceratops"] }
-            ],
-            3: [
-                { p: "🌿 Tiene placas en la espalda y una cola con púas afiladas. ¿Quién es?", r: "Stegosaurus", ops: ["Stegosaurus", "T-Rex", "Triceratops", "Spinosaurus"] },
-                { p: "🌿 Caparazón blindado con un gran mazo pesado en la cola. ¿Quién es?", r: "Anquilosaurio", ops: ["Velociraptor", "Anquilosaurio", "Cuellilargo", "Pterodáctilo"] },
-                { p: "🌿 Gigante de los ríos con una vela dorsal como tiburón. ¿Quién es?", r: "Spinosaurus", ops: ["Spinosaurus", "Stegosaurus", "Triceratops", "T-Rex"] }
-            ]
-        };
-
-        let nivelTrivia = 1;
-        let preguntaActualTrivia = null;
-        let fallosTriviaNivel3 = 2;
-
-        function reiniciarTrivia() {
-            nivelTrivia = 1;
-            fallosTriviaNivel3 = 2;
-            cargarSiguientePreguntaTrivia();
-        }
-
-        function reiniciarTriviaCompleta() {
-            nivelTrivia = 1;
-            fallosTriviaNivel3 = 2;
-            cargarSiguientePreguntaTrivia();
-        }
-
-        function cargarSiguientePreguntaTrivia() {
-            document.getElementById('pantalla-victoria-pista').classList.add('hidden');
-            document.getElementById('pantalla-derrota-pista').classList.add('hidden');
-            document.getElementById('titulo-nivel-pista').innerText = `🌿 Trivia Selvática - Nivel ${nivelTrivia}`;
-
-            const panelFallos = document.getElementById('panel-fallos-trivia');
-            if (nivelTrivia === 3) {
-                panelFallos.classList.remove('hidden');
-                document.getElementById('contador-fallos-trivia').innerText = fallosTriviaNivel3;
-            } else {
-                panelFallos.classList.add('hidden');
-            }
-
-            // Seleccionar pregunta aleatoria del banco correspondiente al nivel para que no se repita de forma obvia
-            let lista = bancoPreguntasTrivia[nivelTrivia];
-            preguntaActualTrivia = lista[Math.floor(Math.random() * lista.length)];
-
-            document.getElementById('pista-pregunta').innerText = preguntaActualTrivia.p;
-            document.getElementById('mensaje-pista').innerText = '';
-            
-            const contenedorOpciones = document.getElementById('pista-opciones');
-            contenedorOpciones.innerHTML = '';
-
-            let opcionesMezcladas = [...preguntaActualTrivia.ops].sort(() => Math.random() - 0.5);
-            opcionesMezcladas.forEach(op => {
-                const btn = document.createElement('button');
-                btn.className = "bg-emerald-900 hover:bg-emerald-950 text-white font-bold p-3 rounded-xl border border-emerald-600 shadow transition text-sm";
-                btn.innerText = op;
-                btn.onclick = () => verificarTrivia(op, preguntaActualTrivia.r);
-                contenedorOpciones.appendChild(btn);
-            });
-        }
-
-        function verificarTrivia(elegida, correcta) {
-            const mensaje = document.getElementById('mensaje-pista');
-            if (elegida === correcta) {
-                reproducirSonido('acierto');
-                mensaje.innerText = "🌟 ¡Correcto!";
-                
-                let textoVic = document.getElementById('texto-victoria-pista');
-                if (nivelTrivia === 3) {
-                    billetes += 1; // Recompensa de 1 billete en Nivel 3
-                    document.getElementById('contador-billetes').innerText = billetes;
-                    reproducirSonido('victoria');
-                    textoVic.innerHTML = "🏆 ¡Superaste el Nivel 3 y ganaste <span class='text-yellow-300 font-bold'>1 💵</span>!";
-                } else {
-                    reproducirSonido('victoria');
-                    textoVic.innerText = `🎉 ¡Nivel ${nivelTrivia} superado con éxito!`;
-                }
-                document.getElementById('pantalla-victoria-pista').classList.remove('hidden');
-            } else {
-                reproducirSonido('error');
-                if (nivelTrivia === 3) {
-                    fallosTriviaNivel3--;
-                    document.getElementById('contador-fallos-trivia').innerText = fallosTriviaNivel3;
-                    if (fallosTriviaNivel3 <= 0) {
-                        reproducirSonido('derrota');
-                        document.getElementById('pantalla-derrota-pista').classList.remove('hidden');
-                        return;
-                    }
-                }
-                mensaje.innerText = "❌ ¡Inténtalo de nuevo!";
-            }
-        }
-
-        function siguienteNivelPista() {
-            if (nivelTrivia >= 3) {
-                nivelTrivia = 1;
-                fallosTriviaNivel3 = 2;
-            } else {
-                nivelTrivia++;
-            }
-            cargarSiguientePreguntaTrivia();
-        }
-
-        // --- VIDEOS Y SUPABASE ---
-        async function cargarVideos() {
-            const contenedor = document.getElementById('lista-videos');
-            try {
-                const { data: videos, error } = await supabaseClient
-                    .from('videos')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-                if (!videos || videos.length === 0) {
-                    contenedor.innerHTML = `<p class="text-emerald-300 col-span-2 text-center">No hay videos todavía.</p>`;
-                    return;
-                }
-
-                contenedor.innerHTML = '';
-                videos.forEach(video => {
-                    let cleanId = video.youtube_id.split('?')[0].split('&')[0];
-                    if (cleanId.includes('/')) {
-                        const parts = cleanId.split('/');
-                        cleanId = parts[parts.length - 1];
-                    }
-
-                    let comentariosLista = '';
-                    let commentsArr = [];
-                    if (video.comments) {
-                        try { commentsArr = typeof video.comments === 'string' ? JSON.parse(video.comments) : video.comments; } catch(e) { commentsArr = []; }
-                    }
-
-                    if (Array.isArray(commentsArr) && commentsArr.length > 0) {
-                        commentsArr.forEach(c => {
-                            comentariosLista += `<div class="bg-emerald-900/60 p-2 rounded-lg text-xs mb-1 border border-emerald-700/50">🦖 <strong class="${c.efecto || ''}">${c.nombre || 'Explorador'}:</strong> ${c.texto || ''}</div>`;
-                        });
-                    } else {
-                        comentariosLista = `<p class="text-xs text-emerald-400 italic">Sé el primero en comentar...</p>`;
-                    }
-
-                    const tarjeta = document.createElement('div');
-                    tarjeta.className = "bg-emerald-950/90 rounded-2xl overflow-hidden shadow-xl border-2 border-emerald-700 flex flex-col justify-between";
-                    tarjeta.innerHTML = `
-                        <div>
-                            <div class="relative pb-[56.25%] h-0">
-                                <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${cleanId}" title="${video.title}" frameborder="0" allowfullscreen></iframe>
-                            </div>
-                            <div class="p-4 space-y-3">
-                                <div>
-                                    <h3 class="font-bold text-yellow-300 text-lg">${video.title}</h3>
-                                    <span class="inline-block bg-emerald-900 text-emerald-200 text-xs px-2 py-1 rounded mt-1">${video.category || 'Dinosaurios'}</span>
-                                </div>
-                                <div class="flex items-center justify-between pt-2 border-t border-emerald-900">
-                                    <button onclick="darLike(${video.id}, ${video.likes || 0})" class="bg-emerald-900 hover:bg-emerald-800 text-yellow-300 font-bold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1.5 transition border border-emerald-700">
-                                        💚 Me gusta <span class="bg-emerald-950 px-2 py-0.5 rounded-full text-white">${video.likes || 0}</span>
-                                    </button>
-                                </div>
-                                <div class="space-y-2 pt-2 border-t border-emerald-900">
-                                    <p class="text-xs font-bold text-yellow-200">💬 Comentarios de Exploradores:</p>
-                                    <div class="max-h-28 overflow-y-auto space-y-1 pr-1">${comentariosLista}</div>
-                                    <form onsubmit="agregarComentario(event, ${video.id})" class="flex gap-1 pt-1">
-                                        <input type="text" id="input-comentario-${video.id}" required placeholder="Escribe tu comentario..." class="flex-grow p-1.5 text-xs rounded bg-emerald-900 border border-emerald-700 text-white focus:outline-none focus:border-yellow-400">
-                                        <button type="submit" class="bg-yellow-400 hover:bg-yellow-300 text-emerald-950 font-bold px-3 py-1.5 rounded text-xs shadow">Enviar</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    contenedor.appendChild(tarjeta);
-                });
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        async function darLike(id, likesActuales) {
-            reproducirSonido('acierto');
-            await supabaseClient.from('videos').update({ likes: likesActuales + 1 }).eq('id', id);
-            cargarVideos();
-        }
-
-        async function agregarComentario(e, id) {
-            e.preventDefault();
-            reproducirSonido('voltear');
-            const input = document.getElementById(`input-comentario-${id}`);
-            const textoComentario = input.value.trim();
-            if (!textoComentario) return;
-
-            const { data: videoActual } = await supabaseClient.from('videos').select('comments').eq('id', id).single();
-            let arr = [];
-            try { arr = videoActual.comments ? JSON.parse(videoActual.comments) : []; } catch(e) { arr = []; }
-            
-            arr.push({ 
-                nombre: document.getElementById('header-apodo').innerText || 'Explorador', 
-                texto: textoComentario,
-                efecto: efectoApodoActual 
-            });
-
-            await supabaseClient.from('videos').update({ comments: JSON.stringify(arr) }).eq('id', id);
-            input.value = '';
-            cargarVideos();
-        }
-
-        async function subirVideo(e) {
-            e.preventDefault();
-            let rawYtId = document.getElementById('input-ytid').value.trim();
-            if (rawYtId.includes('youtu.be/')) rawYtId = rawYtId.split('youtu.be/')[1];
-            else if (rawYtId.includes('watch?v=')) rawYtId = rawYtId.split('watch?v=')[1];
-            else if (rawYtId.includes('/shorts/')) rawYtId = rawYtId.split('/shorts/')[1];
-            const ytid = rawYtId.split('?')[0].split('&')[0];
-
-            const titulo = document.getElementById('input-titulo').value;
-            const categoria = document.getElementById('input-cat').value || 'Dinosaurios';
-            const estado = document.getElementById('mensaje-estado');
-
-            estado.innerText = "Publicando...";
-            const { error } = await supabaseClient.from('videos').insert([{ title: titulo, youtube_id: ytid, category: categoria, likes: 0, comments: JSON.stringify([]) }]);
-
-            if (error) {
-                estado.innerText = "❌ Error al publicar.";
-            } else {
-                estado.innerText = "¡Video publicado con éxito! 🦖";
-                document.getElementById('form-video').reset();
-                cargarVideos();
-                cambiarSeccion('videos');
-            }
-        }
-
-        // Inicializar juegos y videos al cargar
-        reiniciarMemorama();
-        cargarColorear();
-        cargarVideos();
-    </script>
-</body>
-</html>
+            reproducir
