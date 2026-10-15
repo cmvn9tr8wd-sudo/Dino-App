@@ -39,8 +39,8 @@
         .neon-verde { color: #4ade80; text-shadow: 0 0 8px #4ade80, 0 0 20px #4ade80; }
         .neon-morado { color: #c084fc; text-shadow: 0 0 8px #c084fc, 0 0 20px #c084fc; }
 
-        .avatar-img { width: 64px; height: 64px; object-fit: contain; }
-        .silueta-negra { filter: brightness(0) invert(0); }
+        .avatar-img { width: 70px; height: 70px; object-fit: cover; border-radius: 50%; }
+        .silueta-negra { filter: brightness(0); }
     </style>
 </head>
 <body class="fondo-selva text-white min-h-screen flex flex-col justify-between relative">
@@ -50,8 +50,8 @@
         <div class="relative z-10 bg-emerald-950/95 border-4 border-yellow-400 p-6 md:p-10 rounded-3xl shadow-2xl max-w-md w-full text-center space-y-5">
             
             <div class="flex justify-center">
-                <div class="w-24 h-24 bg-gradient-to-tr from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-emerald-900 animar-rebote text-5xl">
-                    🦖
+                <div class="w-24 h-24 bg-gradient-to-tr from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-emerald-900 animar-rebote text-5xl overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover">
                 </div>
             </div>
 
@@ -73,9 +73,9 @@
                 <div>
                     <label class="block text-xs font-bold text-yellow-200 mb-1">Elige tu Avatar Inicial:</label>
                     <div class="grid grid-cols-3 gap-2">
-                        <button type="button" onclick="seleccionarAvatarInicial('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop', this)" class="avatar-inicial-btn p-2 bg-emerald-800 border-2 border-yellow-400 rounded-xl flex items-center justify-center shadow text-2xl">🦖</button>
-                        <button type="button" onclick="seleccionarAvatarInicial('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=200&auto=format&fit=crop', this)" class="avatar-inicial-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow text-2xl">🦕</button>
-                        <button type="button" onclick="seleccionarAvatarInicial('https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=200&auto=format&fit=crop', this)" class="avatar-inicial-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow text-2xl">🐉</button>
+                        <button type="button" onclick="seleccionarAvatarInicial('stegosaurus', this)" class="avatar-inicial-btn p-1.5 bg-emerald-800 border-2 border-yellow-400 rounded-xl flex items-center justify-center shadow"><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop" class="w-10 h-10 rounded-full object-cover"></button>
+                        <button type="button" onclick="seleccionarAvatarInicial('ankylosaurus', this)" class="avatar-inicial-btn p-1.5 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow"><img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=200&auto=format&fit=crop" class="w-10 h-10 rounded-full object-cover"></button>
+                        <button type="button" onclick="seleccionarAvatarInicial('triceratops', this)" class="avatar-inicial-btn p-1.5 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow"><img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=200&auto=format&fit=crop" class="w-10 h-10 rounded-full object-cover"></button>
                     </div>
                 </div>
             </div>
@@ -135,11 +135,11 @@
         <section id="seccion-tienda" class="hidden space-y-6 bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 max-w-2xl mx-auto shadow-2xl">
             <div class="text-center space-y-1">
                 <h2 class="text-2xl font-bold text-yellow-300">🛍️ Tienda de Recompensas Jurásicas</h2>
-                <p class="text-xs text-emerald-200">Desbloquea los nuevos avatares en silueta y efectos neón exclusivos. ¡Todo a 100 💵!</p>
+                <p class="text-xs text-emerald-200">Desbloquea tus avatares exclusivos y efectos neón. ¡Todo a 100 💵!</p>
             </div>
 
             <div class="flex justify-center gap-2">
-                <button onclick="cambiarTabTienda('avatares')" id="tab-tienda-avatares" class="bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-xl text-xs shadow">🦖 Avatares Exclusivos (6)</button>
+                <button onclick="cambiarTabTienda('avatares')" id="tab-tienda-avatares" class="bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-xl text-xs shadow">🦖 Avatares (6)</button>
                 <button onclick="cambiarTabTienda('efectos')" id="tab-tienda-efectos" class="bg-emerald-900 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow border border-emerald-700">✨ Efectos Neón (4)</button>
             </div>
 
@@ -297,6 +297,7 @@
         let avatarActual = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop';
         let efectoApodoActual = '';
 
+        // Los 6 avatares exactos que enviaste con sus respectivas imágenes
         let avataresTienda = [
             { id: 'av1', nombre: 'Stegosaurus Veloz', url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop', desbloqueado: true },
             { id: 'av2', nombre: 'Anquilosaurio Blindado', url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=200&auto=format&fit=crop', desbloqueado: false },
@@ -318,8 +319,12 @@
             if (audioCtx.state === 'suspended') audioCtx.resume();
         }
 
-        function seleccionarAvatarInicial(url, btn) {
-            avatarActual = url;
+        function seleccionarAvatarInicial(tipo, btn) {
+            let avObj = avataresTienda.find(a => a.id === 'av1');
+            if (tipo === 'ankylosaurus') avObj = avataresTienda.find(a => a.id === 'av2');
+            if (tipo === 'triceratops') avObj = avataresTienda.find(a => a.id === 'av3');
+            
+            avatarActual = avObj.url;
             document.querySelectorAll('.avatar-inicial-btn').forEach(b => b.classList.remove('border-yellow-400', 'bg-emerald-800'));
             btn.classList.add('border-yellow-400', 'bg-emerald-800');
         }
@@ -376,13 +381,13 @@
                 
                 if (av.desbloqueado) {
                     card.innerHTML = `
-                        <div class="mb-1"><img src="${av.url}" class="avatar-img mx-auto rounded-full border-2 border-yellow-400"></div>
+                        <div class="mb-1 flex justify-center"><img src="${av.url}" class="avatar-img border-2 border-yellow-400"></div>
                         <p class="text-xs font-bold text-yellow-300 mb-2">${av.nombre}</p>
                         <button onclick="equiparAvatar('${av.url}')" class="w-full bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold py-1.5 rounded-lg shadow">Usar</button>
                     `;
                 } else {
                     card.innerHTML = `
-                        <div class="mb-1"><img src="${av.url}" class="avatar-img mx-auto rounded-full silueta-negra border-2 border-emerald-600"></div>
+                        <div class="mb-1 flex justify-center"><img src="${av.url}" class="avatar-img silueta-negra border-2 border-emerald-600"></div>
                         <p class="text-xs font-bold text-emerald-300 mb-2">Bloqueado 🔒</p>
                         <button onclick="comprarAvatar('${av.id}')" class="w-full bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold py-1.5 rounded-lg shadow">Comprar (100 💵)</button>
                     `;
