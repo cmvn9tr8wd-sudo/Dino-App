@@ -52,7 +52,7 @@
             
             <div class="flex justify-center">
                 <div class="w-24 h-24 bg-gradient-to-tr from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-emerald-900 animar-rebote overflow-hidden p-1">
-                    <img id="avatar-preview-principal" src="https://i.ibb.co/6RJ4C7b/stegosaurus.png" class="w-full h-full object-cover rounded-full">
+                    <img id="avatar-preview-principal" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover rounded-full">
                 </div>
             </div>
 
@@ -74,9 +74,9 @@
                 <div>
                     <label class="block text-xs font-bold text-yellow-200 mb-1">Elige tu Avatar Inicial:</label>
                     <div class="grid grid-cols-3 gap-2">
-                        <button type="button" onclick="seleccionarAvatarInicial(0, this)" class="avatar-inicial-btn p-1.5 bg-emerald-800 border-2 border-yellow-400 rounded-xl flex items-center justify-center shadow"><img src="https://i.ibb.co/6RJ4C7b/stegosaurus.png" class="w-10 h-10 rounded-full object-cover"></button>
-                        <button type="button" onclick="seleccionarAvatarInicial(1, this)" class="avatar-inicial-btn p-1.5 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow"><img src="https://i.ibb.co/3k86W3b/ankylosaurus.png" class="w-10 h-10 rounded-full object-cover"></button>
-                        <button type="button" onclick="seleccionarAvatarInicial(2, this)" class="avatar-inicial-btn p-1.5 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow"><img src="https://i.ibb.co/5G8j72c/triceratops.png" class="w-10 h-10 rounded-full object-cover"></button>
+                        <button type="button" onclick="seleccionarAvatarInicial(0, this)" class="avatar-inicial-btn p-1.5 bg-emerald-800 border-2 border-yellow-400 rounded-xl flex items-center justify-center shadow"><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop" class="w-10 h-10 rounded-full object-cover"></button>
+                        <button type="button" onclick="seleccionarAvatarInicial(1, this)" class="avatar-inicial-btn p-1.5 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow"><img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=200&auto=format&fit=crop" class="w-10 h-10 rounded-full object-cover"></button>
+                        <button type="button" onclick="seleccionarAvatarInicial(2, this)" class="avatar-inicial-btn p-1.5 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow"><img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=200&auto=format&fit=crop" class="w-10 h-10 rounded-full object-cover"></button>
                     </div>
                 </div>
             </div>
@@ -105,7 +105,7 @@
 
             <!-- Perfil del usuario -->
             <div class="bg-emerald-900/90 border border-emerald-600 px-3 py-1 rounded-2xl flex items-center gap-2 text-xs font-bold text-white shadow">
-                <div class="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-emerald-950"><img id="header-avatar" src="https://i.ibb.co/6RJ4C7b/stegosaurus.png" class="w-full h-full object-cover"></div>
+                <div class="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-emerald-950"><img id="header-avatar" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover"></div>
                 <span id="header-apodo" class="hidden sm:inline">Explorador</span>
             </div>
         </div>
@@ -295,15 +295,15 @@
 
         let audioCtx = null;
         let billetes = 100;
-        let avatarActual = 'https://i.ibb.co/6RJ4C7b/stegosaurus.png';
+        let avatarActual = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop';
         let efectoApodoActual = '';
 
-        // Los 4 avatares exactos con las imágenes reales que subiste
+        // Los 4 avatares exactos con tus imágenes originales
         let avataresTienda = [
-            { id: 'av1', nombre: 'Stegosaurus', url: 'https://i.ibb.co/6RJ4C7b/stegosaurus.png', desbloqueado: true },
-            { id: 'av2', nombre: 'Anquilosaurio', url: 'https://i.ibb.co/3k86W3b/ankylosaurus.png', desbloqueado: false },
-            { id: 'av3', nombre: 'Triceratops', url: 'https://i.ibb.co/5G8j72c/triceratops.png', desbloqueado: false },
-            { id: 'av4', nombre: 'T-Rex Feroz', url: 'https://i.ibb.co/8L31j2D/t-rex.png', desbloqueado: false }
+            { id: 'av1', nombre: 'Stegosaurus', url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop', desbloqueado: true },
+            { id: 'av2', nombre: 'Anquilosaurio', url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=200&auto=format&fit=crop', desbloqueado: false },
+            { id: 'av3', nombre: 'Triceratops', url: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=200&auto=format&fit=crop', desbloqueado: false },
+            { id: 'av4', nombre: 'T-Rex Feroz', url: 'https://images.unsplash.com/photo-1579353977828-2a4eab540b9f?q=80&w=200&auto=format&fit=crop', desbloqueado: false }
         ];
 
         let efectosTienda = [
@@ -901,7 +901,7 @@
 
                     if (Array.isArray(commentsArr) && commentsArr.length > 0) {
                         commentsArr.forEach(c => {
-                            comentariosLista += `<div class="bg-emerald-900/60 p-2 rounded-lg text-xs mb-1 border border-emerald-700/50 flex items-center gap-2"><div class="w-5 h-5 rounded-full overflow-hidden flex items-center justify-center bg-emerald-950"><img src="${c.avatar || 'https://i.ibb.co/6RJ4C7b/stegosaurus.png'}" class="w-full h-full object-cover"></div> <strong class="${c.efecto || ''}">${c.nombre || 'Explorador'}:</strong> ${c.texto || ''}</div>`;
+                            comentariosLista += `<div class="bg-emerald-900/60 p-2 rounded-lg text-xs mb-1 border border-emerald-700/50 flex items-center gap-2"><div class="w-5 h-5 rounded-full overflow-hidden flex items-center justify-center bg-emerald-950"><img src="${c.avatar || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop'}" class="w-full h-full object-cover"></div> <strong class="${c.efecto || ''}">${c.nombre || 'Explorador'}:</strong> ${c.texto || ''}</div>`;
                         });
                     } else {
                         comentariosLista = `<p class="text-xs text-emerald-400 italic">Sé el primero en comentar...</p>`;
