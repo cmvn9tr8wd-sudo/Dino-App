@@ -38,10 +38,6 @@
         .neon-azul { color: #38bdf8; text-shadow: 0 0 8px #38bdf8, 0 0 20px #38bdf8; }
         .neon-verde { color: #4ade80; text-shadow: 0 0 8px #4ade80, 0 0 20px #4ade80; }
         .neon-morado { color: #c084fc; text-shadow: 0 0 8px #c084fc, 0 0 20px #c084fc; }
-
-        .avatar-container { width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%; overflow: hidden; background: #064e3b; border: 2px solid #facc15; }
-        .avatar-container img { width: 100%; height: 100%; object-fit: cover; }
-        .silueta-negra { filter: brightness(0); }
     </style>
 </head>
 <body class="fondo-selva text-white min-h-screen flex flex-col justify-between relative">
@@ -51,14 +47,14 @@
         <div class="relative z-10 bg-emerald-950/95 border-4 border-yellow-400 p-6 md:p-10 rounded-3xl shadow-2xl max-w-md w-full text-center space-y-5">
             
             <div class="flex justify-center">
-                <div class="w-24 h-24 bg-gradient-to-tr from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-emerald-900 animar-rebote overflow-hidden p-1">
-                    <img id="avatar-preview-principal" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover rounded-full">
+                <div class="w-24 h-24 bg-gradient-to-tr from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-emerald-900 animar-rebote text-5xl">
+                    🦖
                 </div>
             </div>
 
             <div class="space-y-2">
                 <span class="bg-yellow-400 text-emerald-950 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider shadow">
-                    🌿 ¡BONO DE BIENVENIDA: 100 💵! 🌴
+                    🌿 ¡Bono de Bienvenida: 100 💵! 🌴
                 </span>
                 <h1 class="text-2xl md:text-3xl font-extrabold text-yellow-300">
                     ¡DinoApp!
@@ -73,15 +69,16 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-yellow-200 mb-1">Elige tu Avatar Inicial:</label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button type="button" onclick="seleccionarAvatarInicial(0, this)" class="avatar-inicial-btn p-1.5 bg-emerald-800 border-2 border-yellow-400 rounded-xl flex items-center justify-center shadow"><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop" class="w-10 h-10 rounded-full object-cover"></button>
-                        <button type="button" onclick="seleccionarAvatarInicial(1, this)" class="avatar-inicial-btn p-1.5 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow"><img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=200&auto=format&fit=crop" class="w-10 h-10 rounded-full object-cover"></button>
-                        <button type="button" onclick="seleccionarAvatarInicial(2, this)" class="avatar-inicial-btn p-1.5 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow"><img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=200&auto=format&fit=crop" class="w-10 h-10 rounded-full object-cover"></button>
+                    <div class="grid grid-cols-4 gap-2 text-2xl">
+                        <button type="button" onclick="seleccionarAvatarInicial('🦖', this)" class="avatar-inicial-btn p-2 bg-emerald-800 border-2 border-yellow-400 rounded-xl flex items-center justify-center shadow">🦖</button>
+                        <button type="button" onclick="seleccionarAvatarInicial('🦕', this)" class="avatar-inicial-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🦕</button>
+                        <button type="button" onclick="seleccionarAvatarInicial('🐉', this)" class="avatar-inicial-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🐉</button>
+                        <button type="button" onclick="seleccionarAvatarInicial('🐢', this)" class="avatar-inicial-btn p-2 bg-emerald-900 border-2 border-emerald-700 rounded-xl flex items-center justify-center shadow">🐢</button>
                     </div>
                 </div>
             </div>
 
-            <button id="btn-entrar" onclick="entrarAlApp()" class="w-full bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-emerald-950 font-black text-lg py-3 rounded-2xl shadow-xl transition transform hover:scale-105 active:scale-95 border-2 border-yellow-200 animar-brillo flex items-center justify-center gap-2">
+            <button onclick="entrarAlApp()" class="w-full bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-emerald-950 font-black text-lg py-3 rounded-2xl shadow-xl transition transform hover:scale-105 active:scale-95 border-2 border-yellow-200 animar-brillo flex items-center justify-center gap-2">
                 🚀 ¡Reclamar 100 💵 y Entrar! 🌟
             </button>
         </div>
@@ -105,7 +102,7 @@
 
             <!-- Perfil del usuario -->
             <div class="bg-emerald-900/90 border border-emerald-600 px-3 py-1 rounded-2xl flex items-center gap-2 text-xs font-bold text-white shadow">
-                <div class="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-emerald-950"><img id="header-avatar" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover"></div>
+                <span id="header-avatar" class="text-base">🦖</span>
                 <span id="header-apodo" class="hidden sm:inline">Explorador</span>
             </div>
         </div>
@@ -132,19 +129,23 @@
             </div>
         </section>
 
-        <!-- SECCIÓN: TIENDA DINO -->
+        <!-- SECCIÓN: TIENDA DINO (AVATARES Y EFECTOS NEÓN) -->
         <section id="seccion-tienda" class="hidden space-y-6 bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 max-w-2xl mx-auto shadow-2xl">
             <div class="text-center space-y-1">
                 <h2 class="text-2xl font-bold text-yellow-300">🛍️ Tienda de Recompensas Jurásicas</h2>
-                <p class="text-xs text-emerald-200">Desbloquea tus avatares exclusivos y efectos neón. ¡Todo a 100 💵!</p>
+                <p class="text-xs text-emerald-200">Desbloquea avatares misteriosos y efectos neón exclusivos para tu apodo. ¡Todo a 100 💵!</p>
             </div>
 
+            <!-- Pestañas de la Tienda -->
             <div class="flex justify-center gap-2">
-                <button onclick="cambiarTabTienda('avatares')" id="tab-tienda-avatares" class="bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-xl text-xs shadow">🦖 Avatares (4)</button>
+                <button onclick="cambiarTabTienda('avatares')" id="tab-tienda-avatares" class="bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-xl text-xs shadow">🦖 Avatares (12)</button>
                 <button onclick="cambiarTabTienda('efectos')" id="tab-tienda-efectos" class="bg-emerald-900 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow border border-emerald-700">✨ Efectos Neón (4)</button>
             </div>
 
-            <div id="grid-tienda-avatares" class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-h-80 overflow-y-auto pr-1"></div>
+            <!-- Contenedor de Avatares -->
+            <div id="grid-tienda-avatares" class="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-80 overflow-y-auto pr-1"></div>
+
+            <!-- Contenedor de Efectos Neón -->
             <div id="grid-tienda-efectos" class="hidden grid-cols-1 sm:grid-cols-2 gap-4 max-h-80 overflow-y-auto pr-1"></div>
         </section>
 
@@ -209,7 +210,7 @@
                 </div>
             </div>
 
-            <!-- JUEGO 3: TRIVIA SELVÁTICA -->
+            <!-- JUEGO 3: TRIVIA SELVÁTICA CON NIVELES Y ROTACIÓN -->
             <div id="juego-pista" class="hidden bg-emerald-950/90 backdrop-blur-md p-6 rounded-2xl border-2 border-yellow-400 shadow-2xl text-center max-w-lg mx-auto space-y-4">
                 <div class="flex justify-between items-center">
                     <h3 id="titulo-nivel-pista" class="text-lg font-bold text-yellow-200">🌿 Trivia Selvática - Nivel 1</h3>
@@ -294,18 +295,27 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let audioCtx = null;
-        let billetes = 100;
-        let avatarActual = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop';
+        let billetes = 100; // ¡100 billetes de regalo iniciales!
+        let avatarActual = '🦖';
         let efectoApodoActual = '';
 
-        // Los 4 avatares exactos con tus imágenes originales
+        // Paquete de Avatares (12 en total)
         let avataresTienda = [
-            { id: 'av1', nombre: 'Stegosaurus', url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop', desbloqueado: true },
-            { id: 'av2', nombre: 'Anquilosaurio', url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=200&auto=format&fit=crop', desbloqueado: false },
-            { id: 'av3', nombre: 'Triceratops', url: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=200&auto=format&fit=crop', desbloqueado: false },
-            { id: 'av4', nombre: 'T-Rex Feroz', url: 'https://images.unsplash.com/photo-1579353977828-2a4eab540b9f?q=80&w=200&auto=format&fit=crop', desbloqueado: false }
+            { id: 'av1', nombre: 'T-Rex Feroz', emoji: '🦖', desbloqueado: true },
+            { id: 'av2', nombre: 'Cuellilargo', emoji: '🦕', desbloqueado: false },
+            { id: 'av3', nombre: 'Raptor Alfa', emoji: '🐉', desbloqueado: false },
+            { id: 'av4', nombre: 'Tortuga Prehistórica', emoji: '🐢', desbloqueado: false },
+            { id: 'av5', nombre: 'Triceratops Blindado', emoji: '🛡️', desbloqueado: false },
+            { id: 'av6', nombre: 'Pterodáctilo del Cielo', emoji: '🦅', desbloqueado: false },
+            { id: 'av7', nombre: 'Spinosaurus Acuático', emoji: '🐊', desbloqueado: false },
+            { id: 'av8', nombre: 'Estegosaurio con Púas', emoji: '🌵', desbloqueado: false },
+            { id: 'av9', nombre: 'Anquilosaurio Tanque', emoji: '🪙', desbloqueado: false },
+            { id: 'av10', nombre: 'Velociraptor Nocturno', emoji: '🌙', desbloqueado: false },
+            { id: 'av11', nombre: 'Volcán Jurásico', emoji: '🌋', desbloqueado: false },
+            { id: 'av12', nombre: 'Huevo de Dino', emoji: '🥚', desbloqueado: false }
         ];
 
+        // Efectos Neón para el Apodo (4 en total)
         let efectosTienda = [
             { id: 'ef1', nombre: 'Neón Rojo Fuego', clase: 'neon-rojo', desbloqueado: false },
             { id: 'ef2', nombre: 'Neón Azul Océano', clase: 'neon-azul', desbloqueado: false },
@@ -318,10 +328,8 @@
             if (audioCtx.state === 'suspended') audioCtx.resume();
         }
 
-        function seleccionarAvatarInicial(indice, btn) {
-            let avObj = avataresTienda[indice];
-            avatarActual = avObj.url;
-            document.getElementById('avatar-preview-principal').src = avatarActual;
+        function seleccionarAvatarInicial(avatar, btn) {
+            avatarActual = avatar;
             document.querySelectorAll('.avatar-inicial-btn').forEach(b => b.classList.remove('border-yellow-400', 'bg-emerald-800'));
             btn.classList.add('border-yellow-400', 'bg-emerald-800');
         }
@@ -331,10 +339,8 @@
             actualizarHeaderPerfil(apodo, avatarActual);
 
             const pantalla = document.getElementById('pantalla-bienvenida');
-            const btnEntrar = document.getElementById('btn-entrar');
-            btnEntrar.style.pointerEvents = 'none';
-            btnEntrar.innerText = "🌿 ¡100 Billetes Recibidos! Entrando...";
-            
+            event.target.style.pointerEvents = 'none';
+            event.target.innerText = "🌿 ¡100 Billetes Recibidos! Entrando...";
             reproducirEntradaSelvatica(() => {
                 pantalla.style.opacity = '0';
                 setTimeout(() => { pantalla.remove(); }, 500);
@@ -343,13 +349,14 @@
             reiniciarTrivia();
         }
 
-        function actualizarHeaderPerfil(apodo, avatarUrl) {
+        function actualizarHeaderPerfil(apodo, avatar) {
             const elemApodo = document.getElementById('header-apodo');
             elemApodo.innerText = apodo;
             elemApodo.className = `hidden sm:inline font-bold ${efectoApodoActual}`;
-            document.getElementById('header-avatar').src = avatarUrl;
+            document.getElementById('header-avatar').innerText = avatar;
         }
 
+        // --- SISTEMA DE TIENDA Y COMPRAS ---
         function cambiarTabTienda(tab) {
             const btnAv = document.getElementById('tab-tienda-avatares');
             const btnEf = document.getElementById('tab-tienda-efectos');
@@ -364,12 +371,13 @@
             } else {
                 btnEf.className = "bg-yellow-400 text-emerald-950 font-bold px-4 py-1.5 rounded-xl text-xs shadow";
                 btnAv.className = "bg-emerald-900 text-white font-bold px-4 py-1.5 rounded-xl text-xs shadow border border-emerald-700";
-                gridEf.classList.add('hidden');
-                gridAv.classList.remove('hidden');
+                gridEf.classList.remove('hidden');
+                gridAv.classList.add('hidden');
             }
         }
 
         function renderizarTienda() {
+            // Renderizar Avatares
             const gridAv = document.getElementById('grid-tienda-avatares');
             gridAv.innerHTML = '';
             avataresTienda.forEach(av => {
@@ -378,13 +386,13 @@
                 
                 if (av.desbloqueado) {
                     card.innerHTML = `
-                        <div class="mb-1 avatar-container mx-auto border-2 border-yellow-400"><img src="${av.url}"></div>
+                        <div class="text-4xl mb-1">${av.emoji}</div>
                         <p class="text-xs font-bold text-yellow-300 mb-2">${av.nombre}</p>
-                        <button onclick="equiparAvatar('${av.url}')" class="w-full bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold py-1.5 rounded-lg shadow">Usar</button>
+                        <button onclick="equiparAvatar('${av.emoji}')" class="w-full bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold py-1.5 rounded-lg shadow">Usar</button>
                     `;
                 } else {
                     card.innerHTML = `
-                        <div class="mb-1 avatar-container mx-auto silueta-negra border-2 border-emerald-600"><img src="${av.url}"></div>
+                        <div class="text-4xl mb-1 filter brightness-0">❓</div>
                         <p class="text-xs font-bold text-emerald-300 mb-2">Bloqueado 🔒</p>
                         <button onclick="comprarAvatar('${av.id}')" class="w-full bg-yellow-400 hover:bg-yellow-300 text-emerald-950 text-xs font-bold py-1.5 rounded-lg shadow">Comprar (100 💵)</button>
                     `;
@@ -392,6 +400,7 @@
                 gridAv.appendChild(card);
             });
 
+            // Renderizar Efectos Neón
             const gridEf = document.getElementById('grid-tienda-efectos');
             gridEf.innerHTML = '';
             efectosTienda.forEach(ef => {
@@ -441,8 +450,8 @@
             }
         }
 
-        function equiparAvatar(url) {
-            avatarActual = url;
+        function equiparAvatar(emoji) {
+            avatarActual = emoji;
             actualizarHeaderPerfil(document.getElementById('header-apodo').innerText, avatarActual);
             reproducirSonido('acierto');
         }
@@ -453,6 +462,7 @@
             reproducirSonido('acierto');
         }
 
+        // --- AUDIO Y EFECTOS DE SONIDO ---
         function reproducirTamboresSelva() {
             inicializarAudioContext();
             let tiempos = [0, 0.3, 0.6, 0.9, 1.3, 1.5, 1.8];
@@ -761,7 +771,7 @@
             cargarColorear();
         }
 
-        // --- JUEGO 3: TRIVIA SELVÁTICA ---
+        // --- JUEGO 3: TRIVIA SELVÁTICA CON 3 NIVELES, ROTACIÓN Y RECOMPENSA DE 1 💵 ---
         const bancoPreguntasTrivia = {
             1: [
                 { p: "🌿 Es el rey de los carnívoros, brazos pequeños y dientes gigantes. ¿Quién es?", r: "T-Rex", ops: ["T-Rex", "Triceratops", "Brontosaurio", "Velociraptor"] },
@@ -809,6 +819,7 @@
                 panelFallos.classList.add('hidden');
             }
 
+            // Seleccionar pregunta aleatoria del banco correspondiente al nivel para que no se repita de forma obvia
             let lista = bancoPreguntasTrivia[nivelTrivia];
             preguntaActualTrivia = lista[Math.floor(Math.random() * lista.length)];
 
@@ -836,7 +847,7 @@
                 
                 let textoVic = document.getElementById('texto-victoria-pista');
                 if (nivelTrivia === 3) {
-                    billetes += 1;
+                    billetes += 1; // Recompensa de 1 billete en Nivel 3
                     document.getElementById('contador-billetes').innerText = billetes;
                     reproducirSonido('victoria');
                     textoVic.innerHTML = "🏆 ¡Superaste el Nivel 3 y ganaste <span class='text-yellow-300 font-bold'>1 💵</span>!";
@@ -901,7 +912,7 @@
 
                     if (Array.isArray(commentsArr) && commentsArr.length > 0) {
                         commentsArr.forEach(c => {
-                            comentariosLista += `<div class="bg-emerald-900/60 p-2 rounded-lg text-xs mb-1 border border-emerald-700/50 flex items-center gap-2"><div class="w-5 h-5 rounded-full overflow-hidden flex items-center justify-center bg-emerald-950"><img src="${c.avatar || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=200&auto=format&fit=crop'}" class="w-full h-full object-cover"></div> <strong class="${c.efecto || ''}">${c.nombre || 'Explorador'}:</strong> ${c.texto || ''}</div>`;
+                            comentariosLista += `<div class="bg-emerald-900/60 p-2 rounded-lg text-xs mb-1 border border-emerald-700/50">🦖 <strong class="${c.efecto || ''}">${c.nombre || 'Explorador'}:</strong> ${c.texto || ''}</div>`;
                         });
                     } else {
                         comentariosLista = `<p class="text-xs text-emerald-400 italic">Sé el primero en comentar...</p>`;
@@ -962,8 +973,7 @@
             arr.push({ 
                 nombre: document.getElementById('header-apodo').innerText || 'Explorador', 
                 texto: textoComentario,
-                efecto: efectoApodoActual,
-                avatar: avatarActual
+                efecto: efectoApodoActual 
             });
 
             await supabaseClient.from('videos').update({ comments: JSON.stringify(arr) }).eq('id', id);
